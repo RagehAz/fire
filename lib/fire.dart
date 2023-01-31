@@ -26,4 +26,5 @@ part 'src/paginator/pagination_controller.dart';
 // --------------------------------------------
 /// FIRE COLL STREAMER
 part 'src/streamer/fire_coll_streamer.dart';
+part 'src/streamer/fire_doc_streamer.dart';
 // -----------------------------------------------------------------------------
