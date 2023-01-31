@@ -32,7 +32,11 @@ class Fire{
         },
         onError: (String error) {
 
-          setNotifier(notifier: fireError, mounted: mounted, value: error);
+          setNotifier(
+              notifier: fireError,
+              mounted: mounted,
+              value: error
+          );
 
         });
 
