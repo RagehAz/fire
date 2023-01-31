@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mapper/mapper.dart';
-import 'src/models/query_order_by.dart';
 import 'dart:async';
 
 // -----------------------------------------------------------------------------
@@ -19,6 +18,8 @@ part 'src/models/fire_finder.dart';
 part 'src/models/fire_query_model.dart';
 /// FIRE COMPARISON
 part 'src/models/fire_comparison_enum.dart';
+/// QUERY ORDER BY
+part 'src/models/query_order_by.dart';
 // --------------------------------------------
 /// FIRE COLL PAGINATOR
 part 'src/paginator/fire_coll_paginator.dart';
