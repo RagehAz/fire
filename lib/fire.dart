@@ -9,6 +9,7 @@ import 'package:mapper/mapper.dart';
 import 'dart:async';
 // -----------------------------------------------------------------------------
 export 'package:firebase_core/firebase_core.dart';
+export 'package:cloud_firestore/cloud_firestore.dart';
 // -----------------------------------------------------------------------------
 /// FIRE
 part 'src/foundation/methods.dart';
