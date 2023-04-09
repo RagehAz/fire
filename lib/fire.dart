@@ -1,5 +1,5 @@
 library fire;
-
+// -----------------------------------------------------------------------------
 import 'package:fire/src/helpers/helpers.dart';
 import 'package:fire/src/helpers/scroll_listeners.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +7,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mapper/mapper.dart';
 import 'dart:async';
-
+// -----------------------------------------------------------------------------
+export 'package:firebase_core/firebase_core.dart';
 // -----------------------------------------------------------------------------
 /// FIRE
 part 'src/foundation/methods.dart';
