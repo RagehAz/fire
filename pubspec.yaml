@@ -1,6 +1,6 @@
 name: fire
 description: Firebase firestore API.
-version: 0.0.3
+version: 0.0.4
 publish_to: "none"
 homepage: https://github.com/RagehAz/fire.git
 # --------------------------------------------------------------------------------
@@ -11,12 +11,56 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-# ------------------------------------
+  # ------------------------------------
   cloud_firestore: ^4.0.3
   firebase_core: ^2.1.1
+  firedart: ^0.9.1+1
+  firebase_dart: ^1.0.11
+  extension_google_sign_in_as_googleapis_auth: ^2.0.7
+  firebase_auth: ^4.5.0
+  firebase_ui_auth: ^1.1.17
+  firebase_ui_oauth_google: ^1.0.21
+  firebase_ui_oauth_apple: ^1.0.24
+  firebase_ui_oauth_facebook: ^1.0.24
+  flutter_facebook_auth: ^4.0.1
+  google_sign_in: ^5.4.4
+  googleapis_auth: ^1.3.1
+  sign_in_with_apple: ^4.3.0
+  http: ^0.13.4
+  firebase_storage: ^11.0.3
+  firebase_database: ^10.0.3
+  # ------------------------------------
   mapper:
     git:
       url: https://github.com/RagehAz/mapper.git
+  devicer:
+    git:
+      url: https://github.com/RagehAz/devicer.git
+  rest:
+    git:
+      url: https://github.com/RagehAz/rest.git
+  stringer:
+    git:
+      url: https://github.com/RagehAz/stringer.git
+  filers:
+    git:
+      url: https://github.com/RagehAz/filers.git
+  bldrs_theme:
+    git:
+      url: https://github.com/RagehAz/bldrs_theme.git
+  space_time:
+    git:
+      url: https://github.com/RagehAz/space_time.git
+  super_box:
+    git:
+      url: https://github.com/RagehAz/super_box.git
+  animators:
+    git:
+      url: https://github.com/RagehAz/animators.git
+  numeric:
+    git:
+      url: https://github.com/RagehAz/numeric.git
+
 # --------------------------------------------------------------------------------
 dev_dependencies:
   flutter_test:
