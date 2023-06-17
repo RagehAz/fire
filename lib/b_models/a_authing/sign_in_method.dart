@@ -2,7 +2,7 @@ part of super_fire;
 
 enum SignInMethod {
   anonymous,
-  email,
+  password,
   google,
   facebook,
   apple,

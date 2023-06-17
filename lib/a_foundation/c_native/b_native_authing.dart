@@ -183,7 +183,7 @@ class _NativeEmailAuthing {
 
           _output = AuthModel.getAuthModelFromFiredartUser(
             user: _user,
-            signInMethod: SignInMethod.email,
+            signInMethod: SignInMethod.password,
           );
         },
       );
@@ -221,7 +221,7 @@ class _NativeEmailAuthing {
 
           _output = AuthModel.getAuthModelFromFiredartUser(
             user: _user,
-            signInMethod: SignInMethod.email,
+            signInMethod: SignInMethod.password,
           );
 
           },

@@ -79,7 +79,7 @@ class SocialAuthButton extends StatelessWidget {
         return null;
         break;
 
-      case SignInMethod.email:
+      case SignInMethod.password:
         return null;
         break;
 
@@ -176,7 +176,7 @@ class SocialAuthButton extends StatelessWidget {
       case SignInMethod.apple: return Iconz.comApple; break;
       case SignInMethod.facebook: return Iconz.comFacebook; break;
       case SignInMethod.google: return Iconz.comGooglePlus; break;
-      case SignInMethod.email: return Iconz.comEmail; break;
+      case SignInMethod.password: return Iconz.comEmail; break;
       case SignInMethod.anonymous: return Iconz.users; break;
       default: return null;
     }
@@ -188,7 +188,7 @@ class SocialAuthButton extends StatelessWidget {
       case SignInMethod.apple:      return 0.6; break;
       case SignInMethod.facebook:   return 1; break;
       case SignInMethod.google:     return 0.6; break;
-      case SignInMethod.email:      return 0.6; break;
+      case SignInMethod.password:      return 0.6; break;
       case SignInMethod.anonymous:  return 0.6; break;
       default: return 1;
     }

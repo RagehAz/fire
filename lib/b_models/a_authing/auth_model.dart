@@ -250,7 +250,7 @@ class AuthModel {
       case SignInMethod.facebook: return 'facebook.com'; break;
       case SignInMethod.anonymous: return 'anonymous'; break;
       case SignInMethod.apple: return 'apple.com'; break;
-      case SignInMethod.email: return 'email'; break;
+      case SignInMethod.password: return 'password'; break;
       // case SignInMethod.phone: return 'phone'; break;
       default: return null;
     }
@@ -265,7 +265,7 @@ class AuthModel {
       case 'facebook.com': return SignInMethod.facebook; break;
       case 'anonymous': return SignInMethod.anonymous; break;
       case 'apple.com': return SignInMethod.apple; break;
-      case 'password': return SignInMethod.email; break;
+      case 'password': return SignInMethod.password; break;
       // case 'phone': return SignInMethod.phone; break;
       default: return Authing.getUserID() == null ? null : SignInMethod.anonymous;
     }
@@ -275,7 +275,7 @@ class AuthModel {
   /// TESTED : WORKS PERFECT
   static const List<SignInMethod> signInMethodsList = [
     SignInMethod.anonymous,
-    SignInMethod.email,
+    SignInMethod.password,
     SignInMethod.google,
     SignInMethod.facebook,
     SignInMethod.apple,
