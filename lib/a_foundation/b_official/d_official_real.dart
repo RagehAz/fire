@@ -480,8 +480,10 @@ class _OfficialReal {
             await _ref.set(value).then((_) {}).catchError((error) {
               _onRealError(error);
             });
-          });
+          }
+          );
     }
+
   }
   // --------------------
   /// TESTED : WORKS PERFECT
@@ -504,7 +506,15 @@ class _OfficialReal {
         isIncrementing: isIncrementing,
       );
 
-      await _ref.update(_updatesMap);
+      await tryAndCatch(
+        invoker: 'incrementDocFields',
+        onError: _onRealError,
+        functions: () async {
+
+          await _ref.update(_updatesMap);
+
+        },
+      );
 
     }
 
@@ -528,7 +538,15 @@ class _OfficialReal {
         isIncrementing: isIncrementing,
       );
 
-      await _ref.update(_updatesMap);
+      await tryAndCatch(
+        invoker: 'incrementPathFields',
+        onError: _onRealError,
+        functions: () async {
+
+          await _ref.update(_updatesMap);
+
+        },
+      );
 
     }
 

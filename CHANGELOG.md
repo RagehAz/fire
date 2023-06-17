@@ -1,5 +1,6 @@
 ---
 
+### 0.0.7: added missing tryAndCatch block
 ### 0.0.6: Fixed email SignInMethod to password
 ### 0.0.5: Removed SignInMethod detector as its not available in native
 ### 0.0.4: Major update
