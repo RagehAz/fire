@@ -83,9 +83,6 @@ class SocialAuthButton extends StatelessWidget {
         return null;
         break;
 
-      case SignInMethod.nativeEmail:
-        return null;
-        break;
     }
   }
   // --------------------

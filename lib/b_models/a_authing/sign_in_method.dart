@@ -6,5 +6,4 @@ enum SignInMethod {
   google,
   facebook,
   apple,
-  nativeEmail,
 }

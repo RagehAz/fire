@@ -37,11 +37,11 @@ class _NativeAuthing{
       onError: onError,
       functions: () async {
 
-        final fd_u.User _user =  await _NativeFirebase.getAuthFire()
-            .signInAnonymously();
+        final fd_u.User _user =  await _NativeFirebase.getAuthFire().signInAnonymously();
 
         _output = AuthModel.getAuthModelFromFiredartUser(
           user: _user,
+          signInMethod: SignInMethod.anonymous,
         );
 
       },
@@ -102,17 +102,20 @@ class _NativeAuthing{
     return getUserID() != null;
   }
   // --------------------
+  /*
   /// TESTED : WORKS PERFECT
   static SignInMethod getCurrentSignInMethod(){
 
     if (userHasID() == true){
-      return SignInMethod.nativeEmail;
+      /// CAN NOT GET IT HERE
+      return await _getUser(). ??? ;
     }
     else {
       return null;
     }
 
   }
+   */
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<String> getAuthEmail() async {
@@ -180,6 +183,7 @@ class _NativeEmailAuthing {
 
           _output = AuthModel.getAuthModelFromFiredartUser(
             user: _user,
+            signInMethod: SignInMethod.email,
           );
         },
       );
@@ -217,6 +221,7 @@ class _NativeEmailAuthing {
 
           _output = AuthModel.getAuthModelFromFiredartUser(
             user: _user,
+            signInMethod: SignInMethod.email,
           );
 
           },

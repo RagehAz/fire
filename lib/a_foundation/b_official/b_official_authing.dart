@@ -285,14 +285,12 @@ class _OfficialEmailAuthing {
 
     bool _success = false;
 
-    if (Authing.userIsSignedUp() == true) {
-
       final f_a.FirebaseAuth _auth = _OfficialFirebase.getAuth();
       final String _oldEmail = _auth?.currentUser?.email;
 
       blog('updateUserEmail : new : $newEmail : old : $_oldEmail');
 
-      if (_oldEmail != newEmail) {
+      if (_oldEmail != null && _oldEmail != newEmail) {
         _success = await tryCatchAndReturnBool(
           invoker: 'updateUserEmail',
           functions: () async {
@@ -301,8 +299,6 @@ class _OfficialEmailAuthing {
           },
         );
       }
-
-    }
 
     return _success;
   }

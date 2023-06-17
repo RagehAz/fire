@@ -152,6 +152,7 @@ class AuthModel {
   ///
   static AuthModel getAuthModelFromFiredartUser({
     @required fd_u.User user,
+    @required SignInMethod signInMethod,
   }){
     AuthModel _output;
 
@@ -163,7 +164,7 @@ class AuthModel {
         email: user.email,
         phone: null,
         imageURL: user.photoUrl,
-        signInMethod: SignInMethod.nativeEmail,
+        signInMethod: signInMethod,
         data: null,
       );
 
@@ -250,7 +251,6 @@ class AuthModel {
       case SignInMethod.anonymous: return 'anonymous'; break;
       case SignInMethod.apple: return 'apple.com'; break;
       case SignInMethod.email: return 'email'; break;
-      case SignInMethod.nativeEmail: return 'nativeEmail'; break;
       // case SignInMethod.phone: return 'phone'; break;
       default: return null;
     }
@@ -266,7 +266,6 @@ class AuthModel {
       case 'anonymous': return SignInMethod.anonymous; break;
       case 'apple.com': return SignInMethod.apple; break;
       case 'password': return SignInMethod.email; break;
-      case 'nativeEmail': return SignInMethod.nativeEmail; break;
       // case 'phone': return SignInMethod.phone; break;
       default: return Authing.getUserID() == null ? null : SignInMethod.anonymous;
     }
@@ -280,7 +279,6 @@ class AuthModel {
     SignInMethod.google,
     SignInMethod.facebook,
     SignInMethod.apple,
-    SignInMethod.nativeEmail,
   ];
   // -----------------------------------------------------------------------------
 

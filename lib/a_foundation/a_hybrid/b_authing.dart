@@ -116,6 +116,7 @@ class Authing {
 
   }
   // --------------------
+  /*
   /// TESTED : WORKS PERFECT
   static SignInMethod getCurrentSignInMethod(){
 
@@ -124,10 +125,12 @@ class Authing {
     }
 
     else {
+      // COULD NOT GET THIS
       return _NativeAuthing.getCurrentSignInMethod();
     }
 
   }
+   */
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<String> getAuthEmail() async {
@@ -143,8 +146,7 @@ class Authing {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static bool userIsSignedUp(){
-    final SignInMethod method = getCurrentSignInMethod();
+  static bool userIsSignedUp(SignInMethod method){
 
     if (
     method == null ||
