@@ -1,4 +1,5 @@
 part of super_fire;
+
 /// => TAMAM
 class PaginationController {
   /// -----------------------------------------------------------------------------
@@ -39,7 +40,7 @@ class PaginationController {
     String idFieldName = 'id',
   }){
 
-    return PaginationController(
+    final PaginationController _contorller = PaginationController(
       paginatorMaps: ValueNotifier(<Map<String, dynamic>>[]),
       replaceMap: ValueNotifier<Map<String, dynamic>>(null),
       addMap: ValueNotifier<Map<String, dynamic>>(null),
@@ -52,6 +53,10 @@ class PaginationController {
       canKeepReading: ValueNotifier(true),
       isPaginating: ValueNotifier(false),
     );
+
+    _contorller.activateListeners(mounted: true);
+
+    return _contorller;
 
   }
   // --------------------
@@ -206,8 +211,6 @@ class PaginationController {
 
       replaceMap.addListener(() {
 
-        // blog('mapOverride : is : ${widget.replaceMap.value}');
-
         _replaceExistingMap(
           mounted: mounted,
           controller: this,
@@ -236,6 +239,12 @@ class PaginationController {
         notifier: controller.paginatorMaps,
         mounted: mounted,
         value: _updatedMaps,
+      );
+
+      setNotifier(
+        notifier: controller.replaceMap,
+        mounted: mounted,
+        value: null,
       );
 
       _setStartAfter(
@@ -302,6 +311,12 @@ class PaginationController {
         notifier: paginatorMaps,
         mounted: mounted,
         value: _updatedMaps,
+      );
+
+      setNotifier(
+        notifier: deleteMap,
+        mounted: mounted,
+        value: null,
       );
 
       _setStartAfter(

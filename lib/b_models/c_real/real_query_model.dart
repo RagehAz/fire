@@ -167,8 +167,6 @@ class RealQueryModel{
   }){
     f_d.Query _query;
 
-    // blog('55555oooo');
-
     if (queryModel != null){
 
       _query = _NativeReal._getRefByPath(path: queryModel.path);
