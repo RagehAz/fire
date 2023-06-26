@@ -1,5 +1,6 @@
 ---
 
+### 1.0.0: Applied Null Safety
 ### 0.0.8: pagination fixes
 ### 0.0.7: added missing tryAndCatch block
 ### 0.0.6: Fixed email SignInMethod to password

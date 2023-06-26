@@ -24,15 +24,15 @@ class _NativeReal {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> _purge() async {
-    await _NativeFirebase.getReal().purgeOutstandingWrites();
+    await _NativeFirebase.getReal()?.purgeOutstandingWrites();
   }
   // -----------------------------------------------------------------------------
   static Future<void> goOnline() async {
-    await _NativeFirebase.getReal().goOnline();
+    await _NativeFirebase.getReal()?.goOnline();
   }
   // --------------------
   static Future<void> goOffline() async {
-    await _NativeFirebase.getReal().goOffline();
+    await _NativeFirebase.getReal()?.goOffline();
   }
   // -----------------------------------------------------------------------------
 
@@ -40,25 +40,24 @@ class _NativeReal {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static f_d.DatabaseReference _createPathAndGetRef({
-    @required String coll,
-    String doc,
-    String key,
+  static f_d.DatabaseReference? _createPathAndGetRef({
+    required String coll,
+    String? doc,
+    String? key,
   }){
     final String path = RealQueryModel.createRealPath(
       coll: coll,
       doc: doc,
       key: key,
     );
-    return _NativeFirebase.getReal().reference().child(path);
+    return _NativeFirebase.getReal()?.reference().child(path);
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static f_d.DatabaseReference _getRefByPath({
-    @required String path,
+  static f_d.DatabaseReference? _getRefByPath({
+    required String path,
   }){
-    assert(path != null, 'PATH SHOULD NOT BE NULL');
-    return _NativeFirebase.getReal().reference().child(path);
+    return _NativeFirebase.getReal()?.reference().child(path);
   }
   // -----------------------------------------------------------------------------
 
@@ -66,13 +65,13 @@ class _NativeReal {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<Map<String, dynamic>> createDoc({
-    @required String coll,
-    @required Map<String, dynamic> map,
-    String doc,
+  static Future<Map<String, dynamic>?> createDoc({
+    required String coll,
+    required Map<String, dynamic>? map,
+    String? doc,
   }) async {
 
-    Map<String, dynamic> _output;
+    Map<String, dynamic>? _output;
 
    if (doc == null){
      _output = await _createUnNamedDoc(
@@ -93,12 +92,12 @@ class _NativeReal {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<Map<String, dynamic>> _createUnNamedDoc({
-    @required String coll,
-    @required Map<String, dynamic> map,
+  static Future<Map<String, dynamic>?> _createUnNamedDoc({
+    required String? coll,
+    required Map<String, dynamic>? map,
   }) async {
 
-    Map<String, dynamic> _output;
+    Map<String, dynamic>? _output;
 
     if (map != null && coll != null){
 
@@ -108,11 +107,11 @@ class _NativeReal {
         onError: _onRealError,
         functions: () async {
 
-          final f_d.DatabaseReference _ref = _createPathAndGetRef(coll: coll,).push();
+          final f_d.DatabaseReference? _ref = _createPathAndGetRef(coll: coll,)?.push();
 
-          final String _docID = _ref.key;
+          final String? _docID = _ref?.key;
 
-          await _ref.set(Mapper.removePair(
+          await _ref?.set(Mapper.removePair(
               map: map,
               fieldKey: 'id',
           ));
@@ -133,16 +132,16 @@ class _NativeReal {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<Map<String, dynamic>> _createNamedDoc({
-    @required String coll,
-    @required String doc,
-    @required Map<String, dynamic> map,
+  static Future<Map<String, dynamic>?> _createNamedDoc({
+    required String coll,
+    required String doc,
+    required Map<String, dynamic>? map,
   }) async {
-    Map<String, dynamic> _uploaded;
+    Map<String, dynamic>? _uploaded;
 
     if (map != null) {
 
-      final f_d.DatabaseReference _ref = _createPathAndGetRef(
+      final f_d.DatabaseReference? _ref = _createPathAndGetRef(
         coll: coll,
         doc: doc,
       );
@@ -152,7 +151,8 @@ class _NativeReal {
         timeout: timeout,
         onError: _onRealError,
         functions: () async {
-          await _ref.set(Mapper.removePair(
+
+          await _ref?.set(Mapper.removePair(
             map: map,
             fieldKey: 'id',
           ));
@@ -172,16 +172,17 @@ class _NativeReal {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<Map<String, dynamic>> createDocInPath({
-    @required String pathWithoutDocName,
-    @required Map<String, dynamic> map,
-    String doc,
+  static Future<Map<String, dynamic>?> createDocInPath({
+    required String pathWithoutDocName,
+    required Map<String, dynamic>? map,
+    String? doc,
   }) async {
 
-    Map<String, dynamic> _output;
+    Map<String, dynamic>? _output;
 
     if (map != null) {
-      String _docID;
+
+      String? _docID;
 
       await tryAndCatch(
         invoker: 'NativeReal.createDocInPath',
@@ -193,20 +194,20 @@ class _NativeReal {
           final String _path = _isDocNamed ? '$pathWithoutDocName/$doc' : pathWithoutDocName;
 
           /// GET PATH
-          f_d.DatabaseReference _ref = _getRefByPath(
+          f_d.DatabaseReference? _ref = _getRefByPath(
             path: _path,
           );
 
           if (doc == null) {
-            _ref = _ref.push();
-            _docID = _ref.key;
+            _ref = _ref?.push();
+            _docID = _ref?.key;
           }
           else {
             _docID = doc;
           }
 
           /// CREATE
-          await _ref.set(Mapper.removePair(
+          await _ref?.set(Mapper.removePair(
             map: map,
             fieldKey: 'id',
           ));
@@ -227,11 +228,11 @@ class _NativeReal {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<Map<String, dynamic>> createColl({
-    @required String coll,
-    @required Map<String, dynamic> map,
+  static Future<Map<String, dynamic>?> createColl({
+    required String? coll,
+    required Map<String, dynamic>? map,
   }) async {
-    Map<String, dynamic> _output;
+    Map<String, dynamic>? _output;
 
     if (map != null && coll != null) {
 
@@ -241,11 +242,11 @@ class _NativeReal {
         onError: _onRealError,
         functions: () async {
 
-          final f_d.DatabaseReference _ref = _createPathAndGetRef(
+          final f_d.DatabaseReference? _ref = _createPathAndGetRef(
             coll: coll,
           );
 
-          await _ref.set(Mapper.removePair(
+          await _ref?.set(Mapper.removePair(
             map: map,
             fieldKey: 'id',
           ));
@@ -270,8 +271,8 @@ class _NativeReal {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<List<Map<String, dynamic>>> readPathMaps({
-    @required RealQueryModel realQueryModel,
-    Map<String, dynamic> startAfter,
+    required RealQueryModel? realQueryModel,
+    Map<String, dynamic>? startAfter,
   }) async {
 
     List<Map<String, dynamic>> _output = <Map<String, dynamic>>[];
@@ -282,12 +283,12 @@ class _NativeReal {
       onError: _onRealError,
       functions: () async {
 
-        final f_d.Query _query = RealQueryModel.createNativeRealQuery(
+        final f_d.Query? _query = RealQueryModel.createNativeRealQuery(
           queryModel: realQueryModel,
           lastMap: startAfter,
         );
 
-        final f_d.DataSnapshot _dataSnapshot = await _query.once();
+        final f_d.DataSnapshot? _dataSnapshot = await _query?.once();
 
         _output = _NativeFireMapper.getMapsFromDataSnapshot(
           snapshot: _dataSnapshot,
@@ -300,11 +301,11 @@ class _NativeReal {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<Map<String, dynamic>> readPathMap({
-    @required String path,
+  static Future<Map<String, dynamic>?> readPathMap({
+    required String path,
   }) async {
 
-    Map<String, dynamic> _output = {};
+    Map<String, dynamic>? _output = {};
 
     await tryAndCatch(
       invoker: 'NativeReal.readPathMap',
@@ -312,9 +313,9 @@ class _NativeReal {
       onError: _onRealError,
       functions: () async {
 
-        final f_d.DatabaseReference _ref = _getRefByPath(path: path);
+        final f_d.DatabaseReference? _ref = _getRefByPath(path: path);
 
-        final f_d.DataSnapshot _snap = await _ref.once();
+        final f_d.DataSnapshot? _snap = await _ref?.once();
 
         _output = _NativeFireMapper.getMapFromDataSnapshot(
           snapshot: _snap,
@@ -330,7 +331,7 @@ class _NativeReal {
   /// TESTED : WORKS PERFECT
   static Future<dynamic> readPath({
     /// looks like : 'collName/docName/...'
-    @required String path,
+    required String path,
   }) async {
 
     /// THIS METHOD DOES NOT ADD DOC ID
@@ -339,7 +340,7 @@ class _NativeReal {
 
     if (TextCheck.isEmpty(path) == false){
 
-      final f_d.DatabaseReference _ref = _getRefByPath(path: path);
+      final f_d.DatabaseReference? _ref = _getRefByPath(path: path);
 
       await tryAndCatch(
         invoker: 'NativeReal.readPath',
@@ -347,9 +348,9 @@ class _NativeReal {
         onError: _onRealError,
         functions: () async {
 
-          final f_d.DataSnapshot snapshot = await _ref.once();
+          final f_d.DataSnapshot? snapshot = await _ref?.once();
 
-          _output = snapshot.value;
+          _output = snapshot?.value;
 
         },
       );
@@ -360,12 +361,12 @@ class _NativeReal {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<Map<String, dynamic>> readDoc({
-    @required String coll,
-    @required String doc,
+  static Future<Map<String, dynamic>?> readDoc({
+    required String coll,
+    required String doc,
   }) async {
 
-    final Map<String, dynamic> _map = await readPathMap(
+    final Map<String, dynamic>? _map = await readPathMap(
         path: '$coll/$doc',
     );
 
@@ -377,11 +378,11 @@ class _NativeReal {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<Map<String, dynamic>> updateColl({
-    @required String coll,
-    @required Map<String, dynamic> map,
+  static Future<Map<String, dynamic>?> updateColl({
+    required String coll,
+    required Map<String, dynamic>? map,
   }) async {
-    Map<String, dynamic> _output;
+    Map<String, dynamic>? _output;
 
     if (map != null){
 
@@ -396,12 +397,12 @@ class _NativeReal {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<Map<String, dynamic>> updateDoc({
-    @required String coll,
-    @required String doc,
-    @required Map<String, dynamic> map,
+  static Future<Map<String, dynamic>?> updateDoc({
+    required String coll,
+    required String doc,
+    required Map<String, dynamic>? map,
   }) async {
-    Map<String, dynamic> _output;
+    Map<String, dynamic>? _output;
 
     if (map != null){
 
@@ -417,16 +418,22 @@ class _NativeReal {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<Map<String, dynamic>> updateDocInPath({
-    @required String path,
-    @required Map<String, dynamic> map,
+  static Future<Map<String, dynamic>?> updateDocInPath({
+    required String path,
+    required Map<String, dynamic>? map,
   }) async {
-    Map<String, dynamic> _output;
+    Map<String, dynamic>? _output;
 
-    if (path != null && map != null){
+    if (map != null){
 
-      final String _pathWithoutDocName = TextMod.removeTextAfterLastSpecialCharacter(path, '/');
-      final String _docName = TextMod.removeTextBeforeLastSpecialCharacter(path, '/');
+      final String? _pathWithoutDocName = TextMod.removeTextAfterLastSpecialCharacter(
+        text: path,
+        specialCharacter: '/',
+      );
+      final String? _docName = TextMod.removeTextBeforeLastSpecialCharacter(
+          text: path,
+          specialCharacter: '/',
+      );
 
       if (
           TextCheck.isEmpty(_pathWithoutDocName) == false
@@ -435,7 +442,7 @@ class _NativeReal {
       ){
 
         _output = await createDocInPath(
-          pathWithoutDocName: _pathWithoutDocName,
+          pathWithoutDocName: _pathWithoutDocName!,
           doc: _docName,
           map: map,
         );
@@ -449,15 +456,15 @@ class _NativeReal {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> updateDocField({
-    @required String coll,
-    @required String doc,
-    @required String field,
-    @required dynamic value,
+    required String? coll,
+    required String? doc,
+    required String? field,
+    required dynamic value,
   }) async {
 
     if (value != null && coll != null && doc != null && field != null){
 
-      final f_d.DatabaseReference _ref = _createPathAndGetRef(
+      final f_d.DatabaseReference? _ref = _createPathAndGetRef(
         coll: coll,
         doc: doc,
         key: field,
@@ -468,7 +475,7 @@ class _NativeReal {
           timeout: timeout,
           onError: _onRealError,
           functions: () async {
-            await _ref.set(value).then((_) {}).catchError((error) {
+            await _ref?.set(value).then((_) {}).catchError((error) {
 
               blog('NativeReal.updateDocField : '
                   'value : $value : '
@@ -485,15 +492,15 @@ class _NativeReal {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> incrementDocFields({
-    @required String coll,
-    @required String doc,
-    @required Map<String, int> incrementationMap,
-    @required bool isIncrementing,
+    required String coll,
+    required String doc,
+    required Map<String, int>? incrementationMap,
+    required bool isIncrementing,
   }) async {
 
     if (incrementationMap != null){
 
-      final Map<String, dynamic> _map = await readDoc(
+      final Map<String, dynamic>? _map = await readDoc(
         coll: coll,
         doc: doc,
       );
@@ -516,14 +523,14 @@ class _NativeReal {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> incrementPathFields({
-    @required String path,
-    @required Map<String, int> incrementationMap,
-    @required bool isIncrementing,
+    required String path,
+    required Map<String, int>? incrementationMap,
+    required bool isIncrementing,
   }) async {
 
     if (incrementationMap != null){
 
-      final Map<String, dynamic> _map = await readPathMap(
+      final Map<String, dynamic>? _map = await readPathMap(
         path: path,
       );
 
@@ -548,11 +555,11 @@ class _NativeReal {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> deleteDoc({
-    @required String coll,
-    @required String doc,
+    required String coll,
+    required String doc,
   }) async {
 
-    final f_d.DatabaseReference _ref = _createPathAndGetRef(
+    final f_d.DatabaseReference? _ref = _createPathAndGetRef(
       coll: coll,
       doc: doc,
     );
@@ -563,7 +570,7 @@ class _NativeReal {
       onError: _onRealError,
       functions: () async {
 
-        await _ref.remove();
+        await _ref?.remove();
 
       },
     );
@@ -572,14 +579,14 @@ class _NativeReal {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> deleteField({
-    @required String coll,
-    @required String doc,
-    @required String field,
+    required String? coll,
+    required String? doc,
+    required String? field,
   }) async {
 
      if (coll != null && doc != null && field != null){
 
-      final f_d.DatabaseReference _ref = _createPathAndGetRef(
+      final f_d.DatabaseReference? _ref = _createPathAndGetRef(
         coll: coll,
         doc: doc,
         key: field,
@@ -590,7 +597,7 @@ class _NativeReal {
           timeout: timeout,
           onError: _onRealError,
           functions: () async {
-            await _ref.set(null).then((_) {}).catchError((error) {
+            await _ref?.set(null).then((_) {}).catchError((error) {
               // The write failed...
             });
           }
@@ -602,12 +609,12 @@ class _NativeReal {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> deletePath({
-    @required String pathWithDocName,
+    required String pathWithDocName,
   }) async {
 
     if (TextCheck.isEmpty(pathWithDocName) == false){
 
-      final f_d.DatabaseReference _ref = _getRefByPath(
+      final f_d.DatabaseReference? _ref = _getRefByPath(
         path: pathWithDocName,
       );
 
@@ -616,7 +623,7 @@ class _NativeReal {
         timeout: timeout,
         onError: _onRealError,
         functions: () async {
-          await _ref.remove();
+          await _ref?.remove();
         },
       );
 
@@ -630,15 +637,15 @@ class _NativeReal {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> clonePath({
-    @required String oldPath,
-    @required String newPath,
+    required String oldPath,
+    required String newPath,
   }) async {
 
-    final Object _object = await readPath(path: oldPath);
+    final Object? _object = await readPath(path: oldPath);
 
     if (_object != null){
 
-      final f_d.DatabaseReference _ref = _getRefByPath(
+      final f_d.DatabaseReference? _ref = _getRefByPath(
         path: newPath,
       );
 
@@ -647,7 +654,7 @@ class _NativeReal {
           timeout: timeout,
           onError: _onRealError,
           functions: () async {
-            await _ref.set(_object);
+            await _ref?.set(_object);
           });
     }
 

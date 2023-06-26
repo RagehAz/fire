@@ -14,16 +14,16 @@ class _OfficialStorage {
 
   // --------------------
   /// TESTED: WORKS PERFECT
-  static f_s.Reference _getRefByPath(String path){
+  static f_s.Reference? _getRefByPath(String path){
 
     if (ObjectCheck.objectIsPicPath(path) == true){
 
-      final String _storagePath = TextMod.removeNumberOfCharactersFromBeginningOfAString(
+      final String? _storagePath = TextMod.removeNumberOfCharactersFromBeginningOfAString(
         string: path,
         numberOfCharacters: 'storage/'.length,
       );
 
-      return _OfficialFirebase.getStorage().ref(_storagePath);
+      return _OfficialFirebase.getStorage()?.ref(_storagePath);
     }
 
     else {
@@ -36,8 +36,8 @@ class _OfficialStorage {
   /*
   /// TESTED: WORKS PERFECT
   static f_s.Reference _getRefByNodes({
-    @required String coll,
-    @required String doc, // without extension
+    required String coll,
+    required String doc, // without extension
   }) {
 
     if (coll != null && doc != null){
@@ -52,14 +52,14 @@ class _OfficialStorage {
    */
   // --------------------
   /// TESTED: WORKS PERFECT
-  static Future<f_s.Reference> _getRefByURL({
-    @required String url,
+  static Future<f_s.Reference?> _getRefByURL({
+    required String url,
   }) async {
-    f_s.Reference _ref;
+    f_s.Reference? _ref;
 
     await tryAndCatch(
       invoker: 'OfficialStorage._getRefByURL',
-      functions: () {
+      functions: () async {
         _ref = _OfficialFirebase.getStorage()?.refFromURL(url);
       },
       onError: StorageError.onException,
@@ -69,10 +69,10 @@ class _OfficialStorage {
   }
   // --------------------
   /// TESTED: WORKS PERFECT
-  static Future<String> _createURLByRef({
-    @required f_s.Reference ref,
+  static Future<String?> _createURLByRef({
+    required f_s.Reference? ref,
   }) async {
-    String _url;
+    String? _url;
 
     await tryAndCatch(
       invoker: 'OfficialStorage._createURLByRef',
@@ -90,30 +90,29 @@ class _OfficialStorage {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<String> uploadBytesAndGetURL({
-    @required Uint8List bytes,
-    @required String path,
-    @required StorageMetaModel storageMetaModel,
+  static Future<String?> uploadBytesAndGetURL({
+    required Uint8List? bytes,
+    required String path,
+    required StorageMetaModel? storageMetaModel,
   }) async {
 
     assert(Mapper.checkCanLoopList(bytes) == true, 'uInt7List is empty or null');
-    assert(storageMetaModel != null, 'metaData is null');
     assert(TextCheck.isEmpty(path) == false, 'path is empty or null');
 
-    String _url;
+    String? _url;
 
     await tryAndCatch(
       invoker: 'OfficialStorage.createDocByUint8List',
       functions: () async {
 
-        final f_s.Reference _ref = _getRefByPath(path);
+        final f_s.Reference? _ref = _getRefByPath(path);
 
         blog('createDocByUint8List : 1 - got ref : $_ref');
 
-        if (_ref != null) {
+        if (_ref != null && bytes != null) {
           final f_s.UploadTask _uploadTask = _ref.putData(
             bytes,
-            storageMetaModel.toOfficialSettableMetadata(
+            storageMetaModel?.toOfficialSettableMetadata(
               bytes: bytes,
             ),
           );
@@ -129,7 +128,7 @@ class _OfficialStorage {
               blog('createDocByUint8List : 3 - failed to upload');
               blog('error : ${error.runtimeType} : $error');
               blog('stackTrace : ${stackTrace.runtimeType} : $stackTrace');
-              return error;
+              return Future.error(error!);
             }),
           ]);
         }
@@ -146,10 +145,10 @@ class _OfficialStorage {
   /*
   /// TESTED : WORKS PERFECT
   static Future<String> uploadFileAndGetURL({
-    @required File file,
-    @required String coll,
-    @required String doc,
-    @required StorageMetaModel picMetaModel,
+    required File file,
+    required String coll,
+    required String doc,
+    required StorageMetaModel picMetaModel,
   }) async {
 
     blog('uploadFile : START');
@@ -276,11 +275,11 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
 
   // --------------------
   /// TESTED: WORKS PERFECT
-  static Future<String> createURLByPath({
-    @required String path
+  static Future<String?> createURLByPath({
+    required String path
   }) async {
-    final f_s.Reference _ref = _getRefByPath(path);
-    final String _url = await _createURLByRef(ref: _ref);
+    final f_s.Reference? _ref = _getRefByPath(path);
+    final String? _url = await _createURLByRef(ref: _ref);
     return _url;
   }
   // -----------------------------------------------------------------------------
@@ -289,17 +288,17 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<Uint8List> readBytesByPath({
-    @required String path,
+  static Future<Uint8List?> readBytesByPath({
+    required String path,
   }) async {
-    Uint8List _output;
+    Uint8List? _output;
 
     if (TextCheck.isEmpty(path) == false){
 
       await tryAndCatch(
         invoker: 'OfficialStorage.readBytesByPath',
         functions: () async {
-          final f_s.Reference _ref = _getRefByPath(path);
+          final f_s.Reference? _ref = _getRefByPath(path);
           blog('got ref : $_ref');
           /// 10'485'760 default max size
           _output = await _ref?.getData();
@@ -313,10 +312,10 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<Uint8List> readBytesByURL({
-    @required String url
+  static Future<Uint8List?> readBytesByURL({
+    required String? url
   }) async {
-    Uint8List _bytes;
+    Uint8List? _bytes;
 
     await tryAndCatch(
       invoker: 'OfficialStorage.readBytesByURL',
@@ -324,8 +323,8 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
 
         if (ObjectCheck.isAbsoluteURL(url) == true) {
           /// call http.get method and pass imageUrl into it to get response.
-          final http.Response _response = await Rest.get(
-            rawLink: url,
+          final http.Response? _response = await Rest.get(
+            rawLink: url!,
             // timeout: 60,
             invoker: 'OfficialStorage.readBytesByURL',
           );
@@ -347,7 +346,7 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
   /*
   /// TESTED : WORKS PERFECT
   static Future<File> readFileByURL({
-    @required String url,
+    required String url,
   }) async {
     File _file;
 
@@ -382,8 +381,8 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
   /*
   /// TESTED : WORKS PERFECT
   static Future<File> readFileByNodes({
-    @required String coll,
-    @required String doc,
+    required String coll,
+    required String doc,
   }) async {
     File _file;
 
@@ -418,10 +417,10 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<StorageMetaModel> readMetaByPath({
-    @required String path,
+  static Future<StorageMetaModel?> readMetaByPath({
+    required String? path,
   }) async {
-    StorageMetaModel _output;
+    StorageMetaModel? _output;
 
     if (TextCheck.isEmpty(path) == false){
 
@@ -429,7 +428,7 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
           invoker: 'OfficialStorage.readBytesByPath',
           functions: () async {
 
-            final f_s.Reference _ref = _getRefByPath(path);
+            final f_s.Reference? _ref = _getRefByPath(path!);
 
             if (_ref != null) {
               final f_s.FullMetadata _meta = await _ref.getMetadata();
@@ -448,10 +447,10 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<StorageMetaModel> readMetaByURL({
-    @required String url,
+  static Future<StorageMetaModel?> readMetaByURL({
+    required String? url,
   }) async {
-    StorageMetaModel _output;
+    StorageMetaModel? _output;
 
     if (ObjectCheck.isAbsoluteURL(url) == true){
 
@@ -459,8 +458,8 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
         invoker: 'OfficialStorage.getMetaByURL',
         functions: () async {
 
-          final f_s.Reference _ref = await _getRefByURL(
-            url: url,
+          final f_s.Reference? _ref = await _getRefByURL(
+            url: url!,
           );
 
           if (_ref != null) {
@@ -485,8 +484,8 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
     // --------------------
   /// TESTED : WORKS PERFECT
   static Future<f_s.FullMetadata> _readMetaByNodes({
-    @required String coll,
-    @required String doc,
+    required String coll,
+    required String doc,
   }) async {
 
     f_s.FullMetadata _meta;
@@ -517,7 +516,7 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<List<String>> _readOwnersIDsByURL({
-    @required String url,
+    required String url,
   }) async {
     final List<String> _ids = [];
 
@@ -543,8 +542,8 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<List<String>> _readOwnersIDsByNodes({
-    @required String coll,
-    @required String doc,
+    required String coll,
+    required String doc,
   }) async {
     final List<String> _ids = [];
 
@@ -571,8 +570,8 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<String> _readDocNameByURL({
-    @required String url,
-    // @required bool withExtension,
+    required String url,
+    // required bool withExtension,
   }) async {
     blog('getImageNameByURL : START');
     String _output;
@@ -609,8 +608,8 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> updateMetaByURL({
-    @required String url,
-    @required StorageMetaModel meta,
+    required String? url,
+    required StorageMetaModel? meta,
   }) async {
 
     /// ASSIGNING NULL TO KEY DELETES PAIR AUTOMATICALLY.
@@ -622,13 +621,13 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
         onError: StorageError.onException,
         functions: () async {
 
-          final f_s.Reference _ref = await _getRefByURL(
-            url: url,
+          final f_s.Reference? _ref = await _getRefByURL(
+            url: url!,
           );
 
           if (_ref != null){
 
-            final Uint8List _bytes = await readBytesByURL(url: url);
+            final Uint8List? _bytes = await readBytesByURL(url: url);
 
             await _ref.updateMetadata(meta.toOfficialSettableMetadata(
               bytes: _bytes,
@@ -643,8 +642,8 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
   // --------------------
   /// TESTED: WORKS PERFECT
   static Future<void> updateMetaByPath({
-    @required String path,
-    @required StorageMetaModel meta,
+    required String? path,
+    required StorageMetaModel? meta,
   }) async {
 
     /// ASSIGNING NULL TO KEY DELETES PAIR AUTOMATICALLY.
@@ -656,11 +655,11 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
         onError: StorageError.onException,
         functions: () async {
 
-          final f_s.Reference _ref = _getRefByPath(path);
+          final f_s.Reference? _ref = _getRefByPath(path!);
 
           if (_ref != null){
 
-            final Uint8List _bytes = await readBytesByPath(path: path);
+            final Uint8List? _bytes = await readBytesByPath(path: path);
 
             await _ref.updateMetadata(meta.toOfficialSettableMetadata(
               bytes: _bytes,
@@ -676,9 +675,9 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
   // --------------------
   /// TESTED: WORKS PERFECT
   static Future<bool> move({
-    @required String oldPath,
-    @required String newPath,
-    @required String currentUserID,
+    required String oldPath,
+    required String newPath,
+    required String currentUserID,
   }) async {
 
     bool _output = false;
@@ -697,11 +696,11 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
     ){
 
       /// READ OLD PIC
-      final Uint8List _bytes = await readBytesByPath(path: oldPath);
+      final Uint8List? _bytes = await readBytesByPath(path: oldPath);
 
       if (_bytes != null){
         /// READ OLD PIC META
-        StorageMetaModel _meta = await readMetaByPath(path: oldPath);
+        StorageMetaModel? _meta = await readMetaByPath(path: oldPath);
         _meta = await StorageMetaModel.completeMeta(
           bytes: _bytes,
           meta: _meta,
@@ -730,9 +729,9 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
   // --------------------
   /// TESTED: WORKS PERFECT
   static Future<void> rename({
-    @required String path,
-    @required String newName,
-    @required String currentUserID,
+    required String path,
+    required String newName,
+    required String currentUserID,
   }) async {
 
     final bool _canEdit = await _checkCanDeleteDocByPath(
@@ -750,14 +749,17 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
     ){
 
       /// READ OLD PIC
-      final Uint8List _bytes = await readBytesByPath(path: path);
+      final Uint8List? _bytes = await readBytesByPath(path: path);
       /// READ OLD PIC META
-      StorageMetaModel _meta = await readMetaByPath(path: path);
-      _meta = _meta.copyWith(
+      StorageMetaModel? _meta = await readMetaByPath(path: path);
+      _meta = _meta?.copyWith(
         name: newName,
       );
 
-      final String _pathWithoutOldName = TextMod.removeTextAfterLastSpecialCharacter(path, '/');
+      final String? _pathWithoutOldName = TextMod.removeTextAfterLastSpecialCharacter(
+          text: path,
+          specialCharacter: '/',
+      );
 
       /// CREATE NEW PIC
       await uploadBytesAndGetURL(
@@ -778,8 +780,8 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
   // --------------------
   /// TESTED: WORKS PERFECT
   static Future<void> completeMeta({
-    @required String path,
-    @required String currentUserID,
+    required String path,
+    required String currentUserID,
   }) async {
 
     final bool _canEdit = await _checkCanDeleteDocByPath(
@@ -795,16 +797,16 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
     ){
 
       /// READ OLD PIC
-      final Uint8List _bytes = await readBytesByPath(path: path);
+      final Uint8List? _bytes = await readBytesByPath(path: path);
       /// READ OLD PIC META
-      StorageMetaModel _meta = await readMetaByPath(path: path);
+      StorageMetaModel? _meta = await readMetaByPath(path: path);
       _meta = await StorageMetaModel.completeMeta(
         bytes: _bytes,
         meta: _meta,
       );
 
       /// CREATE URL
-      final String _url = await createURLByPath(
+      final String? _url = await createURLByPath(
         path: path,
       );
 
@@ -825,8 +827,8 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<bool> deleteDoc({
-    @required String path,
-    @required String currentUserID,
+    required String path,
+    required String currentUserID,
   }) async {
     bool _output = false;
 
@@ -842,7 +844,7 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
         await tryAndCatch(
           invoker: 'OfficialStorage.deleteDoc',
           functions: () async {
-            final f_s.Reference _picRef = _getRefByPath(path);
+            final f_s.Reference? _picRef = _getRefByPath(path);
             await _picRef?.delete();
             blog('deletePic : DELETED STORAGE FILE IN PATH: $path');
             _output = true;
@@ -863,8 +865,8 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> deleteDocs({
-    @required List<String> paths,
-    @required String currentUserID,
+    required List<String> paths,
+    required String currentUserID,
   }) async {
 
     if (Mapper.checkCanLoopList(paths) == true){
@@ -892,23 +894,21 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<bool> _checkCanDeleteDocByPath({
-    @required String path,
-    @required String userID,
+    required String path,
+    required String? userID,
   }) async {
-
-    assert(path != null, 'path is null');
 
     bool _canDelete = userID == 'z0Obwze3JLYjoEl6uVeXfo4Luup1'; // bldrs rage7 ID
 
     blog('checkCanDeleteStorageFile : START');
 
-    if (path != null && userID != null && _canDelete == false){
+    if (userID != null && _canDelete == false){
 
-      final StorageMetaModel _meta = await readMetaByPath(
+      final StorageMetaModel? _meta = await readMetaByPath(
         path: path,
       );
 
-      final List<String> _ownersIDs = _meta?.ownersIDs;
+      final List<String>? _ownersIDs = _meta?.ownersIDs;
 
       blog('checkCanDeleteStorageFile : _ownersIDs : $_ownersIDs');
 
@@ -933,9 +933,9 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
   /*
   /// TESTED : WORKS PERFECT
   static Future<bool> _checkCanDeleteDocByNodes({
-    @required String coll,
-    @required String oc,
-    @required String userID,
+    required String coll,
+    required String oc,
+    required String userID,
   }) async {
 
     assert(oc != null && coll != null,

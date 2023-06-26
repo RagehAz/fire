@@ -30,11 +30,14 @@ class StorageError {
   };
   // --------------------
   /// NOT TESTED NOR USED
-  static void onException(String error){
+  static void onException(String? error){
 
     if (TextCheck.isEmpty(error) == false){
 
-      final String _code = TextMod.removeTextAfterFirstSpecialCharacter(error, ' ');
+      final String? _code = TextMod.removeTextAfterFirstSpecialCharacter(
+          text: error,
+          specialCharacter: ' ',
+      );
 
       blog('onStorageExceptions : code : ($_code) : message : ${storageErrorsMap[_code]}');
 

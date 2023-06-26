@@ -1,17 +1,17 @@
 part of super_fire;
 
+/// SOCIAL_AUTHING_DISASTER
 /*
 DOCUMENTATION
 https://github.com/firebase/flutterfire/blob/master/packages/firebase_ui_auth/doc/providers/oauth.md#custom-screens
- */
 
 class SocialAuthButton extends StatelessWidget {
   // --------------------------------------------------------------------------
   const SocialAuthButton({
-    @required this.signInMethod,
-    @required this.socialKeys,
-    @required this.onSuccess,
-    @required this.manualAuthing,
+    required this.signInMethod,
+    required this.socialKeys,
+    required this.onSuccess,
+    required this.manualAuthing,
     this.onError,
     this.authAction = fui.AuthAction.signIn,
     /// WILL ALWAYS HAVE 5 PADDING FROM ALL SIDES FOR EACH BUTTON
@@ -24,7 +24,7 @@ class SocialAuthButton extends StatelessWidget {
   final SignInMethod signInMethod;
   final SocialKeys socialKeys;
   final Function(AuthModel authModel) onSuccess;
-  final Function(String error) onError;
+  final Function(String? error)? onError;
   final Function(bool isLoading) onAuthLoadingChanged;
   final fui.AuthAction authAction;
   final double size;
@@ -136,7 +136,7 @@ class SocialAuthButton extends StatelessWidget {
     /// USER CREATED
     else if (newState is fui.UserCreated) {
       final fui.UserCreated userCreated = newState;
-      final AuthModel _authModel = AuthModel._getAuthModelFromOfficialUserCredential(
+      final AuthModel? _authModel = AuthModel._getAuthModelFromOfficialUserCredential(
         cred: userCreated.credential,
       );
       onSuccess(_authModel);
@@ -167,29 +167,29 @@ class SocialAuthButton extends StatelessWidget {
     }
 
     // ignore: avoid_returning_null
-    return null;
+    return false;
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  String _getIcon(SignInMethod signInMethod){
+  String? _getIcon(SignInMethod? signInMethod){
     switch (signInMethod){
-      case SignInMethod.apple: return Iconz.comApple; break;
-      case SignInMethod.facebook: return Iconz.comFacebook; break;
-      case SignInMethod.google: return Iconz.comGooglePlus; break;
-      case SignInMethod.password: return Iconz.comEmail; break;
-      case SignInMethod.anonymous: return Iconz.users; break;
+      case SignInMethod.apple: return Iconz.comApple;
+      case SignInMethod.facebook: return Iconz.comFacebook;
+      case SignInMethod.google: return Iconz.comGooglePlus;
+      case SignInMethod.password: return Iconz.comEmail;
+      case SignInMethod.anonymous: return Iconz.users;
       default: return null;
     }
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  double _getIconSizeFactor(SignInMethod signInMethod){
+  double _getIconSizeFactor(SignInMethod? signInMethod){
     switch (signInMethod){
-      case SignInMethod.apple:      return 0.6; break;
-      case SignInMethod.facebook:   return 1; break;
-      case SignInMethod.google:     return 0.6; break;
-      case SignInMethod.password:      return 0.6; break;
-      case SignInMethod.anonymous:  return 0.6; break;
+      case SignInMethod.apple:      return 0.6;
+      case SignInMethod.facebook:   return 1;
+      case SignInMethod.google:     return 0.6;
+      case SignInMethod.password:      return 0.6;
+      case SignInMethod.anonymous:  return 0.6;
       default: return 1;
     }
   }
@@ -218,33 +218,40 @@ class SocialAuthButton extends StatelessWidget {
   /// TESTED : WORKS PERFECT
   Future<void> _googleManualAuthing() async {
 
-    final AuthModel _authModel = await OfficialGoogleAuthing.emailSignIn(
+    final AuthModel? _authModel = await OfficialGoogleAuthing.emailSignIn(
       onError: onError,
     );
 
-    onSuccess(_authModel);
+    if (_authModel != null){
+      onSuccess(_authModel);
+    }
 
   }
   // --------------------
   /// TESTED : WORKS PERFECT
   Future<void> _facebookManualAuthing() async {
 
-    final AuthModel _authModel = await OfficialFacebookAuthing.signIn(
+    final AuthModel? _authModel = await OfficialFacebookAuthing.signIn(
       onError: onError,
     );
 
-    onSuccess(_authModel);
+    if (_authModel != null){
+      onSuccess(_authModel);
+    }
 
   }
   // --------------------
   /// TESTED : WORKS PERFECT
   Future<void> _appleManualAuthing() async {
 
-    final AuthModel _authModel = await OfficialAppleAuthing.signInByApple(
+    final AuthModel? _authModel = await OfficialAppleAuthing.signInByApple(
         onError: onError,
       );
 
-    onSuccess(_authModel);
+    if (_authModel != null){
+      onSuccess(_authModel);
+    }
+
   }
   // --------------------------------------------------------------------------
   @override
@@ -295,3 +302,4 @@ class SocialAuthButton extends StatelessWidget {
   }
   // --------------------------------------------------------------------------
 }
+ */

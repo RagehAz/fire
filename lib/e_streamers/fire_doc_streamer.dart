@@ -3,30 +3,30 @@ part of super_fire;
 class FireDocStreamer extends StatefulWidget {
   /// --------------------------------------------------------------------------
   const FireDocStreamer({
-    @required this.collName,
-    @required this.docName,
-    @required this.builder,
+    required this.collName,
+    required this.docName,
+    required this.builder,
     this.onDataChanged,
     this.initialMap,
     this.loadingWidget,
-    Key key
-  }) : super(key: key);
+    super.key
+  });
   /// --------------------------------------------------------------------------
   final String collName;
   final String docName;
-  final Widget Function(BuildContext, Map<String, dynamic>) builder;
-  final Function(BuildContext, Map<String, dynamic>, Map<String, dynamic>) onDataChanged;
-  final Map<String, dynamic> initialMap;
-  final Widget loadingWidget;
+  final Widget Function(BuildContext context, Map<String, dynamic>? map) builder;
+  final Function(BuildContext context, Map<String, dynamic>? oldMap, Map<String, dynamic>? newMap)? onDataChanged;
+  final Map<String, dynamic>? initialMap;
+  final Widget? loadingWidget;
   /// --------------------------------------------------------------------------
   static Future<void> onStreamDataChanged({
-    @required Stream<Map<String, dynamic>> stream,
-    @required Map<String, dynamic> oldMap,
-    @required bool mounted,
-    @required Function(Map<String, dynamic> oldMap, Map<String, dynamic> newMap) onChange,
+    required Stream<Map<String, dynamic>?>? stream,
+    required Map<String, dynamic>? oldMap,
+    required bool mounted,
+    required Function(Map<String, dynamic>? oldMap, Map<String, dynamic>? newMap)? onChange,
   }) async {
 
-    stream.listen((Map<String, dynamic> newMap) async {
+    stream?.listen((Map<String, dynamic>? newMap) async {
 
       // blog('xxx - onStreamDataChanged - snapshot : $snapshot');
 
@@ -40,7 +40,7 @@ class FireDocStreamer extends StatefulWidget {
 
       if (_mapsAreTheSame == false){
         if (mounted == true){
-          onChange(oldMap, newMap);
+          onChange?.call(oldMap, newMap);
         }
       }
 
@@ -69,9 +69,9 @@ class FireDocStreamer extends StatefulWidget {
 
 class _FireDocStreamerState extends State<FireDocStreamer> {
   // -----------------------------------------------------------------------------
-  Stream<Map<String, dynamic>> _stream;
-  final ValueNotifier<Map<String, dynamic>> _oldMap = ValueNotifier<Map<String, dynamic>>(null);
-  StreamSubscription _sub;
+  late Stream<Map<String, dynamic>?>? _stream;
+  final ValueNotifier<Map<String, dynamic>?> _oldMap = ValueNotifier<Map<String, dynamic>?>(null);
+  late StreamSubscription? _sub;
   // -----------------------------------------------------------------------------
   @override
   void initState() {
@@ -82,7 +82,7 @@ class _FireDocStreamerState extends State<FireDocStreamer> {
       doc: widget.docName,
     );
 
-    _sub = _stream.listen((event) { });
+    _sub = _stream?.listen((event) { });
 
     FireDocStreamer.onStreamDataChanged(
       stream: _stream,
@@ -93,9 +93,9 @@ class _FireDocStreamerState extends State<FireDocStreamer> {
 
   }
   // --------------------
-  void _onChanged (Map<String, dynamic> oldMap, Map<String, dynamic> newMap){
+  void _onChanged (Map<String, dynamic>? oldMap, Map<String, dynamic>? newMap){
     if (mounted == true){
-      widget.onDataChanged(context, oldMap, newMap);
+      widget.onDataChanged?.call(context, oldMap, newMap);
       setNotifier(notifier: _oldMap, mounted: mounted, value: oldMap);
     }
   }
@@ -104,7 +104,7 @@ class _FireDocStreamerState extends State<FireDocStreamer> {
   void dispose() {
       blog('FireDocStreamer : DISPOSING THE FUCKING PAGE');
       _oldMap.dispose();
-      _sub.cancel();
+      _sub?.cancel();
       super.dispose();
   }
   // -----------------------------------------------------------------------------
@@ -115,15 +115,15 @@ class _FireDocStreamerState extends State<FireDocStreamer> {
       key: const ValueKey<String>('FireDocStreamer'),
       stream: _stream,
       initialData: widget.initialMap,
-      builder: (BuildContext ctx, AsyncSnapshot<dynamic> snapshot) {
+      builder: (BuildContext ctx, AsyncSnapshot<dynamic>? snapshot) {
 
-        if (snapshot.connectionState == ConnectionState.waiting) {
+        if (snapshot?.connectionState == ConnectionState.waiting) {
           return widget.loadingWidget ?? widget.builder(ctx, null);
         }
 
         else {
 
-          return widget.builder(ctx, snapshot.data);
+          return widget.builder(ctx, snapshot?.data);
 
         }
 

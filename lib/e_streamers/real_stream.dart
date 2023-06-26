@@ -13,8 +13,8 @@ part of super_fire;
 //   // --------------------
 //   ///
 //   static StreamSubscription streamOnChildAddedToPath({
-//     @required String path,
-//     @required ValueChanged<dynamic> onChildAdded,
+//     required String path,
+//     required ValueChanged<dynamic> onChildAdded,
 //     bool cancelOnError,
 //     Function onDone,
 //     Function(Object error) onError,
@@ -35,8 +35,8 @@ part of super_fire;
 //   // --------------------
 //   ///
 //   static StreamSubscription streamOnChildChangedInPath({
-//     @required String path,
-//     @required ValueChanged<dynamic> onChildChanged,
+//     required String path,
+//     required ValueChanged<dynamic> onChildChanged,
 //     bool cancelOnError,
 //     Function onDone,
 //     Function(Object error) onError,
@@ -57,8 +57,8 @@ part of super_fire;
 //   // --------------------
 //   ///
 //   static StreamSubscription streamOnChildMovedInPath({
-//     @required String path,
-//     @required ValueChanged<dynamic> onChildMoved,
+//     required String path,
+//     required ValueChanged<dynamic> onChildMoved,
 //     bool cancelOnError,
 //     Function onDone,
 //     Function(Object error) onError,
@@ -79,8 +79,8 @@ part of super_fire;
 //   // --------------------
 //   ///
 //   static StreamSubscription streamOnChildRemovedFromPath({
-//     @required String path,
-//     @required ValueChanged<dynamic> onChildRemoved,
+//     required String path,
+//     required ValueChanged<dynamic> onChildRemoved,
 //     bool cancelOnError,
 //     Function onDone,
 //     Function(Object error) onError,
@@ -101,8 +101,8 @@ part of super_fire;
 //   // --------------------
 //   ///
 //   static StreamSubscription streamOnValueOfPath({
-//     @required String path,
-//     @required ValueChanged<dynamic> onValue,
+//     required String path,
+//     required ValueChanged<dynamic> onValue,
 //     bool cancelOnError,
 //     Function onDone,
 //     Function(Object error) onError,

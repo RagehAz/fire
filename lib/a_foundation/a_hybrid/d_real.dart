@@ -40,11 +40,11 @@ class Real {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<Map<String, dynamic>> createColl({
-    @required String coll,
-    @required Map<String, dynamic> map,
+  static Future<Map<String, dynamic>?> createColl({
+    required String coll,
+    required Map<String, dynamic>? map,
   }) async {
-    Map<String, dynamic> _output;
+    Map<String, dynamic>? _output;
 
     if (FirebaseInitializer.isUsingOfficialPackages() == true){
       _output = await _OfficialReal.createColl(
@@ -63,13 +63,13 @@ class Real {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<Map<String, dynamic>> createDoc({
-    @required String coll,
-    @required Map<String, dynamic> map,
-    String doc,
+  static Future<Map<String, dynamic>?> createDoc({
+    required String coll,
+    required Map<String, dynamic>? map,
+    String? doc,
   }) async {
 
-    Map<String, dynamic> _output;
+    Map<String, dynamic>? _output;
 
     if (FirebaseInitializer.isUsingOfficialPackages() == true){
       _output = await _OfficialReal.createDoc(
@@ -90,13 +90,13 @@ class Real {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<Map<String, dynamic>> createDocInPath({
-    @required String pathWithoutDocName,
-    @required Map<String, dynamic> map,
+  static Future<Map<String, dynamic>?> createDocInPath({
+    required String pathWithoutDocName,
+    required Map<String, dynamic>? map,
     /// random id is assigned as docName if this parameter is not assigned
-    String doc,
+    String? doc,
   }) async {
-    Map<String, dynamic> _output;
+    Map<String, dynamic>? _output;
 
     if (FirebaseInitializer.isUsingOfficialPackages() == true){
       _output = await _OfficialReal.createDocInPath(
@@ -122,8 +122,8 @@ class Real {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<List<Map<String, dynamic>>> readPathMaps({
-    @required RealQueryModel realQueryModel,
-    Map<String, dynamic> startAfter,
+    required RealQueryModel? realQueryModel,
+    Map<String, dynamic>? startAfter,
   }) async {
 
     List<Map<String, dynamic>> _output = <Map<String, dynamic>>[];
@@ -145,11 +145,11 @@ class Real {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<Map<String, dynamic>> readPathMap({
-    @required String path,
+  static Future<Map<String, dynamic>?> readPathMap({
+    required String path,
   }) async {
 
-    Map<String, dynamic> _output = {};
+    Map<String, dynamic>? _output = {};
 
     if (FirebaseInitializer.isUsingOfficialPackages() == true){
       _output = await _OfficialReal.readPathMap(
@@ -168,7 +168,7 @@ class Real {
   /// TESTED : WORKS PERFECT
   static Future<dynamic> readPath({
     /// looks like : 'collName/docName/...'
-    @required String path,
+    required String path,
   }) async {
 
     dynamic _output;
@@ -188,12 +188,12 @@ class Real {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<Map<String, dynamic>> readDoc({
-    @required String coll,
-    @required String doc,
+  static Future<Map<String, dynamic>?> readDoc({
+    required String coll,
+    required String doc,
   }) async {
 
-    Map<String, dynamic> _output;
+    Map<String, dynamic>? _output;
 
     if (FirebaseInitializer.isUsingOfficialPackages() == true){
       _output = await _OfficialReal.readDoc(
@@ -216,12 +216,12 @@ class Real {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<Map<String, dynamic>> updateColl({
-    @required String coll,
-    @required Map<String, dynamic> map,
+  static Future<Map<String, dynamic>?> updateColl({
+    required String coll,
+    required Map<String, dynamic>? map,
   }) async {
 
-    Map<String, dynamic> _output;
+    Map<String, dynamic>? _output;
 
     if (FirebaseInitializer.isUsingOfficialPackages() == true){
       _output = await _OfficialReal.updateColl(
@@ -240,12 +240,12 @@ class Real {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<Map<String, dynamic>> updateDoc({
-    @required String coll,
-    @required String doc,
-    @required Map<String, dynamic> map,
+  static Future<Map<String, dynamic>?> updateDoc({
+    required String coll,
+    required String doc,
+    required Map<String, dynamic>? map,
   }) async {
-    Map<String, dynamic> _output;
+    Map<String, dynamic>? _output;
 
     if (FirebaseInitializer.isUsingOfficialPackages() == true){
       _output = await _OfficialReal.updateDoc(
@@ -266,11 +266,11 @@ class Real {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<Map<String, dynamic>> updateDocInPath({
-    @required String path,
-    @required Map<String, dynamic> map,
+  static Future<Map<String, dynamic>?> updateDocInPath({
+    required String path,
+    required Map<String, dynamic>? map,
   }) async {
-    Map<String, dynamic> _output;
+    Map<String, dynamic>? _output;
 
     if (FirebaseInitializer.isUsingOfficialPackages() == true){
       _output = await _OfficialReal.updateDocInPath(
@@ -290,10 +290,10 @@ class Real {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> updateDocField({
-    @required String coll,
-    @required String doc,
-    @required String field,
-    @required dynamic value,
+    required String coll,
+    required String doc,
+    required String field,
+    required dynamic value,
   }) async {
 
     if (FirebaseInitializer.isUsingOfficialPackages() == true){
@@ -317,10 +317,10 @@ class Real {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> incrementDocFields({
-    @required String coll,
-    @required String doc,
-    @required Map<String, int> incrementationMap,
-    @required bool isIncrementing,
+    required String coll,
+    required String doc,
+    required Map<String, int>? incrementationMap,
+    required bool isIncrementing,
   }) async {
 
     if (FirebaseInitializer.isUsingOfficialPackages() == true){
@@ -344,9 +344,9 @@ class Real {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> incrementPathFields({
-    @required String path,
-    @required Map<String, int> incrementationMap,
-    @required bool isIncrementing,
+    required String path,
+    required Map<String, int>? incrementationMap,
+    required bool isIncrementing,
   }) async {
 
     if (FirebaseInitializer.isUsingOfficialPackages() == true){
@@ -372,8 +372,8 @@ class Real {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> deleteDoc({
-    @required String coll,
-    @required String doc,
+    required String coll,
+    required String doc,
   }) async {
 
     if (FirebaseInitializer.isUsingOfficialPackages() == true){
@@ -393,9 +393,9 @@ class Real {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> deleteField({
-    @required String coll,
-    @required String doc,
-    @required String field,
+    required String coll,
+    required String doc,
+    required String field,
   }) async {
 
     if (FirebaseInitializer.isUsingOfficialPackages() == true){
@@ -417,7 +417,7 @@ class Real {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> deletePath({
-    @required String pathWithDocName,
+    required String pathWithDocName,
   }) async {
 
     if (FirebaseInitializer.isUsingOfficialPackages() == true){
@@ -439,8 +439,8 @@ class Real {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> clonePath({
-    @required String oldPath,
-    @required String newPath,
+    required String oldPath,
+    required String newPath,
   }) async {
 
     if (FirebaseInitializer.isUsingOfficialPackages() == true){

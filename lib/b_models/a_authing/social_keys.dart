@@ -10,9 +10,9 @@ class SocialKeys{
   });
   // -----------------------------------------------------------------------------
   /// GET CLIENT_ID TAG FROM GoogleService-info.plist
-  final String googleClientID;
+  final String? googleClientID;
   /// GET IT FROM FACEBOOK DEV DASHBOARD
-  final String facebookAppID;
+  final String? facebookAppID;
   final bool supportApple;
   final bool supportEmail;
   // -----------------------------------------------------------------------------

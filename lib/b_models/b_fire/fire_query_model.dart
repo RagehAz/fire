@@ -4,7 +4,7 @@ part of super_fire;
 class FireQueryModel {
   /// --------------------------------------------------------------------------
   const FireQueryModel({
-    @required this.coll,
+    required this.coll,
     this.doc,
     this.subColl,
     this.idFieldName ='id',
@@ -15,12 +15,12 @@ class FireQueryModel {
   });
   /// --------------------------------------------------------------------------
   final String coll;
-  final String doc;
-  final String subColl;
-  final int limit;
-  final QueryOrderBy orderBy;
-  final List<FireFinder> finders;
-  final List<Map<String, dynamic>> initialMaps;
+  final String? doc;
+  final String? subColl;
+  final int? limit;
+  final QueryOrderBy? orderBy;
+  final List<FireFinder>? finders;
+  final List<Map<String, dynamic>>? initialMaps;
   final String idFieldName;
   // -----------------------------------------------------------------------------
 
@@ -29,14 +29,14 @@ class FireQueryModel {
   // --------------------
   /// TESTED : WORKS PERFECT
   FireQueryModel copyWith({
-    String coll,
-    String doc,
-    String subColl,
-    String idFieldName,
-    int limit,
-    QueryOrderBy orderBy,
-    List<FireFinder> finders,
-    List<Map<String, dynamic>> initialMaps,
+    String? coll,
+    String? doc,
+    String? subColl,
+    String? idFieldName,
+    int? limit,
+    QueryOrderBy? orderBy,
+    List<FireFinder>? finders,
+    List<Map<String, dynamic>>? initialMaps,
   }){
     return FireQueryModel(
       coll: coll ?? this.coll,
@@ -56,8 +56,8 @@ class FireQueryModel {
   // --------------------
   /// TESTED : WORKS PERFECT
   static bool checkQueriesAreIdentical({
-    @required FireQueryModel model1,
-    @required FireQueryModel model2,
+    required FireQueryModel? model1,
+    required FireQueryModel? model2,
   }){
   bool _identical = false;
 

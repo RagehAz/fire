@@ -6,10 +6,10 @@ part of super_fire;
 // --------------------
 /// TESTED : WORKS PERFECT
 bool canPaginate({
-  @required ScrollController scrollController,
-  @required double paginationHeight,
-  @required bool isPaginating,
-  @required bool canKeepReading,
+  required ScrollController scrollController,
+  required double paginationHeight,
+  required bool isPaginating,
+  required bool canKeepReading,
 }) {
 
   if (isPaginating == true) {
@@ -31,16 +31,14 @@ bool canPaginate({
 // --------------------
 /// TESTED : WORKS PERFECT
 void createPaginationListener({
-  @required ScrollController controller,
-  @required ValueNotifier<bool> isPaginating,
-  @required ValueNotifier<bool> canKeepReading,
-  @required Function onPaginate,
-  @required bool mounted,
+  required ScrollController controller,
+  required ValueNotifier<bool> isPaginating,
+  required ValueNotifier<bool> canKeepReading,
+  required Function onPaginate,
+  required bool mounted,
 }) {
 
   blog('createPaginationListener : start');
-
-  assert(controller != null, 'controller is null');
 
   controller.addListener(() async {
     final bool _canPaginate = canPaginate(

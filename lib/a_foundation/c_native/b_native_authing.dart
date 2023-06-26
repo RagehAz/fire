@@ -12,10 +12,10 @@ class _NativeAuthing{
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static String getUserID(){
-    final fd.FirebaseAuth _auth = _NativeFirebase.getAuthFire();
-    if (_auth?.isSignedIn == true){
-      return _auth?.userId;
+  static String? getUserID(){
+    final fd.FirebaseAuth? _auth = _NativeFirebase.getAuthFire();
+    if (_auth != null && _auth.isSignedIn == true){
+      return _auth.userId;
     }
     else {
       return null;
@@ -27,17 +27,17 @@ class _NativeAuthing{
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<AuthModel> anonymousSignin({
-    Function(String error) onError,
+  static Future<AuthModel?> anonymousSignin({
+    Function(String? error)? onError,
   }) async {
-    AuthModel _output;
+    AuthModel? _output;
 
     await tryAndCatch(
       invoker: 'NativeAuthing.anonymousSignin',
       onError: onError,
       functions: () async {
 
-        final fd_u.User _user =  await _NativeFirebase.getAuthFire().signInAnonymously();
+        final fd_u.User? _user =  await _NativeFirebase.getAuthFire()?.signInAnonymously();
 
         _output = AuthModel.getAuthModelFromFiredartUser(
           user: _user,
@@ -56,7 +56,7 @@ class _NativeAuthing{
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<bool> signOut({
-    Function(String error) onError,
+    Function(String? error)? onError,
   }) async {
 
     final bool _success = await tryCatchAndReturnBool(
@@ -65,8 +65,8 @@ class _NativeAuthing{
       functions: () async {
 
         /// FIREBASE SIGN OUT
-        _NativeFirebase.getAuthFire().signOut();
-        await _NativeFirebase.getAuthReal().signOut();
+        _NativeFirebase.getAuthFire()?.signOut();
+        await _NativeFirebase.getAuthReal()?.signOut();
 
       },
     );
@@ -80,12 +80,14 @@ class _NativeAuthing{
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<bool> deleteUser({
-    Function(String error) onError,
+    Function(String? error)? onError,
   }) async {
 
     final bool _success = await tryCatchAndReturnBool(
         invoker: 'NativeAuthing.deleteFirebaseUser',
-        functions: () => _NativeFirebase.getAuthFire().deleteAccount(),
+        functions: () async {
+          await _NativeFirebase.getAuthFire()?.deleteAccount.call();
+        },
         onError: onError,
     );
 
@@ -118,8 +120,8 @@ class _NativeAuthing{
    */
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<String> getAuthEmail() async {
-     final fd_u.User _user = await _getUser();
+  static Future<String?> getAuthEmail() async {
+     final fd_u.User? _user = await _getUser();
      return _user?.email;
   }
   // -----------------------------------------------------------------------------
@@ -128,8 +130,8 @@ class _NativeAuthing{
 
   // -------------------
   /// TESTED : WORKS PERFECT
-  static Future<fd_u.User> _getUser() async {
-    fd_u.User _user;
+  static Future<fd_u.User?> _getUser() async {
+    fd_u.User? _user;
 
     await tryAndCatch(
       invoker: 'NativeAuthing._getUser',
@@ -155,12 +157,12 @@ class _NativeEmailAuthing {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<AuthModel> signIn({
-    @required String email,
-    @required String password,
-    Function(String error) onError,
+  static Future<AuthModel?> signIn({
+    required String? email,
+    required String? password,
+    Function(String? error)? onError,
   }) async {
-    AuthModel _output;
+    AuthModel? _output;
 
     if (email != null && password != null) {
       await tryAndCatch(
@@ -168,13 +170,12 @@ class _NativeEmailAuthing {
         onError: onError,
         functions: () async {
 
-          final fd_u.User _user = await _NativeFirebase.getAuthFire().signIn(
+          final fd_u.User? _user = await _NativeFirebase.getAuthFire()?.signIn(
               email,
               password,
           );
 
-          final f_d.UserCredential _realUserCred = await _NativeFirebase.getAuthReal()
-              .signInWithEmailAndPassword(
+          final f_d.UserCredential? _realUserCred = await _NativeFirebase.getAuthReal()?.signInWithEmailAndPassword(
               email: email,
               password: password
           );
@@ -197,12 +198,12 @@ class _NativeEmailAuthing {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<AuthModel> register({
-    @required String email,
-    @required String password,
-    Function(String error) onError,
+  static Future<AuthModel?> register({
+    required String? email,
+    required String? password,
+    Function(String? error)? onError,
   }) async {
-    AuthModel _output;
+    AuthModel? _output;
 
     if (
         TextCheck.isEmpty(email) == false
@@ -214,9 +215,9 @@ class _NativeEmailAuthing {
           invoker: 'NativeAuth.registerByEmail',
           functions: () async {
 
-          final fd_u.User _user = await _NativeFirebase.getAuthFire().signUp(
-              email,
-              password,
+          final fd_u.User? _user = await _NativeFirebase.getAuthFire()?.signUp(
+              email!,
+              password!,
           );
 
           _output = AuthModel.getAuthModelFromFiredartUser(
@@ -239,11 +240,11 @@ class _NativeEmailAuthing {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<bool> checkPasswordIsCorrect({
-    @required String password,
-    @required String email,
+    required String? password,
+    required String? email,
   }) async {
 
-   final AuthModel _authModel = await signIn(
+   final AuthModel? _authModel = await signIn(
       email: email,
       password: password,
     );
@@ -257,7 +258,7 @@ class _NativeEmailAuthing {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<bool> updateUserEmail({
-    @required String newEmail,
+    required String? newEmail,
   }) async {
     blog('NativeAuth.updateUserEmail : updating user email is not supported');
 

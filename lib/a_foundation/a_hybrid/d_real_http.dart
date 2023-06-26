@@ -16,8 +16,8 @@ abstract class RealHttp{
   }
   // --------------------
   static Uri docLink({
-    @required String collName,
-    @required String docName,
+    required String collName,
+    required String docName,
   }){
     return Uri.parse('https://bldrsnet.firebaseio.com/$collName/$docName.json');
   }
@@ -27,14 +27,13 @@ abstract class RealHttp{
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<String> createDoc({
-    @required BuildContext context,
-    @required String collName,
-    @required Map<String, Object> input,
-    Function(String error) onError,
+  static Future<String?> createDoc({
+    required String collName,
+    required Map<String, Object>? input,
+    Function(String? error)? onError,
   }) async {
 
-    String _docID;
+    String? _docID;
 
     await tryAndCatch(
         functions: () async {
@@ -51,7 +50,7 @@ abstract class RealHttp{
           _docID = json.decode(_response.body)['name'];
 
         },
-        onError: (String error) => onError(error),
+        onError: (String? error) => onError?.call(error),
 
     );
 
@@ -60,14 +59,12 @@ abstract class RealHttp{
   // -----------------------------------------------------------------------------
   /// TESTED : WORKS PERFECT
   static Future<void> createNamedDoc({
-    @required BuildContext context,
-    @required String collName,
-    @required String docName,
-    @required Map<String, Object> input,
+    required String collName,
+    required String docName,
+    required Map<String, Object>? input,
   }) async {
 
     await updateDoc(
-      context: context,
       collName: collName,
       docName: docName,
       input: input,
@@ -80,14 +77,13 @@ abstract class RealHttp{
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<Map<String, Object>> readDoc({
-    @required BuildContext context,
-    @required String collName,
-    @required String docName,
-    Function(String error) onError,
+  static Future<Map<String, Object>?> readDoc({
+    required String collName,
+    required String docName,
+    Function(String? error)? onError,
   }) async {
 
-    Map<String, Object> _map;
+    Map<String, Object>? _map;
 
     await tryAndCatch(
         functions: () async {
@@ -103,7 +99,7 @@ abstract class RealHttp{
           _map = json.decode(response.body);
 
         },
-        onError: (String error) => onError(error),
+        onError: (String? error) => onError?.call(error),
     );
 
     return _map;
@@ -115,11 +111,10 @@ abstract class RealHttp{
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> updateDoc({
-    @required BuildContext context,
-    @required String collName,
-    @required String docName,
-    @required Map<String, Object> input,
-    Function(String error) onError,
+    required String collName,
+    required String docName,
+    required Map<String, Object>? input,
+    Function(String? error)? onError,
   }) async {
 
     await tryAndCatch(
@@ -140,7 +135,7 @@ abstract class RealHttp{
           // dynamic things = json.decode(_response.body)['name'];
 
         },
-        onError: (String error) => onError(error),
+        onError: (String? error) => onError?.call(error),
 
     );
 
@@ -152,10 +147,10 @@ abstract class RealHttp{
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> deleteDoc({
-    @required BuildContext context,
-    @required String collName,
-    @required String docName,
-    Function(http.Response response) onError,
+    required BuildContext context,
+    required String collName,
+    required String docName,
+    Function(http.Response? response)? onError,
   }) async {
 
     final http.Response _response = await http.delete(docLink(collName: collName, docName: docName),);
@@ -166,7 +161,7 @@ abstract class RealHttp{
       // to be able to handle failed scenarios to see wether to keep or delete
       // the doc locally on providers or ldbs
 
-      await onError(_response);
+      await onError?.call(_response);
 
       // throw HttpException('Could not delete Business');
     }

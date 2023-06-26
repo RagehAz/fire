@@ -3,27 +3,27 @@ part of super_fire;
 class FireCollStreamer extends StatefulWidget {
   /// --------------------------------------------------------------------------
   const FireCollStreamer({
-    @required this.queryModel,
-    @required this.builder,
+    required this.queryModel,
+    required this.builder,
     this.onDataChange,
     this.loadingWidget,
-    Key key
-  }) : super(key: key);
+    super.key
+  });
   /// --------------------------------------------------------------------------
   final FireQueryModel queryModel;
   final Widget Function(BuildContext, List<Map<String, dynamic>>) builder;
-  final Widget loadingWidget;
-  final ValueChanged<List<Map<String, dynamic>>> onDataChange;
+  final Widget? loadingWidget;
+  final ValueChanged<List<Map<String, dynamic>>>? onDataChange;
   // --------------------------------------------------------------------------
   /// TESTED : WORKS PERFECT
-  static StreamSubscription onStreamDataChanged({
-    @required Stream<List<Map<String, dynamic>>> stream,
-    @required ValueChanged<List<Map<String, dynamic>>> onChange,
-    @required String invoker,
+  static StreamSubscription? onStreamDataChanged({
+    required Stream<List<Map<String, dynamic>>?>? stream,
+    required ValueChanged<List<Map<String, dynamic>>?> onChange,
+    required String invoker,
   }){
 
-    final StreamSubscription _streamSubscription = stream.listen(
-      (List<Map<String, dynamic>> maps) async {
+    final StreamSubscription? _streamSubscription = stream?.listen(
+      (List<Map<String, dynamic>>? maps) async {
         onChange(maps);
       },
       cancelOnError: false,
@@ -48,8 +48,8 @@ class FireCollStreamer extends StatefulWidget {
 
 class _FireCollStreamerState extends State<FireCollStreamer> {
   // -----------------------------------------------------------------------------
-  Stream<List<Map<String, dynamic>>> _stream;
-  StreamSubscription _sub;
+  late Stream<List<Map<String, dynamic>>?>? _stream;
+  StreamSubscription? _sub;
   // -----------------------------------------------------------------------------
   @override
   void initState() {
@@ -59,7 +59,7 @@ class _FireCollStreamerState extends State<FireCollStreamer> {
       queryModel: widget.queryModel,
     );
 
-    _sub =  _stream.listen((event) { });
+    _sub =  _stream?.listen((event) { });
 
     FireCollStreamer.onStreamDataChanged(
       stream: _stream,
@@ -71,16 +71,16 @@ class _FireCollStreamerState extends State<FireCollStreamer> {
   // --------------------
   @override
   void dispose() {
-    _sub.cancel();
+    _sub?.cancel();
     super.dispose();
   }
   // -----------------------------------------------------------------------------
   /// TESTED :
-  void _onDataChanged(List<Map<String, dynamic>> newMaps){
+  void _onDataChanged(List<Map<String, dynamic>>? newMaps){
 
-    if (widget.onDataChange != null){
-      if (mounted == true){
-        widget.onDataChange(newMaps);
+    if (mounted == true) {
+      if (widget.onDataChange != null && newMaps != null) {
+        widget.onDataChange?.call(newMaps);
       }
     }
 

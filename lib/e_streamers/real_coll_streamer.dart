@@ -3,18 +3,18 @@ part of super_fire;
 class RealCollStreamer extends StatelessWidget {
   /// --------------------------------------------------------------------------
   const RealCollStreamer({
-    @required this.coll,
-    @required this.builder,
+    required this.coll,
+    required this.builder,
     this.loadingWidget,
     this.noValueWidget,
     this.limit = 10,
-    Key key
-  }) : super(key: key);
+   super.key
+  });
   /// --------------------------------------------------------------------------
   final String coll;
-  final Widget loadingWidget;
-  final Widget noValueWidget;
-  final Widget Function(BuildContext, List<Map<String, dynamic>>) builder;
+  final Widget? loadingWidget;
+  final Widget? noValueWidget;
+  final Widget Function(BuildContext, List<Map<String, dynamic>> maps) builder;
   final int limit;
   /// --------------------------------------------------------------------------
   @override
@@ -37,21 +37,21 @@ class RealCollStreamer extends StatelessWidget {
           /// RECEIVED DATA
           else {
 
-            final List<f_db.DataSnapshot> _snapshots = snapshot.data.snapshot.children.toList();
+            final List<f_db.DataSnapshot>? _snapshots = snapshot.data?.snapshot.children.toList();
 
-            final List<Map<String, dynamic>> _maps = _OfficialFireMapper.getMapsFromDataSnapshots(
+            final List<Map<String, dynamic>>? _maps = _OfficialFireMapper.getMapsFromDataSnapshots(
               snapshots: _snapshots,
               addDocsIDs: true,
             );
 
             /// NO DATA
-            if (Mapper.checkCanLoopList(_maps) == null){
+            if (Mapper.checkCanLoopList(_maps) == false){
               return noValueWidget ?? const SizedBox();
             }
 
             /// DATA IS GOOD
             else {
-              return builder(context, _maps);
+              return builder(context, _maps!);
             }
 
           }

@@ -23,11 +23,11 @@ class FirebaseInitializer {
   // -----------------------------------------------------------------------------
   /// TESTED : WORKS PERFECT
   Future<void> _initialize({
-    @required bool useOfficialPackages,
-    @required FirebaseOptions options,
-    @required SocialKeys socialKeys,
-    @required String nativePersistentStoragePath,
-    @required String appName,
+    required bool? useOfficialPackages,
+    required FirebaseOptions options,
+    required SocialKeys socialKeys,
+    required String? nativePersistentStoragePath,
+    required String? appName,
   }) async {
 
     _usesOfficial = useOfficialPackages ?? (kIsWeb || DeviceChecker.deviceIsAndroid() || DeviceChecker.deviceIsIOS());
@@ -54,11 +54,11 @@ class FirebaseInitializer {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> initialize({
-    @required FirebaseOptions options,
-    @required SocialKeys socialKeys,
-    bool useOfficialPackages,
-    String appName,
-    String nativePersistentStoragePath,
+    required FirebaseOptions options,
+    required SocialKeys socialKeys,
+    bool? useOfficialPackages,
+    String? appName,
+    String? nativePersistentStoragePath,
   }) async {
 
     await FirebaseInitializer.instance._initialize(

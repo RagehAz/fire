@@ -18,7 +18,7 @@ enum QueryRange {
 class RealQueryModel{
   // -----------------------------------------------------------------------------
   const RealQueryModel({
-    @required this.path,
+    required this.path,
     this.keyFieldName,
     this.limit = 5,
     this.readFromBeginningOfOrderedList = true,
@@ -28,12 +28,12 @@ class RealQueryModel{
   });
   // -----------------------------------------------------------------------------
   final String path;
-  final int limit;
-  final String keyFieldName;
+  final int? limit;
+  final String? keyFieldName;
   final bool readFromBeginningOfOrderedList;
-  final RealOrderType orderType;
-  final String fieldNameToOrderBy;
-  final QueryRange queryRange;
+  final RealOrderType? orderType;
+  final String? fieldNameToOrderBy;
+  final QueryRange? queryRange;
   // -----------------------------------------------------------------------------
 
   /// ASCENDING QUERY
@@ -41,9 +41,9 @@ class RealQueryModel{
   // --------------------
   /// TESTED : WORKS PERFECT
   static RealQueryModel createAscendingQueryModel({
-    @required String path,
-    @required String keyFieldName,
-    String fieldNameToOrderBy,
+    required String path,
+    required String keyFieldName,
+    String? fieldNameToOrderBy,
     int limit = 5,
   }){
     return RealQueryModel(
@@ -62,25 +62,25 @@ class RealQueryModel{
 
   // --------------------
   /// TASK : TEST
-  static f_db.Query createOfficialRealQuery({
-    @required RealQueryModel queryModel,
-    Map<String, dynamic> lastMap,
-    Map<String, dynamic> endAt,
+  static f_db.Query? createOfficialRealQuery({
+    required RealQueryModel? queryModel,
+    Map<String, dynamic>? lastMap,
+    Map<String, dynamic>? endAt,
   }){
-    f_db.Query _query;
+    f_db.Query? _query;
 
     if (queryModel != null){
 
       _query = _OfficialReal._getRefByPath(path: queryModel.path);
 
       /// ORDER BY
-      if (queryModel.orderType != null){
+      if (queryModel.orderType != null && _query != null){
 
         /// BY CHILD
         if (queryModel.orderType == RealOrderType.byChild){
           assert(queryModel.fieldNameToOrderBy != null, 'queryModel.fieldNameToOrderBy can not be null');
           // final String _lastNode = ChainPathConverter.getLastPathNode(queryModel.path);
-          _query = _query.orderByChild(queryModel.fieldNameToOrderBy);//queryModel.fieldNameToOrderBy);
+          _query = _query.orderByChild(queryModel.fieldNameToOrderBy!);//queryModel.fieldNameToOrderBy);
         }
 
         /// BY KEY
@@ -101,7 +101,7 @@ class RealQueryModel{
       }
 
       /// QUERY RANGE
-      if (queryModel.queryRange != null && lastMap != null){
+      if (queryModel.queryRange != null && lastMap != null && _query != null){
 
         /// START AFTER
         if (queryModel.queryRange == QueryRange.startAfter){
@@ -139,16 +139,16 @@ class RealQueryModel{
 
 
       /// LIMIT
-      if (queryModel.limit != null){
+      if (queryModel.limit != null && _query != null){
 
         /// GET MAPS FROM BEGINNING OF THE ORDERED LIST
         if (queryModel.readFromBeginningOfOrderedList == true){
-          _query = _query.limitToFirst(queryModel.limit);
+          _query = _query.limitToFirst(queryModel.limit!);
         }
 
         /// GET MAPS FROM THE END OF THE ORDERED LIST
         else {
-          _query = _query.limitToLast(queryModel.limit);
+          _query = _query.limitToLast(queryModel.limit!);
         }
 
       }
@@ -157,28 +157,28 @@ class RealQueryModel{
 
     return _query;
   }
-
-    // --------------------
+  // --------------------
   /// TASK : TEST
-  static f_d.Query createNativeRealQuery({
-    @required RealQueryModel queryModel,
-    Map<String, dynamic> lastMap,
-    Map<String, dynamic> endAt,
+  static f_d.Query? createNativeRealQuery({
+    required RealQueryModel? queryModel,
+    Map<String, dynamic>? lastMap,
+    Map<String, dynamic>? endAt,
   }){
-    f_d.Query _query;
+    f_d.Query? _query;
 
     if (queryModel != null){
 
       _query = _NativeReal._getRefByPath(path: queryModel.path);
 
       /// ORDER BY
-      if (queryModel.orderType != null){
+      if (queryModel.orderType != null && _query != null){
 
         /// BY CHILD
         if (queryModel.orderType == RealOrderType.byChild){
           assert(queryModel.fieldNameToOrderBy != null, 'queryModel.fieldNameToOrderBy can not be null');
           // final String _lastNode = ChainPathConverter.getLastPathNode(queryModel.path);
-          _query = _query.orderByChild(queryModel.fieldNameToOrderBy);//queryModel.fieldNameToOrderBy);
+          _query = _query.orderByChild(queryModel.fieldNameToOrderBy!);//queryModel
+          // .fieldNameToOrderBy);
         }
 
         /// BY KEY
@@ -199,7 +199,7 @@ class RealQueryModel{
       }
 
       /// QUERY RANGE
-      if (queryModel.queryRange != null && lastMap != null){
+      if (queryModel.queryRange != null && lastMap != null && _query != null){
 
         /// START AFTER
         if (queryModel.queryRange == QueryRange.startAfter){
@@ -237,16 +237,16 @@ class RealQueryModel{
 
 
       /// LIMIT
-      if (queryModel.limit != null){
+      if (queryModel.limit != null && _query != null){
 
         /// GET MAPS FROM BEGINNING OF THE ORDERED LIST
         if (queryModel.readFromBeginningOfOrderedList == true){
-          _query = _query.limitToFirst(queryModel.limit);
+          _query = _query.limitToFirst(queryModel.limit!);
         }
 
         /// GET MAPS FROM THE END OF THE ORDERED LIST
         else {
-          _query = _query.limitToLast(queryModel.limit);
+          _query = _query.limitToLast(queryModel.limit!);
         }
 
       }
@@ -262,9 +262,9 @@ class RealQueryModel{
   // --------------------
   /// TESTED : WORKS PERFECT
   static String createRealPath({
-    @required String coll,
-    String doc,
-    String key, // what is this ? sub node / doc field
+    required String coll,
+    String? doc,
+    String? key, // what is this ? sub node / doc field
   }){
 
     String _path = coll;

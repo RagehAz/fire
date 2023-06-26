@@ -3,27 +3,27 @@ part of super_fire;
 class FireCollPaginator extends StatefulWidget {
   /// --------------------------------------------------------------------------
   const FireCollPaginator({
-    @required this.paginationQuery,
-    @required this.builder,
-    @required this.paginationController,
+    required this.paginationQuery,
+    required this.builder,
+    required this.paginationController,
     this.streamQuery,
     this.loadingWidget,
     this.child,
     this.onDataChanged,
-    Key key
-  }) : super(key: key);
+    super.key
+  });
   /// --------------------------------------------------------------------------
   final FireQueryModel paginationQuery;
-  final FireQueryModel streamQuery;
-  final Widget loadingWidget;
-  final Widget child;
-  final PaginationController paginationController;
-  final ValueChanged<List<Map<String, dynamic>>> onDataChanged;
+  final FireQueryModel? streamQuery;
+  final Widget? loadingWidget;
+  final Widget? child;
+  final PaginationController? paginationController;
+  final ValueChanged<List<Map<String, dynamic>>?>? onDataChanged;
   final Widget Function(
       BuildContext context,
-      List<Map<String, dynamic>> maps,
+      List<Map<String, dynamic>?>? maps,
       bool isLoading,
-      Widget child
+      Widget? child
       ) builder;
   /// --------------------------------------------------------------------------
   @override
@@ -33,13 +33,13 @@ class FireCollPaginator extends StatefulWidget {
 
 class _FireCollPaginatorState extends State<FireCollPaginator> {
   // -----------------------------------------------------------------------------
-  PaginationController _paginatorController;
-  StreamSubscription _streamSub;
+  late PaginationController _paginatorController;
+  StreamSubscription? _streamSub;
   // -----------------------------------------------------------------------------
   /// --- LOADING
   final ValueNotifier<bool> _loading = ValueNotifier(false);
   // --------------------
-  Future<void>  _triggerLoading({@required bool setTo}) async {
+  Future<void>  _triggerLoading({required bool setTo}) async {
     setNotifier(
       notifier: _loading,
       mounted: mounted,
@@ -90,7 +90,7 @@ class _FireCollPaginatorState extends State<FireCollPaginator> {
     }
 
     if (_streamSub != null){
-      _streamSub.cancel();
+      _streamSub?.cancel();
     }
 
     super.dispose();
@@ -164,7 +164,7 @@ class _FireCollPaginatorState extends State<FireCollPaginator> {
       idFieldName: widget.paginationQuery.idFieldName,
       onDataChanged: widget.onDataChanged,
     );
-    _paginatorController?.activateListeners(
+    _paginatorController.activateListeners(
       mounted: mounted,
     );
 
@@ -175,14 +175,14 @@ class _FireCollPaginatorState extends State<FireCollPaginator> {
 
     if (widget.streamQuery != null){
 
-      final Stream<List<Map<String, dynamic>>> _stream = Fire.streamColl(
-        queryModel: widget.streamQuery,
+      final Stream<List<Map<String, dynamic>>>? _stream = Fire.streamColl(
+        queryModel: widget.streamQuery!,
       );
 
       _streamSub = FireCollStreamer.onStreamDataChanged(
         stream: _stream,
         invoker: '_initializeStreamListener',
-        onChange: (List<Map<String, dynamic>> streamMaps){
+        onChange: (List<Map<String, dynamic>?>? streamMaps){
 
           // final List<Map<String, dynamic>> _allMaps = [..._paginatorController.paginatorMaps.value];
           // blog(' === > streamMaps : ${streamMaps.length} maps');
@@ -216,7 +216,7 @@ class _FireCollPaginatorState extends State<FireCollPaginator> {
     /// CAN KEEP READING
     if (_paginatorController.canKeepReading.value  == true){
 
-      final List<Map<String, dynamic>> _nextMaps = await Fire.readColl(
+      final List<Map<String, dynamic>?>? _nextMaps = await Fire.readColl(
         queryModel: widget.paginationQuery,
         startAfter: _paginatorController.startAfter.value,
         addDocSnapshotToEachMap: true,
@@ -261,11 +261,11 @@ class _FireCollPaginatorState extends State<FireCollPaginator> {
     return ValueListenableBuilder(
         valueListenable: _loading,
         child: widget.child,
-        builder: (_, bool _isLoading, Widget child){
+        builder: (_, bool _isLoading, Widget? child){
 
           return ValueListenableBuilder(
-              valueListenable: _paginatorController.paginatorMaps,
-              builder: (_, List<Map<String, dynamic>> maps, Widget xChild){
+              valueListenable: _paginatorController.paginatorMaps!,
+              builder: (_, List<Map<String, dynamic>?>? maps, Widget? xChild){
 
                 // Mapper.blogMaps(maps, invoker: 'FireCollPaginator : builder');
 

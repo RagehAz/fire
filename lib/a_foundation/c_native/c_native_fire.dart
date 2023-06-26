@@ -12,64 +12,54 @@ class _NativeFire {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static fd.CollectionReference _getCollRef({
-    @required String coll,
-    String doc,
-    String subColl,
+  static fd.CollectionReference? _getCollRef({
+    required String coll,
+    String? doc,
+    String? subColl,
   }) {
 
-    assert(coll != null, 'coll can not be null');
     assert(
     (doc == null && subColl == null) || (doc != null && subColl != null),
     'doc & subColl should both be null or both have values'
     );
 
    if (doc == null || subColl == null){
-      return _NativeFirebase.getFire().collection(coll);
-    }
-    else if (doc != null && subColl != null){
-      /// return NativeFirebase.getFire().collection('$coll/$doc/$subColl');
-      return _NativeFirebase.getFire().collection(coll)
-          .document(doc)
-          .collection(subColl);
+      return _NativeFirebase.getFire()?.collection(coll);
     }
     else {
-      return null;
+      /// return NativeFirebase.getFire().collection('$coll/$doc/$subColl');
+      return _NativeFirebase.getFire()?.collection(coll)
+          .document(doc)
+          .collection(subColl);
     }
 
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static fd.DocumentReference _getDocRef({
-    @required String coll,
-    String doc,
-    String subColl,
-    String subDoc,
+  static fd.DocumentReference? _getDocRef({
+    required String coll,
+    String? doc,
+    String? subColl,
+    String? subDoc,
   }){
 
-    assert(coll != null, 'coll can not be null');
-
-    final bool _isSubDoc = subColl != null;
-
-
+    final bool _isSubDoc = subColl != null && subDoc != null;
 
     /// IS DOC REF
     if (_isSubDoc == false){
       /// return NativeFirebase.getFire().document('$coll/$doc');
-      return _getCollRef(coll: coll).document(doc);
+      return _getCollRef(coll: coll)?.document(doc!);
     }
 
     /// IS SUB DOC REF
-    else if (subColl != null && subDoc != null){
+    else {
       /// return NativeFirebase.getFire().document('$coll/$doc/$subColl/$subDoc');
       return _getCollRef(coll: coll)
-          .document(doc)
-          .collection(subColl)
-          .document(subDoc);
+          ?.document(doc!)
+          .collection(subColl!)
+          .document(subDoc!);
     }
-    else {
-      return null;
-    }
+
 
   }
   // -----------------------------------------------------------------------------
@@ -78,22 +68,23 @@ class _NativeFire {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<String> createDoc({
-    @required Map<String, dynamic> input,
-    @required String coll,
-    String doc,
-    String subColl,
-    String subDoc,
+  static Future<String?> createDoc({
+    required Map<String, dynamic>? input,
+    required String coll,
+    String? doc,
+    String? subColl,
+    String? subDoc,
   }) async {
 
     /// NOTE : creates firestore doc with auto generated ID then returns doc reference
 
-    String _docID;
+    String? _docID;
 
     if (input != null){
 
       final bool _isCreatingSubDoc = subColl != null;
-      fd.DocumentReference _docRef;
+
+      fd.DocumentReference? _docRef;
 
       /// CREATING DOC
       if (_isCreatingSubDoc == false) {
@@ -117,7 +108,7 @@ class _NativeFire {
       final Map<String, dynamic> _map = Mapper.insertPairInMap(
         map: input,
         key: 'id',
-        value: _docRef.id,
+        value: _docRef?.id,
         overrideExisting: true,
       );
 
@@ -126,7 +117,7 @@ class _NativeFire {
         input: _map,
         ref: _docRef,
         onSuccess: (){
-          _docID = _docRef.id;
+          _docID = _docRef?.id;
           },
       );
 
@@ -137,19 +128,19 @@ class _NativeFire {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<List<String>> createDocs({
-    @required List<Map<String, dynamic>> inputs,
-    @required String coll,
-    String doc,
-    String subColl,
-    String subDoc,
+    required List<Map<String, dynamic>>? inputs,
+    required String coll,
+    String? doc,
+    String? subColl,
+    String? subDoc,
   }) async {
     final List<String> _output = <String>[];
 
     /// NOTE : THIS HAS TO BE DONE ONE BY ONE TO GENERATE DIFFERENT IDS
 
     if (Mapper.checkCanLoopList(inputs) == true) {
-      for (final Map<String, dynamic> map in inputs) {
-        final String _docID = await createDoc(
+      for (final Map<String, dynamic> map in inputs!) {
+        final String? _docID = await createDoc(
           input: map,
           coll: coll,
           doc: doc,
@@ -168,14 +159,14 @@ class _NativeFire {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> _setData({
-    @required fd.DocumentReference ref,
-    @required Map<String, dynamic> input,
-    @required String invoker,
-    Function onSuccess,
-    Function(String error) onError,
+    required fd.DocumentReference? ref,
+    required Map<String, dynamic>? input,
+    required String invoker,
+    Function? onSuccess,
+    Function(String? error)? onError,
   }) async {
 
-    final Map<String, dynamic> _upload = Mapper.cleanNullPairs(
+    final Map<String, dynamic>? _upload = Mapper.cleanNullPairs(
       map: input,
     );
 
@@ -185,13 +176,15 @@ class _NativeFire {
         invoker: invoker,
         onError: onError,
         functions: () async {
-          await ref.set(_upload);
+
+          await ref?.set(_upload);
 
           if (onSuccess != null) {
             onSuccess();
           }
 
-          blog('$invoker.setData : CREATED ${_upload.keys.length} keys in : ${ref.path}');
+          blog('$invoker.setData : CREATED ${_upload.keys.length} keys in : ${ref?.path}');
+
         },
       );
 
@@ -204,32 +197,32 @@ class _NativeFire {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<Map<String, dynamic>> readDoc({
-    @required String coll,
-    @required String doc,
-    String subColl,
-    String subDoc,
+  static Future<Map<String, dynamic>?> readDoc({
+    required String coll,
+    required String doc,
+    String? subColl,
+    String? subDoc,
   }) async {
-    Map<String, dynamic> _output;
+    Map<String, dynamic>? _output;
 
     await tryAndCatch(
         invoker: 'NativeFire.readDoc',
         functions: () async {
 
-          final fd.DocumentReference _docRef = _getDocRef(
+          final fd.DocumentReference? _docRef = _getDocRef(
             coll: coll,
             doc: doc,
             subColl: subColl,
             subDoc: subDoc,
           );
 
-          final fd.Document _document = await _docRef.get();
+          final fd.Document? _document = await _docRef?.get();
           _output = _document?.map;
 
           _output = Mapper.insertPairInMap(
             map: _document?.map,
             key: 'id',
-            value: _document.id,
+            value: _document?.id,
             overrideExisting: true,
           );
 
@@ -240,10 +233,10 @@ class _NativeFire {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<List<Map<String, dynamic>>> readCollDocs({
-    @required String coll,
-    @required List<String> ids,
-    String doc,
-    String subColl,
+    required String coll,
+    required List<String>? ids,
+    String? doc,
+    String? subColl,
   }) async {
     final List<Map<String, dynamic>> _output = [];
 
@@ -252,14 +245,14 @@ class _NativeFire {
 
       await Future.wait(<Future>[
 
-        ...List.generate(ids.length, (index){
+        ...List.generate(ids!.length, (index){
 
           return readDoc(
             coll: coll,
-            doc: doc,
+            doc: doc!,
             subColl: subColl,
             subDoc: ids[index],
-          ).then((Map<String, dynamic> map){
+          ).then((Map<String, dynamic>? map){
 
             if (map != null){
               _output.add(map);
@@ -278,12 +271,12 @@ class _NativeFire {
 
       await Future.wait(<Future>[
 
-        ...List.generate(ids.length, (index){
+        ...List.generate(ids!.length, (index){
 
           return readDoc(
             coll: coll,
             doc: ids[index],
-          ).then((Map<String, dynamic> map){
+          ).then((Map<String, dynamic>? map){
 
             if (map != null){
               _output.add(map);
@@ -301,7 +294,7 @@ class _NativeFire {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<List<Map<String, dynamic>>> readColl({
-    @required FireQueryModel queryModel,
+    required FireQueryModel queryModel,
     dynamic startAfter,
   }) async {
     List<Map<String, dynamic>> _output = <Map<String, dynamic>>[];
@@ -310,7 +303,7 @@ class _NativeFire {
         invoker: 'NativeFire.readColl',
         functions: () async {
 
-          final fd.QueryReference query = _createCollQuery(
+          final fd.QueryReference? query = _createCollQuery(
             collRef: _getCollRef(
               coll: queryModel.coll,
               doc: queryModel.doc,
@@ -322,7 +315,7 @@ class _NativeFire {
             finders: queryModel.finders,
           );
 
-          final List<fd.Document> _page = await query.get();
+          final List<fd.Document>? _page = await query?.get();
 
           _output = _NativeFireMapper.getMapsFromNativePage(
             page: _page,
@@ -336,9 +329,9 @@ class _NativeFire {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<List<Map<String, dynamic>>> readAllColl({
-    @required String coll,
-    String doc,
-    String subColl,
+    required String coll,
+    String? doc,
+    String? subColl,
   }) async {
 
     List<Map<String, dynamic>> _output = [];
@@ -347,7 +340,7 @@ class _NativeFire {
       invoker: 'NativeFire.readAllColl',
       functions: () async {
 
-        final fd.CollectionReference _collRef = _getCollRef(
+        final fd.CollectionReference? _collRef = _getCollRef(
           coll: coll,
           doc: doc,
           subColl: subColl,
@@ -355,7 +348,7 @@ class _NativeFire {
 
         if (_collRef != null) {
 
-          final fd.Page<fd.Document> _page = await _collRef?.get(
+          final fd.Page<fd.Document>? _page = await _collRef.get(
               // pageSize: ,
               // nextPageToken: ,
               );
@@ -374,38 +367,47 @@ class _NativeFire {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static fd.QueryReference _createCollQuery({
-    @required fd.CollectionReference collRef,
-    QueryOrderBy orderBy,
-    int limit,
+  static fd.QueryReference? _createCollQuery({
+    required fd.CollectionReference? collRef,
+    QueryOrderBy? orderBy,
+    int? limit,
     dynamic startAfter,
-    List<FireFinder> finders,
+    List<FireFinder>? finders,
   }){
+    fd.QueryReference? query;
 
-    fd.QueryReference query = _NativeFirebase
-        .getFire()
-        .collection(collRef.path)
-        .where(null);//, isNull: true);
+    if (collRef != null){
 
-    /// ASSIGN SEARCH FINDERS
-    if (Mapper.checkCanLoopList(finders) == true){
-      query = FireFinder.createNativeCompositeQueryByFinders(
-          query: query,
-          finders: finders
+      query = _NativeFirebase.getFire()?.collection(collRef.path).where(
+          collRef.path,
+          // isNull: false,
       );
-    }
-    /// ORDER BY A FIELD NAME
-    if (orderBy != null){
-      query = query.orderBy(orderBy.fieldName, descending: orderBy.descending);
-    }
-    /// LIMIT NUMBER OR RESULTS
-    if (limit != null){
-      query = query.limit(limit);
-    }
-    /// START AFTER A SPECIFIC SNAPSHOT
-    if (startAfter != null){
-      assert(startAfter  == null, 'Native Fire Implementation does not support startAfter');
-      // query = query.startAfterDocument(startAfter);
+
+      if (query != null) {
+
+        /// ASSIGN SEARCH FINDERS
+        if (Mapper.checkCanLoopList(finders) == true) {
+          query = FireFinder.createNativeCompositeQueryByFinders(query: query, finders: finders);
+        }
+
+        /// ORDER BY A FIELD NAME
+        if (orderBy != null) {
+          query = query!.orderBy(orderBy.fieldName, descending: orderBy.descending);
+        }
+
+        /// LIMIT NUMBER OR RESULTS
+        if (limit != null) {
+          query = query!.limit(limit);
+        }
+
+        /// START AFTER A SPECIFIC SNAPSHOT
+        if (startAfter != null) {
+          assert(startAfter == null, 'Native Fire Implementation does not support startAfter');
+          // query = query.startAfterDocument(startAfter);
+        }
+
+
+      }
     }
 
     return query;
@@ -416,35 +418,35 @@ class _NativeFire {
 
   // --------------------
   /// TASK : TEST ME
-  static Stream<List<Map<String, dynamic>>> streamColl({
-    @required FireQueryModel queryModel,
+  static Stream<List<Map<String, dynamic>>>? streamColl({
+    required FireQueryModel queryModel,
   }) {
 
-    final fd.CollectionReference _collRef = _getCollRef(
+    final fd.CollectionReference? _collRef = _getCollRef(
       coll: queryModel.coll,
       doc: queryModel.doc,
       subColl: queryModel.subColl,
     );
 
-    return _collRef?.stream?.map(_NativeFireMapper.mapDocs);
+    return _collRef?.stream.map(_NativeFireMapper.mapDocs);
   }
   // --------------------
   /// TASK : TEST ME
-  static Stream<Map<String, dynamic>> streamDoc({
-    @required String coll,
-    @required String doc,
-    String subColl,
-    String subDoc,
+  static Stream<Map<String, dynamic>?>? streamDoc({
+    required String coll,
+    required String doc,
+    String? subColl,
+    String? subDoc,
   }) {
 
-    final fd.DocumentReference _docRef = _getDocRef(
+    final fd.DocumentReference? _docRef = _getDocRef(
       coll: coll,
       doc: doc,
       subColl: subColl,
       subDoc: subDoc,
     );
 
-    return _docRef?.stream?.map(_NativeFireMapper.mapDoc);
+    return _docRef?.stream.map(_NativeFireMapper.mapDoc);
 
   }
   // -----------------------------------------------------------------------------
@@ -454,11 +456,11 @@ class _NativeFire {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> updateDoc({
-    @required Map<String, dynamic> input,
-    @required String coll,
-    @required String doc,
-    String subColl,
-    String subDoc,
+    required Map<String, dynamic>? input,
+    required String coll,
+    required String doc,
+    String? subColl,
+    String? subDoc,
   }) async {
 
     await createDoc(
@@ -473,12 +475,12 @@ class _NativeFire {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> updateDocField({
-    @required dynamic input,
-    @required String field,
-    @required String coll,
-    @required String doc,
-    String subColl,
-    String subDoc,
+    required dynamic input,
+    required String field,
+    required String coll,
+    required String doc,
+    String? subColl,
+    String? subDoc,
   }) async {
 
     // NOTES
@@ -487,7 +489,7 @@ class _NativeFire {
 
     if (input != null){
 
-      final fd.DocumentReference _docRef = _getDocRef(
+      final fd.DocumentReference? _docRef = _getDocRef(
         coll: coll,
         doc: doc,
         subColl: subColl,
@@ -506,13 +508,13 @@ class _NativeFire {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> _updateData({
-    @required fd.DocumentReference ref,
-    @required Map<String, dynamic> input,
-    @required String invoker,
-    Function onSuccess,
+    required fd.DocumentReference? ref,
+    required Map<String, dynamic>? input,
+    required String invoker,
+    Function? onSuccess,
   }) async {
 
-      final Map<String, dynamic> _upload = Mapper.cleanNullPairs(
+      final Map<String, dynamic>? _upload = Mapper.cleanNullPairs(
         map: input,
       );
 
@@ -527,13 +529,13 @@ class _NativeFire {
             //   mergeFields: <Object>[],
             // );
 
-            await ref.update(_upload);
+            await ref?.update(_upload);
 
             if (onSuccess != null){
               onSuccess();
             }
 
-            blog('$invoker.updateData : UPDATED ${_upload.keys.length} keys in : ${ref.path}');
+            blog('$invoker.updateData : UPDATED ${_upload.keys.length} keys in : ${ref?.path}');
 
           },
           // onError: (){},
@@ -552,23 +554,23 @@ class _NativeFire {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> deleteDoc({
-    @required String coll,
-    @required String doc,
-    String subColl,
-    String subDoc,
+    required String coll,
+    required String doc,
+    String? subColl,
+    String? subDoc,
   }) async {
     await tryAndCatch(
         invoker: 'NativeFire.deleteDoc',
         functions: () async {
 
-          final fd.DocumentReference _docRef = _getDocRef(
+          final fd.DocumentReference? _docRef = _getDocRef(
             coll: coll,
             doc: doc,
             subColl: subColl,
             subDoc: subDoc,
           );
 
-          await _docRef.delete();
+          await _docRef?.delete();
 
           blog('deleteDoc : deleted : $coll : $doc : $subColl : $subDoc');
         });
@@ -576,14 +578,14 @@ class _NativeFire {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> deleteDocField({
-    @required String coll,
-    @required String doc,
-    @required String field,
-    String subColl,
-    String subDoc,
+    required String coll,
+    required String doc,
+    required String field,
+    String? subColl,
+    String? subDoc,
   }) async {
 
-    final Map<String, dynamic> _current = await readDoc(
+    final Map<String, dynamic>? _current = await readDoc(
       coll: coll,
       doc: doc,
       subColl: subColl,
@@ -611,10 +613,10 @@ class _NativeFire {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> deleteColl({
-    @required String coll,
-    String doc,
-    String subColl,
-    Function onDeleteDoc,
+    required String coll,
+    String? doc,
+    String? subColl,
+    Function(String? subDocID)? onDeleteDoc,
     int numberOfIterations = 1000,
     int numberOfReadsPerIteration = 5,
   }) async {
@@ -662,11 +664,11 @@ class _NativeFire {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> deleteDocs({
-    @required String coll,
-    @required List<String> docsIDs,
-    String doc,
-    String subColl,
-    Function(String subDocID) onDeleteDoc
+    required String coll,
+    required List<String> docsIDs,
+    String? doc,
+    String? subColl,
+    Function(String? subDocID)? onDeleteDoc
   }) async {
 
     /// PLAN : THIS SHOULD BE A CLOUD FUNCTION INSTEAD OF THIS BULLSHIT
@@ -675,7 +677,7 @@ class _NativeFire {
 
       blog('deleteDocs : ids are : $docsIDs');
 
-      final bool _isDeletingSubDocs = subColl != null;
+      final bool _isDeletingSubDocs = subColl != null && doc != null;
 
       for (final String docID in docsIDs){
 
@@ -692,7 +694,7 @@ class _NativeFire {
           if (_isDeletingSubDocs == true)
           deleteDoc(
             coll: coll,
-            doc: doc,
+            doc: doc!,
             subColl: subColl,
             subDoc: docID,
           ),

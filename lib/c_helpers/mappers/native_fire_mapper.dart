@@ -9,14 +9,14 @@ class _NativeFireMapper {
   // -----------------------------------------------------------------------------
   /// TESTED : WORKS PERFECT
   static List<Map<String, dynamic>> getMapsFromNativePage({
-    @required List<fd.Document> page,
-    @required bool addDocsIDs,
+    required List<fd.Document>? page,
+    required bool addDocsIDs,
   }) {
     final List<Map<String, dynamic>> _output = [];
 
     if (page != null && page.isNotEmpty == true) {
       for (final fd.Document _doc in page) {
-        final Map<String, dynamic> _map = getMapFromNativeDoc(
+        final Map<String, dynamic>? _map = getMapFromNativeDoc(
           doc: _doc,
           addDocID: addDocsIDs,
         );
@@ -31,11 +31,11 @@ class _NativeFireMapper {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Map<String, dynamic> getMapFromNativeDoc({
-    @required fd.Document doc,
-    @required bool addDocID,
+  static Map<String, dynamic>? getMapFromNativeDoc({
+    required fd.Document? doc,
+    required bool addDocID,
   }) {
-    Map<String, dynamic> _output;
+    Map<String, dynamic>? _output;
 
     if (doc != null) {
       _output = doc.map;
@@ -59,7 +59,7 @@ class _NativeFireMapper {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static List<Map<String, dynamic>> mapDocs(List<fd.Document> docs) {
+  static List<Map<String, dynamic>> mapDocs(List<fd.Document>? docs) {
     final List<Map<String, dynamic>> _maps = _NativeFireMapper.getMapsFromNativePage(
       page: docs,
       addDocsIDs: true,
@@ -68,8 +68,8 @@ class _NativeFireMapper {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Map<String, dynamic> mapDoc(fd.Document doc) {
-    final Map<String, dynamic> _map = _NativeFireMapper.getMapFromNativeDoc(
+  static Map<String, dynamic>? mapDoc(fd.Document? doc) {
+    final Map<String, dynamic>? _map = _NativeFireMapper.getMapFromNativeDoc(
       doc: doc,
       addDocID: true,
     );
@@ -81,13 +81,13 @@ class _NativeFireMapper {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Map<String, dynamic> getMapFromDataSnapshot({
-    @required f_d.DataSnapshot snapshot,
-    @required bool addDocID,
-    Function onExists,
-    Function onNull,
+  static Map<String, dynamic>? getMapFromDataSnapshot({
+    required f_d.DataSnapshot? snapshot,
+    required bool addDocID,
+    Function? onExists,
+    Function? onNull,
   }){
-    Map<String, dynamic> _output;
+    Map<String, dynamic>? _output;
 
     if (snapshot != null && snapshot.value != null) {
 
@@ -99,10 +99,11 @@ class _NativeFireMapper {
         );
         // _output = Map<String, dynamic>.from(snapshot.value);
       }
-      else  {
+      else if (snapshot.key != null) {
         _output = {
-          snapshot.key : snapshot.value,
+          snapshot.key! : snapshot.value,
         };
+
       }
 
       if (addDocID == true){
@@ -130,7 +131,7 @@ class _NativeFireMapper {
   // --------------------
   /// TESTED : WORKS PERFECT
   static List<Map<String, dynamic>> getMapsFromDataSnapshot({
-    @required f_d.DataSnapshot snapshot,
+    required f_d.DataSnapshot? snapshot,
     // bool addDocID = true,
   }) {
     final List<Map<String, dynamic>> _output = [];
@@ -179,9 +180,9 @@ class _NativeFireMapper {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Map<String, dynamic> incrementFields({
-    @required Map<String, dynamic> baseMap,
-    @required Map<String, int> incrementationMap,
-    @required bool isIncrementing,
+    required Map<String, dynamic>? baseMap,
+    required Map<String, int>? incrementationMap,
+    required bool isIncrementing,
   }){
 
     Map<String, dynamic> _output = Mapper.insertMapInMap(
@@ -198,16 +199,20 @@ class _NativeFireMapper {
 
         for (final String _key in _keys){
 
-          final int _currentValue = _output[_key] ?? 0;
-          final int _increment = incrementationMap[_key] * _incrementer;
-          final int _newValue = _currentValue + _increment;
+          if (incrementationMap[_key] != null){
 
-            _output = Mapper.insertPairInMap(
-              map: _output,
-              key: _key,
-              value: _newValue,
-              overrideExisting: true,
-            );
+            final int _currentValue = _output[_key] ?? 0;
+            final int _increment = incrementationMap[_key]! * _incrementer;
+            final int _newValue = _currentValue + _increment;
+
+              _output = Mapper.insertPairInMap(
+                map: _output,
+                key: _key,
+                value: _newValue,
+                overrideExisting: true,
+              );
+
+          }
 
         }
 

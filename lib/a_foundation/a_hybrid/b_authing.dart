@@ -12,7 +12,7 @@ class Authing {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static String getUserID() {
+  static String? getUserID() {
 
     if (FirebaseInitializer.isUsingOfficialPackages() == true) {
       return _OfficialAuthing.getUserID();
@@ -29,10 +29,10 @@ class Authing {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<AuthModel> anonymousSignin({
-    Function(String error) onError,
+  static Future<AuthModel?> anonymousSignin({
+    Function(String? error)? onError,
   }) async {
-    AuthModel _output;
+    AuthModel? _output;
 
     if (FirebaseInitializer.isUsingOfficialPackages() == true){
       _output = await _OfficialAuthing.anonymousSignIn(
@@ -54,7 +54,7 @@ class Authing {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<bool> signOut({
-    Function(String error) onError,
+    Function(String? error)? onError,
   }) async {
     bool _success;
 
@@ -79,8 +79,8 @@ class Authing {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<bool> deleteUser({
-    @required String userID,
-    Function(String error) onError,
+    required String userID,
+    Function(String? error)? onError,
   }) async {
     bool _success;
 
@@ -133,7 +133,7 @@ class Authing {
    */
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<String> getAuthEmail() async {
+  static Future<String?> getAuthEmail() async {
 
       if (FirebaseInitializer.isUsingOfficialPackages() == true){
         return _OfficialAuthing.getAuthEmail();
@@ -146,7 +146,7 @@ class Authing {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static bool userIsSignedUp(SignInMethod method){
+  static bool userIsSignedUp(SignInMethod? method){
 
     if (
     method == null ||
@@ -174,12 +174,12 @@ class EmailAuthing {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<AuthModel> signIn({
-    @required String email,
-    @required String password,
-    Function(String error) onError,
+  static Future<AuthModel?> signIn({
+    required String? email,
+    required String? password,
+    Function(String? error)? onError,
   }) async {
-    AuthModel _output;
+    AuthModel? _output;
 
     if (FirebaseInitializer.isUsingOfficialPackages() == true){
       _output = await _OfficialEmailAuthing.signIn(
@@ -205,12 +205,12 @@ class EmailAuthing {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<AuthModel> register({
-    @required String email,
-    @required String password,
-    Function(String error) onError,
+  static Future<AuthModel?> register({
+    required String? email,
+    required String? password,
+    Function(String? error)? onError,
   }) async {
-    AuthModel _output;
+    AuthModel? _output;
 
     if (FirebaseInitializer.isUsingOfficialPackages() == true){
       _output = await _OfficialEmailAuthing.register(
@@ -237,8 +237,8 @@ class EmailAuthing {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<bool> checkPasswordIsCorrect({
-    @required String password,
-    @required String email,
+    required String password,
+    required String email,
   }) async {
     bool _output;
 
@@ -265,7 +265,7 @@ class EmailAuthing {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<bool> updateUserEmail({
-    @required String newEmail,
+    required String newEmail,
   }) async {
     bool _success = false;
 

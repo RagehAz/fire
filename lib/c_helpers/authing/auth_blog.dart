@@ -13,7 +13,7 @@ class AuthBlog {
   // --------------------
   /// TESTED : WORKS PERFECT
   static void blogUserCredential({
-    @required f_a.UserCredential cred,
+    required f_a.UserCredential? cred,
   }){
 
     if (cred == null){
@@ -51,7 +51,7 @@ class AuthBlog {
   // --------------------
   /// TESTED : WORKS PERFECT
   static void blogOfficialFirebaseUser({
-    @required f_a.User user,
+    required f_a.User? user,
   }){
 
     if (user == null){
@@ -60,18 +60,18 @@ class AuthBlog {
 
     else {
       blog('FIRE BASE USER :----> ');
-      blog('credential.user.displayName : ${user?.displayName}');
-      blog('credential.user.email : ${user?.email}');
-      blog('credential.user.emailVerified : ${user?.emailVerified}');
-      blog('credential.user.isAnonymous : ${user?.isAnonymous}');
-      blog('credential.user.metadata : ${user?.metadata}');
-      blog('credential.user.phoneNumber : ${user?.phoneNumber}');
-      blog('credential.user.photoURL : ${user?.photoURL}');
-      blog('credential.user.providerData : ${user?.providerData}');
-      blog('credential.user.refreshToken : ${user?.refreshToken}');
-      blog('credential.user.tenantId : ${user?.tenantId}');
-      blog('credential.user.uid : ${user?.uid}');
-      blog('credential.user.multiFactor : ${user?.multiFactor}');
+      blog('credential.user.displayName : ${user.displayName}');
+      blog('credential.user.email : ${user.email}');
+      blog('credential.user.emailVerified : ${user.emailVerified}');
+      blog('credential.user.isAnonymous : ${user.isAnonymous}');
+      blog('credential.user.metadata : ${user.metadata}');
+      blog('credential.user.phoneNumber : ${user.phoneNumber}');
+      blog('credential.user.photoURL : ${user.photoURL}');
+      blog('credential.user.providerData : ${user.providerData}');
+      blog('credential.user.refreshToken : ${user.refreshToken}');
+      blog('credential.user.tenantId : ${user.tenantId}');
+      blog('credential.user.uid : ${user.uid}');
+      blog('credential.user.multiFactor : ${user.multiFactor}');
     }
 
   }
@@ -79,7 +79,7 @@ class AuthBlog {
   /// TESTED : WORKS PERFECT
   static void blogCurrentOfficialFirebaseUser(){
 
-    final f_a.User _user = _OfficialAuthing._getUser();
+    final f_a.User ?_user = _OfficialAuthing._getUser();
 
     if (_user == null){
       blog('blogCurrentFirebaseUser : user is null');
@@ -91,7 +91,7 @@ class AuthBlog {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static void blogAuthCred(f_a.AuthCredential authCred){
+  static void blogAuthCred(f_a.AuthCredential? authCred){
 
     if (authCred == null){
       blog('blogAuthCred : AUTH CREDENTIAL IS NULL');
@@ -113,7 +113,7 @@ class AuthBlog {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static void blogAppleCred(AuthorizationCredentialAppleID cred){
+  static void blogAppleCred(AuthorizationCredentialAppleID? cred){
 
     if (cred == null){
       blog('blogAppleCred : AUTH CREDENTIAL IS NULL');
@@ -138,7 +138,7 @@ class AuthBlog {
   // --------------------
   /// TESTED : WORKS PERFECT
   static void blogFacebookLoginResult({
-    @required LoginResult loginResult,
+    required LoginResult ?loginResult,
     String invoker = 'blogLoginResult',
   }){
 
@@ -147,8 +147,8 @@ class AuthBlog {
     }
     else {
       blog('blogLoginResult : the Facebook login result is :- ');
-      blog('loginResult.status.name : ${loginResult.status?.name}');
-      blog('loginResult.status.index : ${loginResult.status?.index}');
+      blog('loginResult.status.name : ${loginResult.status.name}');
+      blog('loginResult.status.index : ${loginResult.status.index}');
       blog('loginResult.accessToken.expires : ${loginResult.accessToken?.expires}');
       blog('loginResult.accessToken.lastRefresh : ${loginResult.accessToken?.lastRefresh}');
       blog('loginResult.accessToken.userId : ${loginResult.accessToken?.userId}');
@@ -165,7 +165,7 @@ class AuthBlog {
   // --------------------
   /// TESTED : WORKS PERFECT
   static void blogFacebookAuthCredential({
-    @required f_a.FacebookAuthCredential facebookAuthCredential,
+    required f_a.FacebookAuthCredential? facebookAuthCredential,
     String invoker = 'blogFacebookAuthCredential',
   }){
 
@@ -192,7 +192,7 @@ class AuthBlog {
   // --------------------
   /// TESTED : WORKS PERFECT
   static void blogGoogleSignInAuthentication({
-    GoogleSignInAuthentication auth,
+    GoogleSignInAuthentication? auth,
   }){
 
     if (auth == null){

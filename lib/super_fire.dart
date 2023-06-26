@@ -6,11 +6,21 @@ library super_fire;
 // --------------------
 /// COMMON
 import 'dart:io';
-import 'package:devicer/devicer.dart';
-import 'package:mapper/mapper.dart';
-import 'package:rest/rest.dart';
-import 'package:stringer/stringer.dart';
-import 'package:filers/filers.dart';
+import 'package:basics/animators/helpers/sliders.dart';
+import 'package:basics/helpers/classes/checks/device_checker.dart';
+import 'package:basics/helpers/classes/checks/error_helpers.dart';
+import 'package:basics/helpers/classes/checks/object_check.dart';
+import 'package:basics/helpers/classes/checks/tracers.dart';
+import 'package:basics/helpers/classes/files/file_size_unit.dart';
+import 'package:basics/helpers/classes/files/filers.dart';
+import 'package:basics/helpers/classes/files/floaters.dart';
+import 'package:basics/helpers/classes/maps/mapper.dart';
+import 'package:basics/helpers/classes/nums/numeric.dart';
+import 'package:basics/helpers/classes/rest/rest.dart';
+import 'package:basics/helpers/classes/strings/stringer.dart';
+import 'package:basics/helpers/classes/strings/text_check.dart';
+import 'package:basics/helpers/classes/strings/text_mod.dart';
+import 'package:basics/helpers/classes/time/timers.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 /// NATIVE IMPLEMENTATION
@@ -18,33 +28,28 @@ import 'package:firedart/firedart.dart' as fd;
 import 'package:firebase_dart/firebase_dart.dart' as f_d;
 import 'package:firedart/auth/user_gateway.dart' as fd_u;
 /// OFFICIAL AUTH
-import 'package:bldrs_theme/bldrs_theme.dart';
 import 'package:extension_google_sign_in_as_googleapis_auth/extension_google_sign_in_as_googleapis_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart' as f_a;
-import 'package:firebase_ui_auth/firebase_ui_auth.dart' as fui;
-import 'package:firebase_ui_oauth_apple/firebase_ui_oauth_apple.dart';
-import 'package:firebase_ui_oauth_facebook/firebase_ui_oauth_facebook.dart';
-import 'package:firebase_ui_oauth_google/firebase_ui_oauth_google.dart';
+// import 'package:firebase_ui_auth/firebase_ui_auth.dart' as fui;
+// import 'package:firebase_ui_oauth_apple/firebase_ui_oauth_apple.dart';
+// import 'package:firebase_ui_oauth_facebook/firebase_ui_oauth_facebook.dart';
+// import 'package:firebase_ui_oauth_google/firebase_ui_oauth_google.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:googleapis_auth/googleapis_auth.dart'; // as gapis;
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
-import 'package:space_time/space_time.dart';
-import 'package:super_box/super_box.dart';
 /// OFFICIAL FIRE
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart' as cloud;
 /// OFFICIAL REAL
 import 'dart:convert';
-import 'package:animators/animators.dart';
 import 'package:firebase_database/firebase_database.dart' as f_db;
 import 'package:http/http.dart' as http;
 /// OFFICIAL STORAGE
 // ignore: unnecessary_import
 import 'dart:typed_data';
 import 'dart:ui' as ui;
-import 'package:numeric/numeric.dart';
 import 'package:firebase_storage/firebase_storage.dart' as f_s;
 // -----------------------------------------------------------------------------
 

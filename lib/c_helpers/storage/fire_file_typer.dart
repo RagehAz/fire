@@ -119,7 +119,7 @@ class FireFileTyper {
   }
   // --------------------
   /// AI GENERATED
-  static bool _hasSignature(Uint8List bytes, List<int> signature, {int offset = 0}) {
+  static bool _hasSignature(Uint8List? bytes, List<int>? signature, {int offset = 0}) {
 
     if (bytes == null || signature == null || offset < 0) {
       return false;
@@ -143,36 +143,41 @@ class FireFileTyper {
   }
   // --------------------
   /// AI GENERATED
-  static String _getContentType(FileType fileType) {
+  static String? _getContentType(FileType? fileType) {
 
     switch (fileType) {
-      case FileType.png:        return 'image/png'; break;
-      case FileType.jpeg:       return 'image/jpeg'; break;
-      case FileType.gif:        return 'image/gif'; break;
-      case FileType.bmp:        return 'image/bmp'; break;
-      case FileType.webp:       return 'image/webp'; break;
-      case FileType.mp3:        return 'audio/mpeg'; break;
-      case FileType.wav:        return 'audio/wav'; break;
-      case FileType.ogg:        return 'audio/ogg'; break;
-      case FileType.mp4:        return 'video/mp4'; break;
-      case FileType.mpeg:       return 'video/mpeg'; break;
-      case FileType.quicktime:  return 'video/quicktime'; break;
-      case FileType.pdf:        return 'application/pdf'; break;
-      case FileType.doc:        return 'application/msword'; break;
-      case FileType.docx:       return 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'; break;
-      case FileType.xls:        return 'application/vnd.ms-excel'; break;
-      case FileType.xlsx:       return 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'; break;
-      case FileType.ppt:        return 'application/vnd.ms-powerpoint'; break;
-      case FileType.pptx:       return 'application/vnd.openxmlformats-officedocument.presentationml.presentation'; break;
-      case FileType.plainText:  return 'text/plain'; break;
-      default: return '';
+      case FileType.png:        return 'image/png';
+      case FileType.jpeg:       return 'image/jpeg';
+      case FileType.gif:        return 'image/gif';
+      case FileType.bmp:        return 'image/bmp';
+      case FileType.webp:       return 'image/webp';
+      case FileType.mp3:        return 'audio/mpeg';
+      case FileType.wav:        return 'audio/wav';
+      case FileType.ogg:        return 'audio/ogg';
+      case FileType.mp4:        return 'video/mp4';
+      case FileType.mpeg:       return 'video/mpeg';
+      case FileType.quicktime:  return 'video/quicktime';
+      case FileType.pdf:        return 'application/pdf';
+      case FileType.doc:        return 'application/msword';
+      case FileType.docx:       return 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+      case FileType.xls:        return 'application/vnd.ms-excel';
+      case FileType.xlsx:       return 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+      case FileType.ppt:        return 'application/vnd.ms-powerpoint';
+      case FileType.pptx:       return 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
+      case FileType.plainText:  return 'text/plain';
+      default: return null;
     }
   }
   // --------------------
   /// AI GENERATED
-  static String getContentType(Uint8List bytes) {
-    final fileType = _detectFileType(bytes);
-    return _getContentType(fileType);
+  static String? getContentType(Uint8List? bytes) {
+    if (bytes == null){
+      return null;
+    }
+    else {
+      final fileType = _detectFileType(bytes);
+      return _getContentType(fileType);
+    }
   }
   // -----------------------------------------------------------------------------
 }

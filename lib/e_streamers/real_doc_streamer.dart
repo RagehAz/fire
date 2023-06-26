@@ -3,18 +3,18 @@ part of super_fire;
 class RealDocStreamer extends StatelessWidget {
   /// --------------------------------------------------------------------------
   const RealDocStreamer({
-    @required this.coll,
-    @required this.doc,
-    @required this.builder,
+    required this.coll,
+    required this.doc,
+    required this.builder,
     this.loadingWidget,
     this.noValueWidget,
-    Key key
-  }) : super(key: key);
+    super.key
+  });
   /// --------------------------------------------------------------------------
   final String coll;
   final String doc;
-  final Widget loadingWidget;
-  final Widget noValueWidget;
+  final Widget? loadingWidget;
+  final Widget? noValueWidget;
   final Widget Function(BuildContext, Map<String, dynamic>) builder;
   /// --------------------------------------------------------------------------
   @override
@@ -37,9 +37,9 @@ class RealDocStreamer extends StatelessWidget {
           /// RECEIVED DATA
           else {
 
-            final f_db.DatabaseEvent _event = snapshot.data;
-            final f_db.DataSnapshot _snap = _event.snapshot;
-            final Map<String, dynamic> _map = _OfficialFireMapper.getMapFromDataSnapshot(
+            final f_db.DatabaseEvent? _event = snapshot.data;
+            final f_db.DataSnapshot? _snap = _event?.snapshot;
+            final Map<String, dynamic>? _map = _OfficialFireMapper.getMapFromDataSnapshot(
               snapshot: _snap,
               addDocID: true,
             );

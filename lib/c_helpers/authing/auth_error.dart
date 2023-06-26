@@ -183,8 +183,8 @@ class AuthError {
 };
   // -----------------------------------------------------------------------------
   ///
-  static String getErrorReply({
-    @required String error,
+  static String? getErrorReply({
+    required String? error,
   }) {
     String _output = 'Something went wrong !';
 
@@ -210,10 +210,10 @@ class AuthError {
   }
   // --------------------
   ///
-  static String getErrorKey({
-    @required String error,
+  static String? getErrorKey({
+    required String? error,
   }) {
-    String _output;
+    String? _output;
 
     if (error != null){
 
@@ -242,8 +242,8 @@ class AuthError {
 
   // --------------------
   ///
-  static bool checkIsUserNotFound(String error){
-    bool _output;
+  static bool checkIsUserNotFound(String? error){
+    bool _output = false;
 
     if (TextCheck.isEmpty(error) == false){
 

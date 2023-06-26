@@ -12,14 +12,15 @@ class Fire {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<String> createDoc({
-    @required Map<String, dynamic> input,
-    @required String coll,
-    String doc,
-    String subColl,
-    String subDoc,
+  static Future<String?> createDoc({
+    required Map<String, dynamic>? input,
+    required String coll,
+    String? doc,
+    String? subColl,
+    String? subDoc,
   }) async {
-    String _id;
+
+    String? _id;
 
     /// OFFICIAL
     if (FirebaseInitializer.isUsingOfficialPackages() == true) {
@@ -48,11 +49,11 @@ class Fire {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<List<String>> createDocs({
-    @required List<Map<String, dynamic>> inputs,
-    @required String coll,
-    String doc,
-    String subColl,
-    String subDoc,
+    required List<Map<String, dynamic>>? inputs,
+    required String coll,
+    String? doc,
+    String? subColl,
+    String? subDoc,
   }) async {
     List<String> _output = [];
 
@@ -85,13 +86,13 @@ class Fire {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<Map<String, dynamic>> readDoc({
-    @required String coll,
-    @required String doc,
-    String subColl,
-    String subDoc,
+  static Future<Map<String, dynamic>?> readDoc({
+    required String coll,
+    required String doc,
+    String? subColl,
+    String? subDoc,
   }) async {
-    Map<String, dynamic> _output;
+    Map<String, dynamic>? _output;
 
     /// OFFICIAL
     if (FirebaseInitializer.isUsingOfficialPackages() == true) {
@@ -118,10 +119,10 @@ class Fire {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<List<Map<String, dynamic>>> readCollDocs({
-    @required String coll,
-    @required List<String> ids,
-    String subColl,
-    String doc,
+    required String coll,
+    required List<String> ids,
+    String? subColl,
+    String? doc,
   }) async {
     List<Map<String, dynamic>> _output = [];
 
@@ -149,9 +150,9 @@ class Fire {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<List<Map<String, dynamic>>> readColl({
-    @required FireQueryModel queryModel,
-    cloud.QueryDocumentSnapshot<Object> startAfter,
+  static Future<List<Map<String, dynamic>?>?> readColl({
+    required FireQueryModel queryModel,
+    cloud.QueryDocumentSnapshot<Object>? startAfter,
     bool addDocSnapshotToEachMap = false,
   }) async {
 
@@ -179,11 +180,11 @@ class Fire {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<List<Map<String, dynamic>>> readAllColl({
-    @required String coll,
-    String doc,
-    String subColl,
+    required String coll,
+    String? doc,
+    String? subColl,
   }) async {
-    List<Map<String, dynamic>> _output;
+    List<Map<String, dynamic>> _output = [];
 
     if (FirebaseInitializer.isUsingOfficialPackages() == true) {
       _output = await _OfficialFire.readAllColl(
@@ -209,8 +210,8 @@ class Fire {
 
   // --------------------
   /// TASK : TEST ME
-  static Stream<List<Map<String, dynamic>>> streamColl({
-    @required FireQueryModel queryModel,
+  static Stream<List<Map<String, dynamic>>>? streamColl({
+    required FireQueryModel queryModel,
   }) {
 
     if (FirebaseInitializer.isUsingOfficialPackages() == true) {
@@ -224,11 +225,11 @@ class Fire {
   }
   // --------------------
   /// TASK : TEST ME
-  static Stream<Map<String, dynamic>> streamDoc({
-    @required String coll,
-    @required String doc,
-    String subColl,
-    String subDoc,
+  static Stream<Map<String, dynamic>?>? streamDoc({
+    required String coll,
+    required String doc,
+    String? subColl,
+    String? subDoc,
   }) {
 
     if (FirebaseInitializer.isUsingOfficialPackages() == true) {
@@ -258,11 +259,11 @@ class Fire {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> updateDoc({
-    @required Map<String, dynamic> input,
-    @required String coll,
-    @required String doc,
-    String subColl,
-    String subDoc,
+    required Map<String, dynamic>? input,
+    required String coll,
+    required String doc,
+    String? subColl,
+    String? subDoc,
   }) async {
 
     if (FirebaseInitializer.isUsingOfficialPackages() == true) {
@@ -289,12 +290,12 @@ class Fire {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> updateDocField({
-    @required dynamic input,
-    @required String field,
-    @required String coll,
-    @required String doc,
-    String subColl,
-    String subDoc,
+    required dynamic input,
+    required String field,
+    required String coll,
+    required String doc,
+    String? subColl,
+    String? subDoc,
   }) async {
 
     if (FirebaseInitializer.isUsingOfficialPackages() == true) {
@@ -327,10 +328,10 @@ class Fire {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> deleteDoc({
-    @required String coll,
-    @required String doc,
-    String subColl,
-    String subDoc,
+    required String coll,
+    required String doc,
+    String? subColl,
+    String? subDoc,
   }) async {
 
     if (FirebaseInitializer.isUsingOfficialPackages() == true) {
@@ -355,11 +356,11 @@ class Fire {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> deleteDocField({
-    @required String coll,
-    @required String doc,
-    @required String field,
-    String subColl,
-    String subDoc,
+    required String coll,
+    required String doc,
+    required String field,
+    String? subColl,
+    String? subDoc,
   }) async {
 
     if (FirebaseInitializer.isUsingOfficialPackages() == true) {
@@ -386,10 +387,10 @@ class Fire {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> deleteColl({
-    @required String coll,
-    String doc,
-    String subColl,
-    Function onDeleteDoc,
+    required String coll,
+    String? doc,
+    String? subColl,
+    Function(String? docID)? onDeleteDoc,
     int numberOfIterations = 1000,
     int numberOfReadsPerIteration = 5,
   }) async {
@@ -420,11 +421,11 @@ class Fire {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> deleteDocs({
-    @required String coll,
-    @required List<String> docsIDs,
-    String doc,
-    String subColl,
-    Function(String subDocID) onDeleteDoc
+    required String coll,
+    required List<String> docsIDs,
+    String? doc,
+    String? subColl,
+    Function(String? subDocID)? onDeleteDoc
   }) async {
 
     if (FirebaseInitializer.isUsingOfficialPackages() == true) {

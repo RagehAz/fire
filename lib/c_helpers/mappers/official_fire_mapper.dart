@@ -13,13 +13,13 @@ class _OfficialFireMapper {
   // --------------------
   /// TESTED : WORKS PERFECT
   static List<Map<String, dynamic>> getMapsFromQuerySnapshot({
-    @required cloud.QuerySnapshot<Object> querySnapshot,
-    @required bool addDocsIDs,
-    @required bool addDocSnapshotToEachMap,
+    required cloud.QuerySnapshot<Object> querySnapshot,
+    required bool addDocsIDs,
+    required bool addDocSnapshotToEachMap,
   }) {
 
     return getMapsFromQueryDocumentSnapshotsList(
-      queryDocumentSnapshots: querySnapshot?.docs,
+      queryDocumentSnapshots: querySnapshot.docs,
       addDocsIDs: addDocsIDs,
       addDocSnapshotToEachMap: addDocSnapshotToEachMap,
     );
@@ -43,32 +43,36 @@ class _OfficialFireMapper {
   // --------------------
   /// TESTED : WORKS PERFECT
   static List<Map<String, dynamic>> getMapsFromQueryDocumentSnapshotsList({
-    @required List<cloud.QueryDocumentSnapshot<Object>> queryDocumentSnapshots,
-    @required bool addDocsIDs,
-    @required bool addDocSnapshotToEachMap,
+    required List<cloud.QueryDocumentSnapshot<Object>>? queryDocumentSnapshots,
+    required bool addDocsIDs,
+    required bool addDocSnapshotToEachMap,
   }) {
 
     final List<Map<String, dynamic>> _maps = <Map<String, dynamic>>[];
 
     if (Mapper.checkCanLoopList(queryDocumentSnapshots) == true) {
-      for (final cloud.QueryDocumentSnapshot<Object> docSnapshot in queryDocumentSnapshots) {
 
-        Map<String, dynamic> _map = docSnapshot.data();
+      for (final cloud.QueryDocumentSnapshot<Object> docSnapshot in queryDocumentSnapshots!) {
 
-        if (addDocsIDs == true) {
-          _map['id'] = docSnapshot.id;
+        Map<String, dynamic>? _map = docSnapshot.data() as Map<String, dynamic>?;
+
+        if (_map != null){
+          if (addDocsIDs == true) {
+            _map['id'] = docSnapshot.id;
+          }
+
+          if (addDocSnapshotToEachMap == true) {
+            _map = Mapper.insertPairInMap(
+              map: _map,
+              key: 'docSnapshot',
+              value: docSnapshot,
+              overrideExisting: true,
+            );
+          }
+
+          _maps.add(_map);
         }
 
-        if (addDocSnapshotToEachMap == true) {
-          _map = Mapper.insertPairInMap(
-            map: _map,
-            key: 'docSnapshot',
-            value: docSnapshot,
-            overrideExisting: true,
-          );
-        }
-
-        _maps.add(_map);
       }
     }
 
@@ -80,15 +84,17 @@ class _OfficialFireMapper {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Map<String, dynamic> getMapFromDocumentSnapshot({
-    @required cloud.DocumentSnapshot<Object> docSnapshot,
-    @required bool addDocID,
-    @required bool addDocSnapshot,
+  static Map<String, dynamic>? getMapFromDocumentSnapshot({
+    required cloud.DocumentSnapshot<Object>? docSnapshot,
+    required bool addDocID,
+    required bool addDocSnapshot,
   }) {
 
-    Map<String, dynamic> _map = docSnapshot?.data();
+    Map<String, dynamic>? _map = docSnapshot?.data() as Map<String, dynamic>?;
 
     if (docSnapshot != null && docSnapshot.exists == true){
+
+      _map ??= {};
 
       if (addDocID == true) {
         _map['id'] = docSnapshot.id;
@@ -109,9 +115,9 @@ class _OfficialFireMapper {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Map<String, dynamic> mapSnapshot(cloud.DocumentSnapshot<Object> docSnapshot){
+  static Map<String, dynamic>? mapSnapshot(cloud.DocumentSnapshot<Object>? docSnapshot){
 
-    final Map<String, dynamic> _map = getMapFromDocumentSnapshot(
+    final Map<String, dynamic>? _map = getMapFromDocumentSnapshot(
       docSnapshot: docSnapshot,
       addDocID: true,
       addDocSnapshot: true,
@@ -125,15 +131,15 @@ class _OfficialFireMapper {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Map<String, dynamic> getMapFromDataSnapshot({
-    @required f_db.DataSnapshot snapshot,
-    @required bool addDocID,
-    Function onExists,
-    Function onNull,
+  static Map<String, dynamic>? getMapFromDataSnapshot({
+    required f_db.DataSnapshot? snapshot,
+    required bool addDocID,
+    Function? onExists,
+    Function? onNull,
   }){
-    Map<String, dynamic> _output;
+    Map<String, dynamic>? _output;
 
-    if (snapshot.exists) {
+    if (snapshot != null && snapshot.exists == true && snapshot.key != null) {
 
       // blog('snapshot.value : ${snapshot.value} : type : ${snapshot.value.runtimeType}');
 
@@ -154,7 +160,7 @@ class _OfficialFireMapper {
       }
       else  {
         _output = {
-          snapshot.key : snapshot.value,
+          snapshot.key! : snapshot.value,
         };
       }
       // else {
@@ -186,9 +192,9 @@ class _OfficialFireMapper {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static List<Map<String, dynamic>> getMapsFromDataSnapshot({
-    @required f_db.DataSnapshot snapshot,
-    @required bool addDocID,
+  static List<Map<String, dynamic>>? getMapsFromDataSnapshot({
+    required f_db.DataSnapshot? snapshot,
+    required bool addDocID,
   }) {
     // List<Map<String, dynamic>> _output;
     //
@@ -239,15 +245,18 @@ class _OfficialFireMapper {
 
     if (snapshot != null && snapshot.value != null) {
 
-      final Map<String, dynamic> _bigMap = getMapFromDataSnapshot(
+      final Map<String, dynamic>? _bigMap = getMapFromDataSnapshot(
           snapshot: snapshot,
           addDocID: false,
       );
-      final List<String> _keys = _bigMap.keys.toList();
+      final List<String>? _keys = _bigMap?.keys.toList();
 
       // blog('snapshot.value : ${snapshot.value} : type : ${snapshot.value.runtimeType}');
 
-      for (final String key in _keys) {
+
+      if (_bigMap != null && Mapper.checkCanLoopList(_keys) == true){
+
+        for (final String key in _keys!) {
 
         /// CHILD IS MAP
         if (_bigMap[key] is Map<String, dynamic> || _bigMap[key] is Map<Object, Object>) {
@@ -273,6 +282,9 @@ class _OfficialFireMapper {
         }
 
       }
+
+      }
+
     }
 
     return _output;
@@ -280,23 +292,25 @@ class _OfficialFireMapper {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static List<Map<String, dynamic>> getMapsFromDataSnapshots({
-    @required List<f_db.DataSnapshot> snapshots,
-    @required bool addDocsIDs,
+  static List<Map<String, dynamic>>? getMapsFromDataSnapshots({
+    required List<f_db.DataSnapshot>? snapshots,
+    required bool addDocsIDs,
   }){
 
     final List<Map<String, dynamic>> _output = <Map<String, dynamic>>[];
 
     if (Mapper.checkCanLoopList(snapshots) == true){
 
-      for (final f_db.DataSnapshot snap in snapshots){
+      for (final f_db.DataSnapshot snap in snapshots!){
 
-        final Map<String, dynamic> _map = getMapFromDataSnapshot(
+        final Map<String, dynamic>? _map = getMapFromDataSnapshot(
           snapshot: snap,
           addDocID: addDocsIDs,
         );
 
-        _output.add(_map);
+        if (_map != null){
+          _output.add(_map);
+        }
 
       }
 
@@ -310,9 +324,9 @@ class _OfficialFireMapper {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Map<String, dynamic> createPathValueMapFromIncrementationMap({
-    @required Map<String, int> incrementationMap,
-    @required bool isIncrementing,
+  static Map<String, dynamic>? createPathValueMapFromIncrementationMap({
+    required Map<String, int>? incrementationMap,
+    required bool isIncrementing,
   }){
 
     /*
@@ -325,23 +339,26 @@ class _OfficialFireMapper {
 
     Map<String, dynamic> _output = {};
 
-    final List<String> _keys = incrementationMap.keys.toList();
+    final List<String>? _keys = incrementationMap?.keys.toList();
 
-    if (Mapper.checkCanLoopList(_keys) == true){
+    if (incrementationMap != null && Mapper.checkCanLoopList(_keys) == true){
 
-      for (final String key in _keys){
+      for (final String key in _keys!){
 
-        int _incrementationValue = incrementationMap[key];
-        if (isIncrementing == false){
+        int? _incrementationValue = incrementationMap[key];
+
+        if (_incrementationValue != null && isIncrementing == false){
           _incrementationValue = -_incrementationValue;
         }
 
-        _output = Mapper.insertPairInMap(
-          map: _output,
-          key: key,
-          value: f_db.ServerValue.increment(_incrementationValue),
-          overrideExisting: true,
-        );
+        if (_incrementationValue != null){
+          _output = Mapper.insertPairInMap(
+            map: _output,
+            key: key,
+            value: f_db.ServerValue.increment(_incrementationValue),
+            overrideExisting: true,
+          );
+        }
 
       }
 
@@ -357,7 +374,7 @@ class _OfficialFireMapper {
   /*
   /// TESTED : WORKS PERFECT
   static void blogDatabaseEvent({
-    @required f_db.DatabaseEvent event,
+    required f_db.DatabaseEvent event,
     String invoker = 'blogDatabaseEvent',
   }){
     blog('blogDatabaseEvent : $invoker ----------------------- START');
@@ -387,7 +404,7 @@ class _OfficialFireMapper {
   // --------------------
   /// TESTED : WORKS PERFECT
   static void blogDataSnapshot ({
-    @required f_db.DataSnapshot snapshot,
+    required f_db.DataSnapshot snapshot,
     String invoker = 'blogDataSnapshot',
   }){
     blog('blogDataSnapshot : $invoker ----------------------- START');

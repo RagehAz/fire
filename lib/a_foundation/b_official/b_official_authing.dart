@@ -12,7 +12,7 @@ class _OfficialAuthing {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static String getUserID() {
+  static String? getUserID() {
     return _getUser()?.uid;
   }
   // -----------------------------------------------------------------------------
@@ -21,19 +21,18 @@ class _OfficialAuthing {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<AuthModel> anonymousSignIn({
-    Function(String error) onError,
+  static Future<AuthModel?> anonymousSignIn({
+    Function(String? error)? onError,
   }) async {
-    AuthModel _output;
+    AuthModel? _output;
 
     await tryAndCatch(
       invoker: 'OfficialAuthing.anonymousSignin',
       onError: onError,
       functions: () async {
 
-        final f_a.UserCredential _userCredential = await _OfficialFirebase
-            .getAuth()
-            .signInAnonymously();
+        final f_a.UserCredential? _userCredential = await _OfficialFirebase
+            .getAuth()?.signInAnonymously();
 
         _output = AuthModel._getAuthModelFromOfficialUserCredential(
             cred: _userCredential,
@@ -51,14 +50,14 @@ class _OfficialAuthing {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<bool> signOut({
-    Function(String error) onError,
+    Function(String? error)? onError,
   }) async {
 
     final bool _success = await tryCatchAndReturnBool(
       invoker: 'OfficialAuthing.signOut',
       onError: onError,
       functions: () async {
-        final SignInMethod signInMethod = getCurrentSignInMethod();
+        final SignInMethod? signInMethod = getCurrentSignInMethod();
 
         /// GOOGLE SIGN OUT
         if (signInMethod == SignInMethod.google) {
@@ -75,7 +74,7 @@ class _OfficialAuthing {
         }
 
         /// FIREBASE SIGN OUT
-        await _OfficialFirebase.getAuth().signOut();
+        await _OfficialFirebase.getAuth()?.signOut();
       },
     );
 
@@ -88,13 +87,15 @@ class _OfficialAuthing {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<bool> deleteUser({
-    Function(String error) onError,
+    Function(String? error)? onError,
   }) async {
 
 
     final bool _success = await tryCatchAndReturnBool(
         invoker: 'Official.deleteFirebaseUser',
-        functions: () => _OfficialFirebase.getAuth().currentUser?.delete(),
+        functions: () async {
+          await _OfficialFirebase.getAuth()?.currentUser?.delete();
+        },
         onError: onError,
     );
 
@@ -112,15 +113,15 @@ class _OfficialAuthing {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static SignInMethod getCurrentSignInMethod(){
+  static SignInMethod? getCurrentSignInMethod(){
     return _getSignInMethodFromUser(user: _OfficialAuthing._getUser());
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static SignInMethod _getSignInMethodFromUser({
-    @required f_a.User user,
+  static SignInMethod? _getSignInMethodFromUser({
+    required f_a.User? user,
   }){
-    SignInMethod _output;
+    SignInMethod? _output;
 
     if (user != null){
 
@@ -128,7 +129,7 @@ class _OfficialAuthing {
 
       if (Mapper.checkCanLoopList(providerData) == true){
         final f_a.UserInfo _info = providerData.first;
-        final String providerID = _info?.providerId;
+        final String? providerID = _info.providerId;
         _output = AuthModel.decipherSignInMethod(providerID);
       }
 
@@ -142,12 +143,12 @@ class _OfficialAuthing {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static f_a.User _getUser() {
+  static f_a.User? _getUser() {
     return _OfficialFirebase.getAuth()?.currentUser;
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static String getAuthEmail(){
+  static String? getAuthEmail(){
     return _getUser()?.email;
   }
   // -----------------------------------------------------------------------------
@@ -165,12 +166,12 @@ class _OfficialEmailAuthing {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<AuthModel> signIn({
-    @required String email,
-    @required String password,
-    Function(String error) onError,
+  static Future<AuthModel?> signIn({
+    required String? email,
+    required String? password,
+    Function(String? error)? onError,
   }) async {
-    AuthModel _output;
+    AuthModel? _output;
 
     if (
         TextCheck.isEmpty(email) == false
@@ -181,10 +182,9 @@ class _OfficialEmailAuthing {
         invoker: 'signInByEmail',
         functions: () async {
 
-          final f_a.UserCredential _userCredential = await _OfficialFirebase.getAuth()
-              .signInWithEmailAndPassword(
-            email: email.trim(),
-            password: password,
+          final f_a.UserCredential? _userCredential = await _OfficialFirebase.getAuth()?.signInWithEmailAndPassword(
+            email: email!.trim(),
+            password: password!,
           );
 
           _output = AuthModel._getAuthModelFromOfficialUserCredential(
@@ -204,12 +204,12 @@ class _OfficialEmailAuthing {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<AuthModel> register({
-    @required String email,
-    @required String password,
-    Function(String error) onError,
+  static Future<AuthModel?> register({
+    required String? email,
+    required String? password,
+    Function(String? error)? onError,
   }) async {
-    AuthModel _output;
+    AuthModel? _output;
 
     if (
         TextCheck.isEmpty(email) == false
@@ -221,9 +221,9 @@ class _OfficialEmailAuthing {
           invoker: 'registerByEmail',
           functions: () async {
 
-            final f_a.UserCredential _userCredential = await _OfficialFirebase.getAuth().createUserWithEmailAndPassword(
-              email: email.trim(),
-              password: password,
+            final f_a.UserCredential? _userCredential = await _OfficialFirebase.getAuth()?.createUserWithEmailAndPassword(
+              email: email!.trim(),
+              password: password!,
             );
 
             _output = AuthModel._getAuthModelFromOfficialUserCredential(
@@ -245,24 +245,34 @@ class _OfficialEmailAuthing {
   // --------------------
     /// TESTED : WORKS PERFECT
   static Future<bool> checkPasswordIsCorrect({
-    @required String password,
-    @required String email,
+    required String? password,
+    required String? email,
   }) async {
 
-    f_a.UserCredential _credential;
+    f_a.UserCredential? _credential;
 
     final bool _credentialsAreGood = await tryCatchAndReturnBool(
         functions: () async {
 
-          final f_a.AuthCredential _authCredential = f_a.EmailAuthProvider.credential(
-            email: email,
-            password: password,
-          );
+          if (
+              TextCheck.isEmpty(email) == false
+              &&
+              TextCheck.isEmpty(password) == false
+          ) {
 
-          _credential = await _OfficialFirebase.getAuth().currentUser?.reauthenticateWithCredential(_authCredential);
+            final f_a.AuthCredential? _authCredential = f_a.EmailAuthProvider.credential(
+              email: email!,
+              password: password!,
+            );
 
-        }
-    );
+            if (_authCredential != null){
+              _credential = await _OfficialFirebase.getAuth()
+                ?.currentUser
+                ?.reauthenticateWithCredential(_authCredential);
+            }
+
+          }
+        });
 
     if (_credentialsAreGood == true && _credential != null){
       return true;
@@ -279,22 +289,22 @@ class _OfficialEmailAuthing {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<bool> updateUserEmail({
-    @required String newEmail,
+    required String? newEmail,
   }) async {
     blog('updateUserEmail : START');
 
     bool _success = false;
 
-      final f_a.FirebaseAuth _auth = _OfficialFirebase.getAuth();
-      final String _oldEmail = _auth?.currentUser?.email;
+      final f_a.FirebaseAuth? _auth = _OfficialFirebase.getAuth();
+      final String? _oldEmail = _auth?.currentUser?.email;
 
       blog('updateUserEmail : new : $newEmail : old : $_oldEmail');
 
-      if (_oldEmail != null && _oldEmail != newEmail) {
+      if (newEmail != null && _oldEmail != null && _oldEmail != newEmail) {
         _success = await tryCatchAndReturnBool(
           invoker: 'updateUserEmail',
           functions: () async {
-            await _auth.currentUser.updateEmail(newEmail);
+            await _auth?.currentUser?.updateEmail(newEmail);
             blog('updateUserEmail : END');
           },
         );
@@ -316,7 +326,7 @@ class OfficialGoogleAuthing {
   /// GOOGLE SIGN IN SINGLETON
 
   // --------------------
-  GoogleSignIn _googleSignIn;
+  GoogleSignIn? _googleSignIn;
   GoogleSignIn get googleSignIn => _googleSignIn ??= GoogleSignIn();
   static GoogleSignIn getGoogleSignInInstance() => OfficialGoogleAuthing.instance.googleSignIn;
   // -----------------------------------------------------------------------------
@@ -324,7 +334,7 @@ class OfficialGoogleAuthing {
   /// GOOGLE AUTH PROVIDER SINGLETON
 
   // --------------------
-  f_a.GoogleAuthProvider _googleAuthProvider;
+  f_a.GoogleAuthProvider? _googleAuthProvider;
   f_a.GoogleAuthProvider get googleAuthProvider => _googleAuthProvider ??=  f_a.GoogleAuthProvider();
   static f_a.GoogleAuthProvider getGoogleAuthProviderInstance() => OfficialGoogleAuthing.instance.googleAuthProvider;
   // -----------------------------------------------------------------------------
@@ -333,31 +343,34 @@ class OfficialGoogleAuthing {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<AuthClient> scopedSignIn({
-    List<String> scopes,
+  static Future<AuthClient?> scopedSignIn({
+    List<String>? scopes,
     // String clientID,
   }) async {
-    AuthClient client;
+    AuthClient? client;
 
-    final GoogleSignIn _googleSignIn = GoogleSignIn(
-      scopes: scopes,
-      // clientId: clientID,
-      // forceCodeForRefreshToken: ,
-      // hostedDomain: ,
-      // serverClientId: ,
-      // signInOption: ,
-    );
+    if (Mapper.checkCanLoopList(scopes) == true) {
 
-    await tryAndCatch(
-      invoker: 'googleSignIn',
+      final GoogleSignIn _googleSignIn = GoogleSignIn(
+        scopes: scopes!,
+        // clientId: clientID,
+        // forceCodeForRefreshToken: ,
+        // hostedDomain: ,
+        // serverClientId: ,
+        // signInOption: ,
+      );
+
+      await tryAndCatch(
+        invoker: 'googleSignIn',
         functions: () async {
 
           await _googleSignIn.signIn();
-
           client = await _googleSignIn.authenticatedClient();
 
         },
-    );
+      );
+
+    }
 
     return client;
   }
@@ -367,10 +380,10 @@ class OfficialGoogleAuthing {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<AuthModel> emailSignIn({
-    Function(String error) onError,
+  static Future<AuthModel?> emailSignIn({
+    Function(String? error)? onError,
   }) async {
-    AuthModel _output;
+    AuthModel? _output;
 
     await getGoogleSignInInstance().signOut();
 
@@ -386,10 +399,10 @@ class OfficialGoogleAuthing {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<AuthModel> _webGoogleAuth({
-    Function(String error) onError,
+  static Future<AuthModel?> _webGoogleAuth({
+    Function(String? error)? onError,
   }) async {
-    AuthModel _output;
+    AuthModel? _output;
 
     await tryAndCatch(
       invoker: 'webGoogleAuth',
@@ -399,10 +412,10 @@ class OfficialGoogleAuthing {
         /// get [auth provider]
         final f_a.GoogleAuthProvider _googleAuthProvider = getGoogleAuthProviderInstance();
 
-        final f_a.FirebaseAuth _firebaseAuth = _OfficialFirebase.getAuth();
+        final f_a.FirebaseAuth? _firebaseAuth = _OfficialFirebase.getAuth();
 
         /// get [user credential] from [auth provider]
-        final f_a.UserCredential _userCredential = await _firebaseAuth.signInWithPopup(_googleAuthProvider);
+        final f_a.UserCredential? _userCredential = await _firebaseAuth?.signInWithPopup(_googleAuthProvider);
 
         _output = AuthModel._getAuthModelFromOfficialUserCredential(
           cred: _userCredential,
@@ -415,10 +428,10 @@ class OfficialGoogleAuthing {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<AuthModel> _appGoogleAuth({
-    Function(String error) onError,
+  static Future<AuthModel?> _appGoogleAuth({
+    Function(String? error)? onError,
   }) async {
-    AuthModel _output;
+    AuthModel? _output;
 
     await tryAndCatch(
       invoker: '_appGoogleAuth',
@@ -426,7 +439,7 @@ class OfficialGoogleAuthing {
       functions: () async {
 
         /// get [google sign in account]
-        final GoogleSignInAccount _googleSignInAccount = await getGoogleSignInInstance().signIn();
+        final GoogleSignInAccount? _googleSignInAccount = await getGoogleSignInInstance().signIn();
 
         if (_googleSignInAccount != null) {
 
@@ -440,10 +453,10 @@ class OfficialGoogleAuthing {
                 idToken: _googleSignInAuthentication.idToken,
               );
 
-              final f_a.FirebaseAuth _firebaseAuth = _OfficialFirebase.getAuth();
+              final f_a.FirebaseAuth? _firebaseAuth = _OfficialFirebase.getAuth();
 
               /// C - get [user credential] from [auth credential]
-              final f_a.UserCredential _userCredential = await _firebaseAuth.signInWithCredential(_authCredential);
+              final f_a.UserCredential? _userCredential = await _firebaseAuth?.signInWithCredential(_authCredential);
 
               _output = AuthModel._getAuthModelFromOfficialUserCredential(
                 cred: _userCredential,
@@ -462,9 +475,9 @@ class OfficialGoogleAuthing {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Map<String, dynamic> _createGoogleAuthDataMap({
-    GoogleSignInAuthentication googleSignInAuthentication,
-    f_a.AuthCredential authCredential,
+  static Map<String, dynamic>? _createGoogleAuthDataMap({
+    GoogleSignInAuthentication? googleSignInAuthentication,
+    f_a.AuthCredential? authCredential,
   }){
 
     final Map<String, dynamic> _map = {
@@ -492,7 +505,7 @@ class OfficialFacebookAuthing {
   /// AUDIO PLAYER SINGLETON
 
   // --------------------
-  FacebookAuth _facebookAuth;
+  FacebookAuth? _facebookAuth;
   FacebookAuth get facebookAuth => _facebookAuth ??= FacebookAuth.instance;
   static FacebookAuth getFacebookAuthInstance() => OfficialFacebookAuthing.instance.facebookAuth;
   // -----------------------------------------------------------------------------
@@ -501,36 +514,42 @@ class OfficialFacebookAuthing {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<AuthModel> signIn({
-    Function(String error) onError,
+  static Future<AuthModel?> signIn({
+    Function(String? error)? onError,
   }) async {
-    AuthModel _output;
+    AuthModel? _output;
 
     await tryAndCatch(
       invoker: 'signInByFacebook',
       onError: onError,
       functions: () async {
 
-        final LoginResult _loginResult = await  getFacebookAuthInstance().login(
+        final LoginResult? _loginResult = await  getFacebookAuthInstance().login(
           // loginBehavior: ,
           // permissions: ['email'],
         );
 
-        if (_loginResult?.accessToken != null) {
+        if (
+            _loginResult != null &&
+            _loginResult.accessToken != null &&
+            _loginResult.accessToken?.token != null
+        ) {
 
-          final f_a.FacebookAuthCredential _facebookAuthCredential =
-          f_a.FacebookAuthProvider.credential(_loginResult.accessToken.token);
+          final f_a.OAuthCredential? _facebookAuthCredential =
+          f_a.FacebookAuthProvider.credential(_loginResult.accessToken!.token);
 
-          final f_a.UserCredential _userCredential =
-          await _OfficialFirebase.getAuth().signInWithCredential(_facebookAuthCredential);
+          if (_facebookAuthCredential != null){
+            final f_a.UserCredential? _userCredential =
+            await _OfficialFirebase.getAuth()?.signInWithCredential(_facebookAuthCredential);
 
-          _output = AuthModel._getAuthModelFromOfficialUserCredential(
+            _output = AuthModel._getAuthModelFromOfficialUserCredential(
             cred: _userCredential,
             addData: _createFacebookAuthDataMap(
               facebookAuthCredential: _facebookAuthCredential,
               loginResult: _loginResult,
             ),
           );
+          }
 
         }
 
@@ -541,17 +560,15 @@ class OfficialFacebookAuthing {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Map<String, dynamic> _createFacebookAuthDataMap({
-    @required LoginResult loginResult,
-    @required f_a.FacebookAuthCredential facebookAuthCredential,
+  static Map<String, dynamic>? _createFacebookAuthDataMap({
+    required LoginResult? loginResult,
+    required f_a.OAuthCredential? facebookAuthCredential,
   }) {
     final Map<String, dynamic> _map = {
-      'loginResult.status.name': loginResult?.status?.name,
-      'loginResult.status.index': loginResult?.status?.index,
-      'loginResult.accessToken.expires':
-          Timers.cipherTime(time: loginResult?.accessToken?.expires, toJSON: false),
-      'loginResult.accessToken.lastRefresh':
-          Timers.cipherTime(time: loginResult?.accessToken?.lastRefresh, toJSON: true),
+      'loginResult.status.name': loginResult?.status.name,
+      'loginResult.status.index': loginResult?.status.index,
+      'loginResult.accessToken.expires': Timers.cipherTime(time: loginResult?.accessToken?.expires, toJSON: false),
+      'loginResult.accessToken.lastRefresh': Timers.cipherTime(time: loginResult?.accessToken?.lastRefresh, toJSON: true),
       'loginResult.accessToken.userId': loginResult?.accessToken?.userId,
       'loginResult.accessToken.token': loginResult?.accessToken?.token,
       'loginResult.accessToken.applicationId': loginResult?.accessToken?.applicationId,
@@ -577,13 +594,13 @@ class OfficialFacebookAuthing {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static String getUserFacebookImageURLFromUserCredential(f_a.UserCredential cred){
-    String _output;
+  static String? getUserFacebookImageURLFromUserCredential(f_a.UserCredential? cred){
+    String? _output;
 
     if (cred != null){
 
       if (cred.additionalUserInfo?.providerId == 'facebook.com'){
-        final Map<String, dynamic> profileMap = cred.additionalUserInfo?.profile;
+        final Map<String, dynamic>? profileMap = cred.additionalUserInfo?.profile;
         if (profileMap != null){
           final picture = profileMap['picture'];
           if (picture != null){
@@ -615,10 +632,10 @@ class OfficialAppleAuthing {
 
   // --------------------
   /// WORKS ON IOS DEVICE
-  static Future<AuthModel> signInByApple({
-    Function(String error) onError,
+  static Future<AuthModel?> signInByApple({
+    Function(String? error)? onError,
   }) async {
-    AuthModel _output;
+    AuthModel? _output;
 
     await tryAndCatch(
       invoker: 'signInByApple',

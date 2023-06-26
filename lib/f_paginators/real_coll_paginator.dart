@@ -3,25 +3,25 @@ part of super_fire;
 class RealCollPaginator extends StatefulWidget {
   /// --------------------------------------------------------------------------
   const RealCollPaginator({
-    @required this.builder,
+    required this.builder,
     this.scrollController,
     this.realQueryModel,
     this.paginatorController,
     this.loadingWidget,
     this.child,
-    Key key
-  }) : super(key: key);
+    super.key
+  });
   /// --------------------------------------------------------------------------
-  final ScrollController scrollController;
-  final RealQueryModel realQueryModel;
-  final PaginationController paginatorController;
-  final Widget loadingWidget;
-  final Widget child;
+  final ScrollController? scrollController;
+  final RealQueryModel? realQueryModel;
+  final PaginationController? paginatorController;
+  final Widget? loadingWidget;
+  final Widget? child;
   final Widget Function(
       BuildContext,
-      List<Map<String, dynamic>> maps,
+      List<Map<String, dynamic>>? maps,
       bool isLoading,
-      Widget child
+      Widget? child
       ) builder;
   /// --------------------------------------------------------------------------
   @override
@@ -31,19 +31,19 @@ class RealCollPaginator extends StatefulWidget {
 
 class _RealCollPaginatorState extends State<RealCollPaginator> {
   // -----------------------------------------------------------------------------
-  ScrollController _controller;
+  late ScrollController _controller;
   // --------------------
   final ValueNotifier<bool> _isPaginating = ValueNotifier(false);
   final ValueNotifier<bool> _canKeepReading = ValueNotifier(true);
   // --------------------
-  PaginationController _paginatorController;
+  late PaginationController _paginatorController;
   // -----------------------------------------------------------------------------
-  StreamSubscription _sub;
+  late StreamSubscription _sub;
   // -----------------------------------------------------------------------------
   /// --- LOADING
   final ValueNotifier<bool> _loading = ValueNotifier(false);
   // --------------------
-  Future<void> _triggerLoading({@required bool setTo}) async {
+  Future<void> _triggerLoading({required bool setTo}) async {
     setNotifier(
       notifier: _loading,
       mounted: mounted,
@@ -91,9 +91,9 @@ class _RealCollPaginatorState extends State<RealCollPaginator> {
     _isPaginating.dispose();
     _canKeepReading.dispose();
 
-    if (_sub != null){
+    // if (_sub != null){
       _sub.cancel();
-    }
+    // }
 
     if (widget.paginatorController == null){
       _paginatorController.dispose();
@@ -125,7 +125,7 @@ class _RealCollPaginatorState extends State<RealCollPaginator> {
     _paginatorController = widget.paginatorController ?? PaginationController.initialize(
       addExtraMapsAtEnd: false,
     );
-    _paginatorController?.activateListeners(
+    _paginatorController.activateListeners(
       mounted: mounted,
     );
   }
@@ -219,9 +219,9 @@ class _RealCollPaginatorState extends State<RealCollPaginator> {
   Widget build(BuildContext context) {
 
     return ValueListenableBuilder(
-        valueListenable: _paginatorController.paginatorMaps,
+        valueListenable: _paginatorController.paginatorMaps!,
         child: widget.child,
-        builder: (_, List<Map<String, dynamic>> maps, Widget child){
+        builder: (_, List<Map<String, dynamic>>? maps, Widget? child){
 
           return widget.builder(context, maps, _loading.value, child);
 

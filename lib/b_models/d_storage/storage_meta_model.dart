@@ -5,7 +5,7 @@ part of super_fire;
 class StorageMetaModel {
   // -----------------------------------------------------------------------------
   const StorageMetaModel({
-    @required this.ownersIDs,
+    required this.ownersIDs,
     this.width,
     this.height,
     this.name,
@@ -14,11 +14,11 @@ class StorageMetaModel {
   });
   // -----------------------------------------------------------------------------
   final List<String> ownersIDs;
-  final double width;
-  final double height;
-  final String name;
-  final double sizeMB;
-  final Map<String, String> data;
+  final double? width;
+  final double? height;
+  final String? name;
+  final double? sizeMB;
+  final Map<String, String>? data;
   // -----------------------------------------------------------------------------
 
   /// CLONING
@@ -26,12 +26,12 @@ class StorageMetaModel {
   // --------------------
   /// TESTED : WORKS PERFECT
   StorageMetaModel copyWith({
-    List<String> ownersIDs,
-    double width,
-    double height,
-    String name,
-    double sizeMB,
-    Map<String, String> data,
+    List<String>? ownersIDs,
+    double? width,
+    double? height,
+    String? name,
+    double? sizeMB,
+    Map<String, String>? data,
   }){
     return StorageMetaModel(
       ownersIDs: ownersIDs ?? this.ownersIDs,
@@ -60,8 +60,8 @@ class StorageMetaModel {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static StorageMetaModel decipherFromLDB(Map<String, dynamic> map){
-    StorageMetaModel _output;
+  static StorageMetaModel? decipherFromLDB(Map<String, dynamic>? map){
+    StorageMetaModel? _output;
 
     if (map != null){
       _output = StorageMetaModel(
@@ -78,14 +78,14 @@ class StorageMetaModel {
   }
   // --------------------
   /// TASK : TEST ME
-  static Map<String, String> _getDataMap(dynamic thing){
-    Map<String, String> _output;
+  static Map<String, String>? _getDataMap(dynamic thing){
+    Map<String, String>? _output;
 
     if (thing != null){
       _output = {};
 
       if (thing is Map){
-        final List<String> _keys = thing.keys.toList();
+        final List<dynamic> _keys = thing.keys.toList();
         for (final String key in _keys){
 
           if (thing[key] is String){
@@ -101,10 +101,10 @@ class StorageMetaModel {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static StorageMetaModel _decipherMetaMap({
-    @required Map<String, String> customMetadata,
+  static StorageMetaModel? _decipherMetaMap({
+    required Map<String, String>? customMetadata,
   }){
-    StorageMetaModel _output;
+    StorageMetaModel? _output;
 
     if (customMetadata != null){
       _output = StorageMetaModel(
@@ -125,8 +125,8 @@ class StorageMetaModel {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Map<String, String> _getRemainingData(Map<String, String> metaMap){
-    Map<String, String> _map;
+  static Map<String, String>? _getRemainingData(Map<String, String>? metaMap){
+    Map<String, String>? _map;
 
     if (metaMap != null){
 
@@ -145,7 +145,7 @@ class StorageMetaModel {
               key != 'name' &&
               key != 'sizeMB'
           ){
-            _map[key] = metaMap[key];
+            _map[key] = metaMap[key]!;
           }
 
         }
@@ -163,13 +163,13 @@ class StorageMetaModel {
   // --------------------
   /// TESTED : WORKS PERFECT
   f_s.SettableMetadata toOfficialSettableMetadata({
-    @required Uint8List bytes,
-    Map<String, String> extraData,
+    required Uint8List? bytes,
+    Map<String, String>? extraData,
   }){
 
     /// ASSIGNING NULL TO KEY DELETES PAIR AUTOMATICALLY.
-    Map<String, String> _metaDataMap = <String, String>{
-      'name': name,
+    Map<String, String>? _metaDataMap = <String, String>{
+      'name': name ?? '',
       'sizeMB': '$sizeMB',
       'width': '$width',
       'height': '$height',
@@ -184,7 +184,7 @@ class StorageMetaModel {
 
     _metaDataMap = _cleanNullPairs(
         map: _metaDataMap,
-    );
+    )?.cast<String, String>();
 
     /// ADD META DATA MAP
     if (data != null) {
@@ -192,7 +192,7 @@ class StorageMetaModel {
         baseMap: _metaDataMap,
         replaceDuplicateKeys: true,
         insert: data,
-      );
+      )?.cast<String, String>();
     }
 
     /// ADD EXTRA DATA MAP
@@ -201,7 +201,7 @@ class StorageMetaModel {
         baseMap: _metaDataMap,
         replaceDuplicateKeys: true,
         insert: extraData,
-      );
+      )?.cast<String, String>();
     }
 
     return f_s.SettableMetadata(
@@ -219,7 +219,7 @@ class StorageMetaModel {
   /*
   /// TESTED : WORKS PERFECT
   static StorageMetaModel decipherOfficialSettableMetaData({
-    @required f_s.SettableMetadata settableMetadata,
+    required f_s.SettableMetadata settableMetadata,
   }){
     StorageMetaModel _output;
 
@@ -236,10 +236,10 @@ class StorageMetaModel {
    */
   // --------------------
   /// TESTED : WORKS PERFECT
-  static StorageMetaModel decipherOfficialFullMetaData({
-    @required f_s.FullMetadata fullMetadata,
+  static StorageMetaModel? decipherOfficialFullMetaData({
+    required f_s.FullMetadata? fullMetadata,
   }){
-    StorageMetaModel _output;
+    StorageMetaModel? _output;
 
     if (fullMetadata != null){
 
@@ -261,14 +261,14 @@ class StorageMetaModel {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  f_d.SettableMetadata toNativeSettableMetadata({
-    @required Uint8List bytes,
-    Map<String, String> extraData,
+  f_d.SettableMetadata? toNativeSettableMetadata({
+    required Uint8List bytes,
+    Map<String, String>? extraData,
   }){
 
     /// ASSIGNING NULL TO KEY DELETES PAIR AUTOMATICALLY.
-    Map<String, String> _metaDataMap = <String, String>{
-      'name': name,
+    Map<String, String>? _metaDataMap = <String, String>{
+      'name': name ?? '',
       'sizeMB': '$sizeMB',
       'width': '$width',
       'height': '$height',
@@ -283,7 +283,7 @@ class StorageMetaModel {
 
     _metaDataMap = _cleanNullPairs(
         map: _metaDataMap,
-    );
+    )?.cast<String, String>();
 
     /// ADD META DATA MAP
     if (data != null) {
@@ -291,7 +291,7 @@ class StorageMetaModel {
         baseMap: _metaDataMap,
         replaceDuplicateKeys: true,
         insert: data,
-      );
+      )?.cast<String, String>();
     }
 
     /// ADD EXTRA DATA MAP
@@ -300,7 +300,7 @@ class StorageMetaModel {
         baseMap: _metaDataMap,
         replaceDuplicateKeys: true,
         insert: extraData,
-      );
+      )?.cast<String, String>();
     }
 
     blog('meta data are : $_metaDataMap');
@@ -317,10 +317,10 @@ class StorageMetaModel {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static StorageMetaModel decipherNativeFullMetaData({
-    @required f_d.FullMetadata fullMetadata,
+  static StorageMetaModel? decipherNativeFullMetaData({
+    required f_d.FullMetadata? fullMetadata,
   }){
-    StorageMetaModel _output;
+    StorageMetaModel? _output;
 
     if (fullMetadata != null){
 
@@ -338,11 +338,11 @@ class StorageMetaModel {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<StorageMetaModel> completeMeta({
-    @required Uint8List bytes,
-    @required StorageMetaModel meta,
+  static Future<StorageMetaModel?> completeMeta({
+    required Uint8List? bytes,
+    required StorageMetaModel? meta,
   }) async {
-    StorageMetaModel _output = meta;
+    StorageMetaModel? _output = meta;
 
     /// DIMENSIONS
     if (
@@ -351,11 +351,11 @@ class StorageMetaModel {
     bytes != null
     ){
 
-      final ui.Image _decodedImage = await Floaters.getUiImageFromUint8List(bytes);
+      final ui.Image? _decodedImage = await Floaters.getUiImageFromUint8List(bytes);
 
-      _output = _output.copyWith(
-        width: _decodedImage.width.toDouble(),
-        height: _decodedImage.height.toDouble(),
+      _output = _output?.copyWith(
+        width: _decodedImage?.width.toDouble(),
+        height: _decodedImage?.height.toDouble(),
       );
 
     }
@@ -363,8 +363,8 @@ class StorageMetaModel {
     /// SIZE
     if (meta?.sizeMB == null){
 
-      final double _mega = Filers.calculateSize(bytes.length, FileSizeUnit.megaByte);
-      _output = _output.copyWith(
+      final double? _mega = Filers.calculateSize(bytes?.length, FileSizeUnit.megaByte);
+      _output = _output?.copyWith(
         sizeMB: _mega,
       );
     }
@@ -381,7 +381,7 @@ class StorageMetaModel {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static void blogOfficialSettableMetaData(f_s.SettableMetadata metaData){
+  static void blogOfficialSettableMetaData(f_s.SettableMetadata? metaData){
     blog('BLOGGING SETTABLE META DATA ------------------------------- START');
     if (metaData == null){
       blog('Meta data is null');
@@ -398,7 +398,7 @@ class StorageMetaModel {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static void blogOfficialFullMetaData(f_s.FullMetadata metaData){
+  static void blogOfficialFullMetaData(f_s.FullMetadata? metaData){
 
     blog('BLOGGING FULL META DATA ------------------------------- START');
     if (metaData == null){
@@ -432,8 +432,8 @@ class StorageMetaModel {
   // --------------------
   /// TESTED : WORKS PERFECT
   static bool checkMetaDatasAreIdentical({
-    @required StorageMetaModel meta1,
-    @required StorageMetaModel meta2,
+    required StorageMetaModel? meta1,
+    required StorageMetaModel? meta2,
   }){
     bool _output = false;
 
@@ -465,20 +465,25 @@ class StorageMetaModel {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<Size> getFileWidthAndHeight({
-    @required File file,
+  static Future<Size?> getFileWidthAndHeight({
+    required File? file,
   }) async {
 
     if (file != null){
 
-      final Uint8List _uInt8List = await Floaters.getUint8ListFromFile(file);
+      final Uint8List? _uInt8List = await Floaters.getUint8ListFromFile(file);
         // blog('_uInt8List : $_uInt8List');
-      final ui.Image _decodedImage = await Floaters.getUiImageFromUint8List(_uInt8List);
+      final ui.Image? _decodedImage = await Floaters.getUiImageFromUint8List(_uInt8List);
 
-      return Size(
-        _decodedImage.width.toDouble(),
-        _decodedImage.height.toDouble(),
-      );
+      if (_decodedImage == null){
+        return null;
+      }
+      else {
+        return Size(
+          _decodedImage.width.toDouble(),
+          _decodedImage.height.toDouble(),
+        );
+      }
 
     }
     else {
@@ -488,10 +493,10 @@ class StorageMetaModel {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Map<String, String> _cleanNullPairs({
-    @required Map<String, String> map,
+  static Map<String, String?>? _cleanNullPairs({
+    required Map<String, String?>? map,
   }){
-    Map<String, String> _output;
+    Map<String, String?>? _output;
 
     if (map != null){
 
@@ -516,7 +521,7 @@ class StorageMetaModel {
 
       }
 
-      if (_output.keys.isEmpty == true){
+      if (_output != null && _output.keys.isEmpty == true){
         _output = null;
       }
 
@@ -530,19 +535,19 @@ class StorageMetaModel {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Map<String, String> _insertPairInMap({
-    @required Map<String, String> map,
-    @required String key,
-    @required dynamic value,
+  static Map<String, String?>? _insertPairInMap({
+    required Map<String, String?>? map,
+    required String? key,
+    required dynamic value,
     bool overrideExisting = true,
   }) {
-    final Map<String, String> _result = <String, String>{};
+    final Map<String, String?>? _result = <String, String?>{};
 
     if (map != null) {
-      _result.addAll(map);
+      _result?.addAll(map);
     }
 
-    if (key != null) {
+    if (key != null && _result != null) {
       /// PAIR IS NULL
       if (_result[key] == null) {
         _result[key] = value;

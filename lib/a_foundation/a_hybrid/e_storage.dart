@@ -12,13 +12,13 @@ class Storage {
 
   // --------------------
   /// TESTED: WORKS PERFECT
-  static Future<String> uploadBytesAndGetURL({
-    @required Uint8List bytes,
-    @required String path,
-    @required StorageMetaModel storageMetaModel,
+  static Future<String?> uploadBytesAndGetURL({
+    required Uint8List? bytes,
+    required String path,
+    required StorageMetaModel storageMetaModel,
   }) async {
 
-    String _url;
+    String? _url;
 
     if (FirebaseInitializer.isUsingOfficialPackages() == true){
       _url = await _OfficialStorage.uploadBytesAndGetURL(
@@ -45,10 +45,10 @@ class Storage {
   /*
   /// TESTED: WORKS PERFECT
   static Future<String> uploadFileAndGetURL({
-    @required File file,
-    @required String coll,
-    @required String doc,
-    @required StorageMetaModel picMetaModel,
+    required File file,
+    required String coll,
+    required String doc,
+    required StorageMetaModel picMetaModel,
   }) async {
     String _url;
 
@@ -79,10 +79,10 @@ class Storage {
 
   // --------------------
   /// TESTED: WORKS PERFECT
-  static Future<String> createURLByPath({
-    @required String path,
+  static Future<String?> createURLByPath({
+    required String path,
   }) async {
-    String _url;
+    String? _url;
 
     if (FirebaseInitializer.isUsingOfficialPackages() == true){
       _url = await _OfficialStorage.createURLByPath(
@@ -100,13 +100,13 @@ class Storage {
   }
   // --------------------
   /// TESTED: WORKS PERFECT
-  static Future<String> createURLByNodes({
-    @required String coll,
-    @required String doc, // without extension
+  static Future<String?> createURLByNodes({
+    required String? coll,
+    required String? doc, // without extension
   }) async {
 
     if (coll != null && doc != null){
-      final String _url = await createURLByPath(
+      final String? _url = await createURLByPath(
           path: 'storage/$coll/$doc',
       );
 
@@ -124,10 +124,10 @@ class Storage {
 
   // --------------------
   /// TESTED: WORKS PERFECT
-  static Future<Uint8List> readBytesByPath({
-    @required String path,
+  static Future<Uint8List?> readBytesByPath({
+    required String path,
   }) async {
-    Uint8List _output;
+    Uint8List? _output;
 
     if (FirebaseInitializer.isUsingOfficialPackages() == true){
       _output = await _OfficialStorage.readBytesByPath(
@@ -145,10 +145,10 @@ class Storage {
   }
   // --------------------
   /// TESTED: WORKS PERFECT
-  static Future<Uint8List> readBytesByURL({
-    @required String url,
+  static Future<Uint8List?> readBytesByURL({
+    required String? url,
   }) async {
-    Uint8List _output;
+    Uint8List? _output;
 
     if (FirebaseInitializer.isUsingOfficialPackages() == true){
       _output = await _OfficialStorage.readBytesByURL(
@@ -169,7 +169,7 @@ class Storage {
   /*
   /// TESTED: WORKS PERFECT
   static Future<File> readFileByURL({
-    @required String url,
+    required String url,
   }) async {
     File _output;
 
@@ -193,8 +193,8 @@ class Storage {
   /*
   /// TESTED: WORKS PERFECT
   static Future<File> readFileByNodes({
-    @required String coll,
-    @required String doc,
+    required String coll,
+    required String doc,
   }) async {
     File _output;
 
@@ -221,10 +221,10 @@ class Storage {
 
   // --------------------
   /// TESTED: WORKS PERFECT
-  static Future<StorageMetaModel> readMetaByPath({
-    @required String path,
+  static Future<StorageMetaModel?> readMetaByPath({
+    required String? path,
   }) async {
-    StorageMetaModel _output;
+    StorageMetaModel? _output;
 
     if (FirebaseInitializer.isUsingOfficialPackages() == true){
       _output = await _OfficialStorage.readMetaByPath(
@@ -242,10 +242,10 @@ class Storage {
   }
   // --------------------
   /// TESTED: WORKS PERFECT
-  static Future<StorageMetaModel> readMetaByURL({
-    @required String url,
+  static Future<StorageMetaModel?> readMetaByURL({
+    required String? url,
   }) async {
-    StorageMetaModel _output;
+    StorageMetaModel? _output;
 
     if (FirebaseInitializer.isUsingOfficialPackages() == true){
       _output = await _OfficialStorage.readMetaByURL(
@@ -268,8 +268,8 @@ class Storage {
   // --------------------
   /// TESTED: WORKS PERFECT
   static Future<void> updateMetaByURL({
-    @required String url,
-    @required StorageMetaModel meta,
+    required String? url,
+    required StorageMetaModel? meta,
   }) async {
 
     if (FirebaseInitializer.isUsingOfficialPackages() == true) {
@@ -290,8 +290,8 @@ class Storage {
   // --------------------
   /// TESTED: WORKS PERFECT
   static Future<void> updateMetaByPath({
-    @required String path,
-    @required StorageMetaModel meta,
+    required String? path,
+    required StorageMetaModel? meta,
   }) async {
 
     if (FirebaseInitializer.isUsingOfficialPackages() == true) {
@@ -312,9 +312,9 @@ class Storage {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<bool> move({
-    @required String oldPath,
-    @required String newPath,
-    @required String currentUserID,
+    required String oldPath,
+    required String newPath,
+    required String currentUserID,
   }) async {
     bool _output;
 
@@ -339,9 +339,9 @@ class Storage {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> rename({
-    @required String path,
-    @required String newName,
-    @required String currentUserID,
+    required String path,
+    required String newName,
+    required String currentUserID,
   }) async {
 
     if (FirebaseInitializer.isUsingOfficialPackages() == true) {
@@ -364,8 +364,8 @@ class Storage {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> completeMeta({
-    @required String path,
-    @required String currentUserID,
+    required String path,
+    required String currentUserID,
   }) async {
 
     if (FirebaseInitializer.isUsingOfficialPackages() == true) {
@@ -390,8 +390,8 @@ class Storage {
   // --------------------
   /// TESTED: WORKS PERFECT
   static Future<void> deleteDoc({
-    @required String path,
-    @required String currentUserID,
+    required String path,
+    required String currentUserID,
   }) async {
 
     if (FirebaseInitializer.isUsingOfficialPackages() == true) {
@@ -412,8 +412,8 @@ class Storage {
   // --------------------
   /// TESTED: WORKS PERFECT
   static Future<void> deleteDocs({
-    @required List<String> paths,
-    @required String currentUserID,
+    required List<String> paths,
+    required String currentUserID,
   }) async {
 
     if (FirebaseInitializer.isUsingOfficialPackages() == true) {

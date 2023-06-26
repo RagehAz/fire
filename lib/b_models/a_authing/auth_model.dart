@@ -4,22 +4,22 @@ part of super_fire;
 class AuthModel {
   // --------------------------------------------------------------------------
   const AuthModel({
-    @required this.id,
-    @required this.name,
-    @required this.email,
-    @required this.phone,
-    @required this.imageURL,
-    @required this.signInMethod,
-    @required this.data,
+    required this.id,
+    required this.name,
+    required this.email,
+    required this.phone,
+    required this.imageURL,
+    required this.signInMethod,
+    required this.data,
   });
   // --------------------------------------------------------------------------
-  final String id;
-  final String name;
-  final String email;
-  final String phone;
-  final String imageURL;
-  final SignInMethod signInMethod;
-  final Map<String, dynamic> data;
+  final String? id;
+  final String? name;
+  final String? email;
+  final String? phone;
+  final String? imageURL;
+  final SignInMethod? signInMethod;
+  final Map<String, dynamic>? data;
   // --------------------------------------------------------------------------
 
   /// CLONING
@@ -27,13 +27,13 @@ class AuthModel {
   // --------------------
   /// TESTED : WORKS PERFECT
   AuthModel copyWith({
-    String id,
-    String name,
-    String email,
-    String phone,
-    String imageURL,
-    SignInMethod signInMethod,
-    Map<String, dynamic> data,
+    String? id,
+    String? name,
+    String? email,
+    String? phone,
+    String? imageURL,
+    SignInMethod? signInMethod,
+    Map<String, dynamic>? data,
   }){
     return AuthModel(
         id: id ?? this.id,
@@ -64,10 +64,10 @@ class AuthModel {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static AuthModel decipher({
-    @required Map<String, dynamic> map
+  static AuthModel? decipher({
+    required Map<String, dynamic>? map
   }){
-    AuthModel _output;
+    AuthModel? _output;
 
     if (map != null){
 
@@ -91,11 +91,11 @@ class AuthModel {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static AuthModel _getAuthModelFromOfficialUserCredential({
-    @required f_a.UserCredential cred,
-    Map<String, dynamic> addData,
+  static AuthModel? _getAuthModelFromOfficialUserCredential({
+    required f_a.UserCredential? cred,
+    Map<String, dynamic>? addData,
   }){
-    AuthModel _output;
+    AuthModel? _output;
 
     if (cred != null){
 
@@ -117,11 +117,13 @@ class AuthModel {
     return _output;
   }
   // --------------------
+  /// SOCIAL_AUTHING_DISASTER
+  /*
   /// TESTED : WORKS PERFECT
-  static AuthModel _getAuthModelFromOfficialFirebaseUser({
-    @required f_a.User user,
+  static AuthModel? _getAuthModelFromOfficialFirebaseUser({
+    required f_a.User? user,
   }){
-    AuthModel _output;
+    AuthModel? _output;
 
     if (user != null){
 
@@ -134,12 +136,12 @@ class AuthModel {
         signInMethod: _OfficialAuthing._getSignInMethodFromUser(user: user),
         data: Mapper.cleanNullPairs(
             map: {
-              'user.emailVerified': user?.emailVerified,
-              'user.isAnonymous': user?.isAnonymous,
-              'user.metadata': user?.metadata?.toString(),
-              'user.providerData': cipherUserInfos(user?.providerData),
-              'user.refreshToken': user?.refreshToken,
-              'user.tenantId': user?.tenantId,
+              'user.emailVerified': user.emailVerified,
+              'user.isAnonymous': user.isAnonymous,
+              'user.metadata': user.metadata.toString(),
+              'user.providerData': cipherUserInfos(user.providerData),
+              'user.refreshToken': user.refreshToken,
+              'user.tenantId': user.tenantId,
             },
         ),
       );
@@ -148,13 +150,14 @@ class AuthModel {
 
     return _output;
   }
+   */
   // --------------------
   ///
-  static AuthModel getAuthModelFromFiredartUser({
-    @required fd_u.User user,
-    @required SignInMethod signInMethod,
+  static AuthModel? getAuthModelFromFiredartUser({
+    required fd_u.User? user,
+    required SignInMethod? signInMethod,
   }){
-    AuthModel _output;
+    AuthModel? _output;
 
     if (user != null){
 
@@ -174,28 +177,27 @@ class AuthModel {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Map<String, dynamic> _createAuthModelDataMap({
-    @required f_a.UserCredential cred,
-    @required Map<String, dynamic> addData,
+  static Map<String, dynamic>? _createAuthModelDataMap({
+    required f_a.UserCredential? cred,
+    required Map<String, dynamic>? addData,
   }) {
-
     Map<String, dynamic> _map = {
-      'credential.user.emailVerified': cred.user?.emailVerified,
-      'credential.user.isAnonymous': cred.user?.isAnonymous,
-      'credential.user.metadata': cred.user?.metadata?.toString(),
-      'credential.user.photoURL': cred.user?.photoURL,
-      'credential.user.providerData': cipherUserInfos(cred.user?.providerData),
-      'credential.user.refreshToken': cred.user?.refreshToken,
-      'credential.user.tenantId': cred.user?.tenantId,
+      'credential.user.emailVerified': cred?.user?.emailVerified,
+      'credential.user.isAnonymous': cred?.user?.isAnonymous,
+      'credential.user.metadata': cred?.user?.metadata.toString(),
+      'credential.user.photoURL': cred?.user?.photoURL,
+      'credential.user.providerData': cipherUserInfos(cred?.user?.providerData),
+      'credential.user.refreshToken': cred?.user?.refreshToken,
+      'credential.user.tenantId': cred?.user?.tenantId,
       // 'credential.user.multiFactor': cred.user?.multiFactor?.toString(), // gets Instance of 'MultiFactor'
-      'credential.credential.accessToken': cred.credential?.accessToken,
-      'credential.credential.providerId': cred.credential?.providerId,
-      'credential.credential.signInMethod': cred.credential?.signInMethod,
-      'credential.credential.token': cred.credential?.token,
-      'credential.additionalUserInfo.providerId': cred.additionalUserInfo?.providerId,
-      'credential.additionalUserInfo.isNewUser': cred.additionalUserInfo?.isNewUser,
-      'credential.additionalUserInfo.profile': Mapper.cleanNullPairs(map: cred.additionalUserInfo?.profile),
-      'credential.additionalUserInfo.username': cred.additionalUserInfo?.username,
+      'credential.credential.accessToken': cred?.credential?.accessToken,
+      'credential.credential.providerId': cred?.credential?.providerId,
+      'credential.credential.signInMethod': cred?.credential?.signInMethod,
+      'credential.credential.token': cred?.credential?.token,
+      'credential.additionalUserInfo.providerId': cred?.additionalUserInfo?.providerId,
+      'credential.additionalUserInfo.isNewUser': cred?.additionalUserInfo?.isNewUser,
+      'credential.additionalUserInfo.profile': Mapper.cleanNullPairs(map: cred?.additionalUserInfo?.profile),
+      'credential.additionalUserInfo.username': cred?.additionalUserInfo?.username,
     };
 
     _map = Mapper.insertMapInMap(
@@ -210,10 +212,10 @@ class AuthModel {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static AuthModel getAuthModelFromAppleCred({
-    @required AuthorizationCredentialAppleID cred,
+  static AuthModel? getAuthModelFromAppleCred({
+    required AuthorizationCredentialAppleID? cred,
   }) {
-    AuthModel _output;
+    AuthModel? _output;
 
     if (cred != null){
 
@@ -243,30 +245,30 @@ class AuthModel {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static String cipherSignInMethod(SignInMethod method){
+  static String? cipherSignInMethod(SignInMethod? method){
     switch (method){
 
-      case SignInMethod.google: return 'google.com'; break;
-      case SignInMethod.facebook: return 'facebook.com'; break;
-      case SignInMethod.anonymous: return 'anonymous'; break;
-      case SignInMethod.apple: return 'apple.com'; break;
-      case SignInMethod.password: return 'password'; break;
+      case SignInMethod.google: return 'google.com';
+      case SignInMethod.facebook: return 'facebook.com';
+      case SignInMethod.anonymous: return 'anonymous';
+      case SignInMethod.apple: return 'apple.com';
+      case SignInMethod.password: return 'password';
       // case SignInMethod.phone: return 'phone'; break;
       default: return null;
     }
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static SignInMethod decipherSignInMethod(String providerID){
+  static SignInMethod? decipherSignInMethod(String? providerID){
 
     switch (providerID){
 
-      case 'google.com': return SignInMethod.google; break;
-      case 'facebook.com': return SignInMethod.facebook; break;
-      case 'anonymous': return SignInMethod.anonymous; break;
-      case 'apple.com': return SignInMethod.apple; break;
-      case 'password': return SignInMethod.password; break;
-      // case 'phone': return SignInMethod.phone; break;
+      case 'google.com': return SignInMethod.google;
+      case 'facebook.com': return SignInMethod.facebook;
+      case 'anonymous': return SignInMethod.anonymous;
+      case 'apple.com': return SignInMethod.apple;
+      case 'password': return SignInMethod.password;
+      // case 'phone': return SignInMethod.phone;
       default: return Authing.getUserID() == null ? null : SignInMethod.anonymous;
     }
 
@@ -286,17 +288,19 @@ class AuthModel {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static List<Map<String, String>> cipherUserInfos(List<f_a.UserInfo> userInfos){
+  static List<Map<String, String?>>? cipherUserInfos(List<f_a.UserInfo>? userInfos){
 
-    List<Map<String, String>> _maps;
+    List<Map<String, String?>>? _maps;
 
     if (Mapper.checkCanLoopList(userInfos) == true){
 
       _maps = <Map<String, String>>[];
 
-      for (final f_a.UserInfo info in userInfos){
-        final Map<String, dynamic> _infoMap = cipherUserInfo(info);
-        _maps.add(_infoMap);
+      for (final f_a.UserInfo info in userInfos!){
+        final Map<String, String?>? _infoMap = cipherUserInfo(info);
+        if (_infoMap != null){
+          _maps.add(_infoMap);
+        }
       }
 
     }
@@ -305,8 +309,8 @@ class AuthModel {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Map<String, String> cipherUserInfo(f_a.UserInfo userInfo){
-    Map<String, String> _map;
+  static Map<String, String?>? cipherUserInfo(f_a.UserInfo? userInfo){
+    Map<String, String?>? _map;
 
     // blog('cipherUserInfo : blog : ${userInfo?.toString()}');
 
@@ -318,7 +322,7 @@ class AuthModel {
         'uid' : userInfo.uid,
         'photoURL': userInfo.photoURL,
         'phoneNumber' :userInfo.phoneNumber,
-        'providerId' : userInfo?.providerId,
+        'providerId' : userInfo.providerId,
       };
     }
 
@@ -326,21 +330,27 @@ class AuthModel {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static List<f_a.UserInfo> decipherUserInfos(dynamic maps){
+  static List<f_a.UserInfo>? decipherUserInfos(dynamic maps){
 
-    List<f_a.UserInfo> _userInfos;
+    List<f_a.UserInfo>? _userInfos;
 
     if (Mapper.checkCanLoopList(maps) == true){
 
       _userInfos = <f_a.UserInfo>[];
 
-      final List<Map<String, String>> _maps = _fixTheImmutableMapsThing(maps);
+      final List<Map<String, String?>>? _maps = _fixTheImmutableMapsThing(maps);
 
-      for (final Map<String, String> _map in _maps){
+      if (Mapper.checkCanLoopList(_maps) == true){
 
-        final f_a.UserInfo _userInfo = decipherUserInfo(_map);
-        _userInfos.add(_userInfo);
+        for (final Map<String, String?>? _map in _maps!) {
 
+          final f_a.UserInfo? _userInfo = decipherUserInfo(_map);
+
+          if (_userInfo != null) {
+            _userInfos.add(_userInfo);
+          }
+
+        }
       }
 
     }
@@ -349,8 +359,8 @@ class AuthModel {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static f_a.UserInfo decipherUserInfo(Map<String, String> map){
-    f_a.UserInfo _userInfo;
+  static f_a.UserInfo? decipherUserInfo(Map<String, String?>? map){
+    f_a.UserInfo? _userInfo;
 
     if (map != null){
       _userInfo = f_a.UserInfo(map);
@@ -360,22 +370,24 @@ class AuthModel {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static List<Map<String, String>> _fixTheImmutableMapsThing(dynamic maps){
+  static List<Map<String, String?>>? _fixTheImmutableMapsThing(dynamic maps){
 
     // blog('1 _fixTheImmutableMapsThing : maps type is : ${maps.runtimeType}');
     final List<dynamic> _list = maps;
     // blog('2 _fixTheImmutableMapsThing : _list type is : ${_list.runtimeType}');
 
-    final List<Map<String, String>> _output = <Map<String, String>>[];
+    final List<Map<String, String?>> _output = <Map<String, String?>>[];
 
     if (Mapper.checkCanLoopList(_list) == true){
       for (final dynamic object in _list){
 
-        final Map<String, String> _stringStringMap = Mapper.getStringStringMapFromImmutableMapStringObject(object);
+        final Map<String, String?>? _stringStringMap = Mapper.getStringStringMapFromImmutableMapStringObject(object);
 
         // blog('5 _fixTheImmutableMapsThing : _stringStringMap type is : ${_stringStringMap.runtimeType}');
 
-        _output.add(_stringStringMap);
+        if (_stringStringMap != null){
+          _output.add(_stringStringMap);
+        }
 
       }
 
@@ -389,12 +401,12 @@ class AuthModel {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static String _getUserImageURLFromOfficialUserCredential(f_a.UserCredential cred){
-    String _output;
+  static String? _getUserImageURLFromOfficialUserCredential(f_a.UserCredential? cred){
+    String? _output;
 
     if (cred != null){
 
-      final SignInMethod signInMethod = _OfficialAuthing.getCurrentSignInMethod();
+      final SignInMethod? signInMethod = _OfficialAuthing.getCurrentSignInMethod();
 
       if (signInMethod == SignInMethod.google){
         _output = cred.user?.photoURL;
@@ -420,7 +432,7 @@ class AuthModel {
   // --------------------
   /// TESTED : WORKS PERFECT
   static void blogAuthModel({
-    @required AuthModel authModel,
+    required AuthModel? authModel,
     String invoker = 'AuthModel',
   }){
 
@@ -447,8 +459,8 @@ class AuthModel {
   // --------------------
   /// TESTED : WORKS PERFECT
   static bool checkAuthModelsAreIdentical({
-    @required AuthModel auth1,
-    @required AuthModel auth2,
+    required AuthModel? auth1,
+    required AuthModel? auth2,
   }){
     bool _identical = false;
 
