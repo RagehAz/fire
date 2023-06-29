@@ -92,7 +92,7 @@ class _NativeStorage {
   /// TESTED: WORKS PERFECT
   static Future<String?> uploadBytesAndGetURL({
     required Uint8List? bytes,
-    required String path,
+    required String? path,
     required StorageMetaModel? storageMetaModel,
   }) async {
 

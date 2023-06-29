@@ -14,8 +14,8 @@ class Storage {
   /// TESTED: WORKS PERFECT
   static Future<String?> uploadBytesAndGetURL({
     required Uint8List? bytes,
-    required String path,
-    required StorageMetaModel storageMetaModel,
+    required String? path,
+    required StorageMetaModel? storageMetaModel,
   }) async {
 
     String? _url;
