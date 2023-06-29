@@ -289,7 +289,7 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<Uint8List?> readBytesByPath({
-    required String path,
+    required String? path,
   }) async {
     Uint8List? _output;
 
@@ -298,7 +298,7 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
       await tryAndCatch(
         invoker: 'OfficialStorage.readBytesByPath',
         functions: () async {
-          final f_s.Reference? _ref = _getRefByPath(path);
+          final f_s.Reference? _ref = _getRefByPath(path!);
           blog('got ref : $_ref');
           /// 10'485'760 default max size
           _output = await _ref?.getData();

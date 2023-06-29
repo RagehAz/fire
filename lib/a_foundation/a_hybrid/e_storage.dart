@@ -125,7 +125,7 @@ class Storage {
   // --------------------
   /// TESTED: WORKS PERFECT
   static Future<Uint8List?> readBytesByPath({
-    required String path,
+    required String? path,
   }) async {
     Uint8List? _output;
 
