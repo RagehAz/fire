@@ -227,7 +227,7 @@ class PaginationController {
 
     if (controller.replaceMap?.value != null){
 
-      final List<Map<String, dynamic>> _updatedMaps = Mapper.replaceMapInMapsWithSameIDField(
+      final List<Map<String, dynamic>>? _updatedMaps = Mapper.replaceMapInMapsWithSameIDField(
         baseMaps: controller.paginatorMaps?.value,
         mapToReplace: controller.replaceMap?.value,
         idFieldName: controller.idFieldName,

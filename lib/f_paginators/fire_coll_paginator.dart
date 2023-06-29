@@ -216,7 +216,7 @@ class _FireCollPaginatorState extends State<FireCollPaginator> {
     /// CAN KEEP READING
     if (_paginatorController.canKeepReading.value  == true){
 
-      final List<Map<String, dynamic>?>? _nextMaps = await Fire.readColl(
+      final List<Map<String, dynamic>>? _nextMaps = await Fire.readColl(
         queryModel: widget.paginationQuery,
         startAfter: _paginatorController.startAfter.value,
         addDocSnapshotToEachMap: true,
