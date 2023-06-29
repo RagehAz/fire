@@ -220,7 +220,7 @@ class _RealCollPaginatorState extends State<RealCollPaginator> {
   Widget build(BuildContext context) {
 
     return ValueListenableBuilder(
-        valueListenable: _paginatorController.paginatorMaps!,
+        valueListenable: _paginatorController.paginatorMaps,
         child: widget.child,
         builder: (_, List<Map<String, dynamic>>? maps, Widget? child){
 

@@ -18,10 +18,10 @@ class FireCollPaginator extends StatefulWidget {
   final Widget? loadingWidget;
   final Widget? child;
   final PaginationController? paginationController;
-  final ValueChanged<List<Map<String, dynamic>>?>? onDataChanged;
+  final ValueChanged<List<Map<String, dynamic>>>? onDataChanged;
   final Widget Function(
       BuildContext context,
-      List<Map<String, dynamic>?>? maps,
+      List<Map<String, dynamic>> maps,
       bool isLoading,
       Widget? child
       ) builder;
@@ -264,8 +264,8 @@ class _FireCollPaginatorState extends State<FireCollPaginator> {
         builder: (_, bool _isLoading, Widget? child){
 
           return ValueListenableBuilder(
-              valueListenable: _paginatorController.paginatorMaps!,
-              builder: (_, List<Map<String, dynamic>?>? maps, Widget? xChild){
+              valueListenable: _paginatorController.paginatorMaps,
+              builder: (_, List<Map<String, dynamic>> maps, Widget? xChild){
 
                 // Mapper.blogMaps(maps, invoker: 'FireCollPaginator : builder');
 
