@@ -17,13 +17,13 @@ class FireCollStreamer extends StatefulWidget {
   // --------------------------------------------------------------------------
   /// TESTED : WORKS PERFECT
   static StreamSubscription? onStreamDataChanged({
-    required Stream<List<Map<String, dynamic>>?>? stream,
-    required ValueChanged<List<Map<String, dynamic>>?> onChange,
+    required Stream<List<Map<String, dynamic>>>? stream,
+    required ValueChanged<List<Map<String, dynamic>>> onChange,
     required String invoker,
   }){
 
     final StreamSubscription? _streamSubscription = stream?.listen(
-      (List<Map<String, dynamic>>? maps) async {
+      (List<Map<String, dynamic>> maps) async {
         onChange(maps);
       },
       cancelOnError: false,
@@ -48,7 +48,7 @@ class FireCollStreamer extends StatefulWidget {
 
 class _FireCollStreamerState extends State<FireCollStreamer> {
   // -----------------------------------------------------------------------------
-  late Stream<List<Map<String, dynamic>>?>? _stream;
+  late Stream<List<Map<String, dynamic>>>? _stream;
   StreamSubscription? _sub;
   // -----------------------------------------------------------------------------
   @override

@@ -1,5 +1,6 @@
 ---
 
+### 1.0.7: added fixes
 ### 1.0.6: extra fixes
 ### 1.0.5: more fixes
 ### 1.0.4: fix

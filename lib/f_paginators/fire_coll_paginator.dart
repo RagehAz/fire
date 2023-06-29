@@ -182,7 +182,7 @@ class _FireCollPaginatorState extends State<FireCollPaginator> {
       _streamSub = FireCollStreamer.onStreamDataChanged(
         stream: _stream,
         invoker: '_initializeStreamListener',
-        onChange: (List<Map<String, dynamic>?>? streamMaps){
+        onChange: (List<Map<String, dynamic>> streamMaps){
 
           // final List<Map<String, dynamic>> _allMaps = [..._paginatorController.paginatorMaps.value];
           // blog(' === > streamMaps : ${streamMaps.length} maps');
