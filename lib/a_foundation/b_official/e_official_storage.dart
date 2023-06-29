@@ -92,49 +92,55 @@ class _OfficialStorage {
   /// TESTED : WORKS PERFECT
   static Future<String?> uploadBytesAndGetURL({
     required Uint8List? bytes,
-    required String path,
+    required String? path,
     required StorageMetaModel? storageMetaModel,
   }) async {
 
-    assert(Mapper.checkCanLoopList(bytes) == true, 'uInt7List is empty or null');
-    assert(TextCheck.isEmpty(path) == false, 'path is empty or null');
+    // assert(Mapper.checkCanLoopList(bytes) == true, 'uInt7List is empty or null');
+    // assert(TextCheck.isEmpty(path) == false, 'path is empty or null');
 
     String? _url;
 
-    await tryAndCatch(
-      invoker: 'OfficialStorage.createDocByUint8List',
-      functions: () async {
+    if (bytes != null && path != null && storageMetaModel != null){
 
-        final f_s.Reference? _ref = _getRefByPath(path);
+      await tryAndCatch(
+        invoker: 'OfficialStorage.createDocByUint8List',
+        functions: () async {
 
-        blog('createDocByUint8List : 1 - got ref : $_ref');
+          final f_s.Reference? _ref = _getRefByPath(path);
 
-        if (_ref != null && bytes != null) {
-          final f_s.UploadTask _uploadTask = _ref.putData(
-            bytes,
-            storageMetaModel?.toOfficialSettableMetadata(
-              bytes: bytes,
-            ),
-          );
+          blog('createDocByUint8List : 1 - got ref : $_ref');
 
-          blog('createDocByUint8List : 2 - uploaded uInt8List to path : $path');
+          if (_ref != null) {
 
-          await Future.wait(<Future>[
-            _uploadTask.whenComplete(() async {
-              blog('createDocByUint8List : 3 - uploaded successfully');
-              _url = await _createURLByRef(ref: _ref);
-            }),
-            _uploadTask.onError((error, stackTrace) {
-              blog('createDocByUint8List : 3 - failed to upload');
-              blog('error : ${error.runtimeType} : $error');
-              blog('stackTrace : ${stackTrace.runtimeType} : $stackTrace');
-              return Future.error(error!);
-            }),
-          ]);
-        }
-      },
-      onError: StorageError.onException,
+            final f_s.UploadTask _uploadTask = _ref.putData(
+              bytes,
+              storageMetaModel.toOfficialSettableMetadata(
+                bytes: bytes,
+              ),
+            );
+
+            blog('createDocByUint8List : 2 - uploaded uInt8List to path : $path');
+
+            await Future.wait(<Future>[
+              _uploadTask.whenComplete(() async {
+                blog('createDocByUint8List : 3 - uploaded successfully');
+                _url = await _createURLByRef(ref: _ref);
+              }),
+              _uploadTask.onError((error, stackTrace) {
+                blog('createDocByUint8List : 3 - failed to upload');
+                blog('error : ${error.runtimeType} : $error');
+                blog('stackTrace : ${stackTrace.runtimeType} : $stackTrace');
+                return Future.error(error!);
+              }),
+            ]);
+
+          }
+          },
+        onError: StorageError.onException,
     );
+
+    }
 
     blog('createDocByUint8List : 4 - END');
 
