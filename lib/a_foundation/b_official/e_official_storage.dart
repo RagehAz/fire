@@ -14,7 +14,7 @@ class _OfficialStorage {
 
   // --------------------
   /// TESTED: WORKS PERFECT
-  static f_s.Reference? _getRefByPath(String path){
+  static f_s.Reference? _getRefByPath(String? path){
 
     if (ObjectCheck.objectIsPicPath(path) == true){
 
@@ -282,7 +282,7 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
   // --------------------
   /// TESTED: WORKS PERFECT
   static Future<String?> createURLByPath({
-    required String path
+    required String? path
   }) async {
     final f_s.Reference? _ref = _getRefByPath(path);
     final String? _url = await _createURLByRef(ref: _ref);
@@ -681,9 +681,9 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
   // --------------------
   /// TESTED: WORKS PERFECT
   static Future<bool> move({
-    required String oldPath,
-    required String newPath,
-    required String currentUserID,
+    required String? oldPath,
+    required String? newPath,
+    required String? currentUserID,
   }) async {
 
     bool _output = false;
@@ -699,6 +699,8 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
         ObjectCheck.objectIsPicPath(oldPath) == true
         &&
         ObjectCheck.objectIsPicPath(newPath) == true
+        &&
+        currentUserID != null
     ){
 
       /// READ OLD PIC
@@ -721,7 +723,7 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
 
         /// DELETE OLD PIC
         _output = await deleteDoc(
-          path: oldPath,
+          path: oldPath!,
           currentUserID: currentUserID,
         );
 
@@ -735,9 +737,9 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
   // --------------------
   /// TESTED: WORKS PERFECT
   static Future<void> rename({
-    required String path,
-    required String newName,
-    required String currentUserID,
+    required String? path,
+    required String? newName,
+    required String? currentUserID,
   }) async {
 
     final bool _canEdit = await _checkCanDeleteDocByPath(
@@ -752,6 +754,10 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
         ObjectCheck.objectIsPicPath(path) == true
         &&
         TextCheck.isEmpty(newName) == false
+        &&
+        path != null
+        &&
+        currentUserID != null
     ){
 
       /// READ OLD PIC
@@ -786,8 +792,8 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
   // --------------------
   /// TESTED: WORKS PERFECT
   static Future<void> completeMeta({
-    required String path,
-    required String currentUserID,
+    required String? path,
+    required String? currentUserID,
   }) async {
 
     final bool _canEdit = await _checkCanDeleteDocByPath(
@@ -900,7 +906,7 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<bool> _checkCanDeleteDocByPath({
-    required String path,
+    required String? path,
     required String? userID,
   }) async {
 

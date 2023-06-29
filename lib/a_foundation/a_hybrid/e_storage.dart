@@ -80,7 +80,7 @@ class Storage {
   // --------------------
   /// TESTED: WORKS PERFECT
   static Future<String?> createURLByPath({
-    required String path,
+    required String? path,
   }) async {
     String? _url;
 
@@ -312,9 +312,9 @@ class Storage {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<bool> move({
-    required String oldPath,
-    required String newPath,
-    required String currentUserID,
+    required String? oldPath,
+    required String? newPath,
+    required String? currentUserID,
   }) async {
     bool _output;
 
@@ -339,9 +339,9 @@ class Storage {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> rename({
-    required String path,
-    required String newName,
-    required String currentUserID,
+    required String? path,
+    required String? newName,
+    required String? currentUserID,
   }) async {
 
     if (FirebaseInitializer.isUsingOfficialPackages() == true) {
@@ -364,8 +364,8 @@ class Storage {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> completeMeta({
-    required String path,
-    required String currentUserID,
+    required String? path,
+    required String? currentUserID,
   }) async {
 
     if (FirebaseInitializer.isUsingOfficialPackages() == true) {

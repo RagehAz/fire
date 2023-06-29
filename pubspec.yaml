@@ -1,6 +1,6 @@
 name: fire
 description: Firebase firestore API.
-version: 1.0.4
+version: 1.0.5
 publish_to: "none"
 homepage: https://github.com/RagehAz/fire.git
 # --------------------------------------------------------------------------------
@@ -15,6 +15,7 @@ dependencies:
   basics:
     git:
       url: https://github.com/RagehAz/basics.git
+  # ------------------------------------
   cloud_firestore: ^4.8.1
   firebase_core: ^2.14.0
   firedart: ^0.9.3
