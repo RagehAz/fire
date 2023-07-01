@@ -13,7 +13,7 @@ class FireCollPaginator extends StatefulWidget {
     super.key
   });
   /// --------------------------------------------------------------------------
-  final FireQueryModel paginationQuery;
+  final FireQueryModel? paginationQuery;
   final FireQueryModel? streamQuery;
   final Widget? loadingWidget;
   final Widget? child;
@@ -161,7 +161,7 @@ class _FireCollPaginatorState extends State<FireCollPaginator> {
     /// LISTEN TO PAGINATOR CONTROLLER NOTIFIERS (AddMap - replaceMap - deleteMap - onDataChanged)
     _paginatorController = widget.paginationController ?? PaginationController.initialize(
       addExtraMapsAtEnd: true,
-      idFieldName: widget.paginationQuery.idFieldName,
+      idFieldName: widget.paginationQuery?.idFieldName ?? 'id',
       onDataChanged: widget.onDataChanged,
     );
     _paginatorController.activateListeners(

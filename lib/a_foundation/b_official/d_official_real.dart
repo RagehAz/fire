@@ -277,7 +277,7 @@ class _OfficialReal {
     List<Map<String, dynamic>> _output = <Map<String, dynamic>>[];
 
     await tryAndCatch(
-      invoker: 'OfficialReal.readPathMap',
+      invoker: 'OfficialReal.readPathMaps',
       timeout: timeout,
       onError: _onRealError,
       functions: () async {
@@ -308,7 +308,7 @@ class _OfficialReal {
     required String path,
   }) async {
 
-    Map<String, dynamic> _output = {};
+    Map<String, dynamic>? _output = {};
 
     await tryAndCatch(
       invoker: 'OfficialReal.readPathMap',
@@ -324,7 +324,7 @@ class _OfficialReal {
          _output = _OfficialFireMapper.getMapFromDataSnapshot(
             snapshot: _snap,
             addDocID: true,
-          )!;
+          );
         }
 
       },

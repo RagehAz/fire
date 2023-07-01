@@ -294,35 +294,35 @@ class _NativeFire {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<List<Map<String, dynamic>>> readColl({
-    required FireQueryModel queryModel,
+    required FireQueryModel? queryModel,
     dynamic startAfter,
   }) async {
     List<Map<String, dynamic>> _output = <Map<String, dynamic>>[];
 
-    await tryAndCatch(
-        invoker: 'NativeFire.readColl',
-        functions: () async {
+    if (queryModel != null){
 
-          final fd.QueryReference? query = _createCollQuery(
-            collRef: _getCollRef(
-              coll: queryModel.coll,
-              doc: queryModel.doc,
-              subColl: queryModel.subColl,
-            ),
-            orderBy: queryModel.orderBy,
-            limit: queryModel.limit,
-            startAfter: startAfter,
-            finders: queryModel.finders,
+      await tryAndCatch(
+          invoker: 'NativeFire.readColl',
+          functions: () async {
+            final fd.QueryReference? query = _createCollQuery(
+              collRef: _getCollRef(
+                coll: queryModel.coll,
+                doc: queryModel.doc,
+                subColl: queryModel.subColl,
+              ),
+              orderBy: queryModel.orderBy,
+              limit: queryModel.limit,
+              startAfter: startAfter,
+              finders: queryModel.finders,
+            );
+            final List<fd.Document>? _page = await query?.get();
+            _output = _NativeFireMapper.getMapsFromNativePage(
+              page: _page,
+              addDocsIDs: true,
+            );
+          }
           );
-
-          final List<fd.Document>? _page = await query?.get();
-
-          _output = _NativeFireMapper.getMapsFromNativePage(
-            page: _page,
-            addDocsIDs: true,
-          );
-
-        });
+    }
 
     return _output;
   }
