@@ -152,7 +152,7 @@ class Fire {
   /// TESTED : WORKS PERFECT
   static Future<List<Map<String, dynamic>>> readColl({
     required FireQueryModel? queryModel,
-    cloud.QueryDocumentSnapshot<Object>? startAfter,
+    cloud.QueryDocumentSnapshot<Object?>? startAfter,
     bool addDocSnapshotToEachMap = false,
   }) async {
 

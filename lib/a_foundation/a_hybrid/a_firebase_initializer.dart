@@ -54,7 +54,7 @@ class FirebaseInitializer {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> initialize({
-    required FirebaseOptions options,
+    required FirebaseOptions? options,
     required SocialKeys socialKeys,
     bool? useOfficialPackages,
     String? appName,

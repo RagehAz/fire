@@ -29,7 +29,7 @@ abstract class RealHttp{
   /// TESTED : WORKS PERFECT
   static Future<String?> createDoc({
     required String collName,
-    required Map<String, Object>? input,
+    required Map<String, dynamic>? input,
     Function(String? error)? onError,
   }) async {
 
@@ -61,7 +61,7 @@ abstract class RealHttp{
   static Future<void> createNamedDoc({
     required String collName,
     required String docName,
-    required Map<String, Object>? input,
+    required Map<String, dynamic>? input,
   }) async {
 
     await updateDoc(
@@ -113,7 +113,7 @@ abstract class RealHttp{
   static Future<void> updateDoc({
     required String collName,
     required String docName,
-    required Map<String, Object>? input,
+    required Map<String, dynamic>? input,
     Function(String? error)? onError,
   }) async {
 
