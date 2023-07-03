@@ -253,7 +253,7 @@ class _OfficialFire{
   }) async {
     final List<Map<String, dynamic>> _output = [];
 
-    if (doc != null && Mapper.checkCanLoopList(ids) == true){
+    if (Mapper.checkCanLoopList(ids) == true){
 
       /// READING SUB DOCS
       if (subColl != null){
@@ -262,7 +262,7 @@ class _OfficialFire{
           ...List.generate(ids!.length, (index){
             return readDoc(
               coll: coll,
-              doc: doc,
+              doc: doc!,
               subColl: subColl,
               subDoc: ids[index],
             ).then((Map<String, dynamic>? map){
@@ -301,7 +301,7 @@ class _OfficialFire{
   /// TESTED : WORKS PERFECT
   static Future<List<Map<String, dynamic>>> readColl({
     required FireQueryModel? queryModel,
-    cloud.QueryDocumentSnapshot<Object>? startAfter,
+    cloud.QueryDocumentSnapshot<Object?>? startAfter,
     bool addDocSnapshotToEachMap = false,
   }) async {
 
@@ -388,17 +388,17 @@ class _OfficialFire{
   // --------------------
   /// TESTED : WORKS PERFECT
   static cloud.Query<Map<String, dynamic>>? _createCollQuery({
-    required cloud.CollectionReference<Object>? collRef,
+    required cloud.CollectionReference<Object?>? collRef,
     QueryOrderBy? orderBy,
     int? limit,
-    cloud.QueryDocumentSnapshot<Object>? startAfter,
+    cloud.QueryDocumentSnapshot<Object?>? startAfter,
     List<FireFinder>? finders,
   }){
     cloud.Query<Map<String, dynamic>>? query;
 
     if (collRef != null){
 
-      cloud.Query<Map<String, dynamic>>? query = _OfficialFirebase.getFire()?.collection(collRef.path);
+       query = _OfficialFirebase.getFire()?.collection(collRef.path);
 
       if (query != null){
         /// ASSIGN SEARCH FINDERS

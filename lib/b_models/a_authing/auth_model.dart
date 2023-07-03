@@ -294,7 +294,7 @@ class AuthModel {
 
     if (Mapper.checkCanLoopList(userInfos) == true){
 
-      _maps = <Map<String, String>>[];
+      _maps = <Map<String, String?>>[];
 
       for (final f_a.UserInfo info in userInfos!){
         final Map<String, String?>? _infoMap = cipherUserInfo(info);

@@ -61,13 +61,15 @@ class FirebaseInitializer {
     String? nativePersistentStoragePath,
   }) async {
 
-    await FirebaseInitializer.instance._initialize(
-      options: options,
-      socialKeys: socialKeys,
-      useOfficialPackages: useOfficialPackages,
-      nativePersistentStoragePath: nativePersistentStoragePath,
-      appName: appName,
-    );
+    if (options != null){
+      await FirebaseInitializer.instance._initialize(
+        options: options,
+        socialKeys: socialKeys,
+        useOfficialPackages: useOfficialPackages,
+        nativePersistentStoragePath: nativePersistentStoragePath,
+        appName: appName,
+      );
+    }
 
   }
   // -----------------------------------------------------------------------------

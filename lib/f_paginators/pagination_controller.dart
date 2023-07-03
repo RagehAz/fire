@@ -417,14 +417,14 @@ class PaginationController {
   // ---------
   /// TESTED : WORKS PERFECT
   static void insertMapsToPaginator({
-    required PaginationController controller,
+    required PaginationController? controller,
     required List<Map<String, dynamic>?>? mapsToAdd,
     required bool mounted,
   }){
 
-    List<Map<String, dynamic>>? _combinedMaps = [...controller.paginatorMaps.value];
+    List<Map<String, dynamic>>? _combinedMaps = [...?controller?.paginatorMaps.value];
 
-    if (Mapper.checkCanLoopList(mapsToAdd) == true){
+    if (Mapper.checkCanLoopList(mapsToAdd) == true && controller != null){
 
       for (final Map<String, dynamic>? mapToInsert in mapsToAdd!) {
 

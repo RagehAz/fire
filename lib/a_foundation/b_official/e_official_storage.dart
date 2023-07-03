@@ -109,7 +109,7 @@ class _OfficialStorage {
 
           final f_s.Reference? _ref = _getRefByPath(path);
 
-          blog('createDocByUint8List : 1 - got ref : $_ref');
+          // blog('createDocByUint8List : 1 - got ref : $_ref');
 
           if (_ref != null) {
 
@@ -305,7 +305,7 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
         invoker: 'OfficialStorage.readBytesByPath',
         functions: () async {
           final f_s.Reference? _ref = _getRefByPath(path!);
-          blog('got ref : $_ref');
+          // blog('got ref : $_ref');
           /// 10'485'760 default max size
           _output = await _ref?.getData();
         },
