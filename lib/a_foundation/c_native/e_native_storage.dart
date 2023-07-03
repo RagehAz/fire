@@ -515,6 +515,7 @@ class _NativeStorage {
         _meta = await StorageMetaModel.completeMeta(
           bytes: _bytes,
           meta: _meta,
+          path: oldPath,
         );
 
         /// CREATE NEW PIC
@@ -593,6 +594,7 @@ class _NativeStorage {
   static Future<void> completeMeta({
     required String? path,
     required String? currentUserID,
+    required List<String>? addOwners,
   }) async {
 
     final bool _canEdit = await _checkCanDeleteDocByPath(
@@ -614,6 +616,7 @@ class _NativeStorage {
       _meta = await StorageMetaModel.completeMeta(
         bytes: _bytes,
         meta: _meta,
+        path: path,
       );
 
       /// CREATE URL
@@ -624,7 +627,9 @@ class _NativeStorage {
       /// UPDATE META
       await updateMetaByURL(
           url: _url,
-          meta: _meta
+          meta: _meta?.copyWith(
+            ownersIDs: [..._meta.ownersIDs, ...?addOwners],
+          ),
       );
 
     }

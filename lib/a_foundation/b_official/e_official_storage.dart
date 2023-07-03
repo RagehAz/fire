@@ -712,7 +712,8 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
         _meta = await StorageMetaModel.completeMeta(
           bytes: _bytes,
           meta: _meta,
-        );
+          path: oldPath,
+          );
 
         /// CREATE NEW PIC
         await uploadBytesAndGetURL(
@@ -794,6 +795,7 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
   static Future<void> completeMeta({
     required String? path,
     required String? currentUserID,
+    required List<String>? addOwners,
   }) async {
 
     final bool _canEdit = await _checkCanDeleteDocByPath(
@@ -815,6 +817,7 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
       _meta = await StorageMetaModel.completeMeta(
         bytes: _bytes,
         meta: _meta,
+        path: path,
       );
 
       /// CREATE URL
@@ -822,10 +825,16 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
         path: path,
       );
 
+      _meta = _meta?.copyWith(
+        ownersIDs: [..._meta.ownersIDs, ...?addOwners],
+      );
+
+      StorageMetaModel.blogStorageMetaModel(_meta);
+
       /// UPDATE META
       await updateMetaByURL(
           url: _url,
-          meta: _meta
+          meta: _meta,
       );
 
     }

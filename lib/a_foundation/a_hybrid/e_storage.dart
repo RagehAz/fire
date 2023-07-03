@@ -366,19 +366,22 @@ class Storage {
   static Future<void> completeMeta({
     required String? path,
     required String? currentUserID,
+    List<String>? addOwners,
   }) async {
 
     if (FirebaseInitializer.isUsingOfficialPackages() == true) {
       await _OfficialStorage.completeMeta(
         path: path,
-        currentUserID: currentUserID
+        currentUserID: currentUserID,
+        addOwners: addOwners,
       );
     }
 
     else {
       await _NativeStorage.completeMeta(
         path: path,
-        currentUserID: currentUserID
+        currentUserID: currentUserID,
+        addOwners: addOwners,
       );
     }
 

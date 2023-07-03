@@ -341,6 +341,7 @@ class StorageMetaModel {
   static Future<StorageMetaModel?> completeMeta({
     required Uint8List? bytes,
     required StorageMetaModel? meta,
+    required String? path,
   }) async {
     StorageMetaModel? _output = meta;
 
@@ -369,9 +370,27 @@ class StorageMetaModel {
       );
     }
 
-    // final List<String> ownersIDs;
-    // final String name;
-    // final Map<String, String> data;
+    blog('meta?.name : ${meta?.name} : path : $path');
+
+    /// NAME
+    if (TextCheck.isEmpty(meta?.name?.trim()) == true && path != null){
+
+      final String? _name = TextMod.removeTextBeforeLastSpecialCharacter(
+          text: path,
+          specialCharacter: '/',
+      );
+
+      blog ('_name should be : $_name');
+
+      if (_name != null){
+        _output = _output?.copyWith(
+          name: _name,
+        );
+      }
+
+    }
+
+    StorageMetaModel.blogStorageMetaModel(_output);
 
     return _output;
   }
@@ -424,6 +443,29 @@ class StorageMetaModel {
     }
     blog('BLOGGING FULL META DATA ------------------------------- END');
 
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static void blogStorageMetaModel(StorageMetaModel? model){
+
+    blog('blogStorageMetaModel ------------------------------------ >> START');
+
+    if (model == null){
+      blog('blogStorageMetaModel : model is null');
+    }
+    else {
+
+    blog(
+        'name : ${model.name} : '
+        'height : ${model.height} : width : '
+        '${model.width} : sizeMB : ${model.sizeMB}'
+    );
+    Stringer.blogStrings(strings: model.ownersIDs, invoker: 'model.ownersIDs');
+    Mapper.blogMap(model.data, invoker: 'blogStorageMetaModel.data');
+
+    }
+
+    blog('blogStorageMetaModel ------------------------------------ >> END');
   }
   // -----------------------------------------------------------------------------
 
