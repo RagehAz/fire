@@ -246,6 +246,8 @@ class _NativeReal {
             coll: coll,
           );
 
+          // blog('NativeReal.createColl $_ref');
+
           await _ref?.set(Mapper.removePair(
             map: map,
             fieldKey: 'id',
@@ -257,6 +259,8 @@ class _NativeReal {
             value: coll,
             overrideExisting: true,
           );
+
+          // blog('NativeReal.createColl DONE : $_output');
 
         },
       );
