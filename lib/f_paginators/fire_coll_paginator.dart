@@ -64,7 +64,7 @@ class _FireCollPaginatorState extends State<FireCollPaginator> {
   void didChangeDependencies() {
     if (_isInit && mounted) {
 
-      _triggerLoading(setTo: true).then((_) async {
+      asyncInSync(() async {
 
         /// INITIAL PAGINATION READ
         await _readMore();
@@ -72,7 +72,6 @@ class _FireCollPaginatorState extends State<FireCollPaginator> {
         /// LISTEN TO STREAM CHANGES
         _initializeStreamListener();
 
-          await _triggerLoading(setTo: false);
       });
 
       _isInit = false;
@@ -99,7 +98,7 @@ class _FireCollPaginatorState extends State<FireCollPaginator> {
   @override
   void didUpdateWidget(covariant FireCollPaginator oldWidget) {
 
-    _triggerLoading(setTo: true).then((_) async {
+    asyncInSync(() async {
 
       final bool _paginationQueryChanged = FireQueryModel.checkQueriesAreIdentical(
         model1: oldWidget.paginationQuery,
