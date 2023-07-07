@@ -1,5 +1,6 @@
 ---
 
+### 2.0.6 : pagination controller fixes
 ### 2.0.5 : ready for publishing
 ### 2.0.0 : version fix + cleanups
 ### 1.0.7: added fixes

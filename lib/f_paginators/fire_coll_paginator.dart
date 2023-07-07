@@ -206,11 +206,7 @@ class _FireCollPaginatorState extends State<FireCollPaginator> {
   /// TESTED : WORKS PERFECT
   Future<void> _readMore() async {
 
-    setNotifier(
-      notifier: _loading,
-      mounted: mounted,
-      value: true,
-    );
+    await _triggerLoading(setTo: true);
 
     /// CAN KEEP READING
     if (_paginatorController.canKeepReading.value  == true){
@@ -246,11 +242,7 @@ class _FireCollPaginatorState extends State<FireCollPaginator> {
       // blog('FireCollPaginator : _readMore : _canKeepReading : $_canKeepReading : NO MORE MAPS AFTER THIS ${_startAfter.toString()}');
     }
 
-    setNotifier(
-      notifier: _loading,
-      mounted: mounted,
-      value: false,
-    );
+    await _triggerLoading(setTo: false);
 
   }
   // -----------------------------------------------------------------------------

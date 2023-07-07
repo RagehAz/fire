@@ -156,6 +156,8 @@ class PaginationController {
     // if (addMap != null){
       addMap.addListener(() {
 
+        blog('_listenToAddMap FIRING');
+
         _addMapToPaginatorMaps(
           addAtEnd: addAtEnd,
           mounted: mounted,
@@ -173,13 +175,37 @@ class PaginationController {
 
     List<Map<String, dynamic>> _combinedMaps = [...paginatorMaps.value];
 
+    // blog('_addMapToPaginatorMaps STARTS WITH : ${paginatorMaps.value.length} maps');
+
     if (addMap.value != null){
 
-      if (addAtEnd == true){
-        _combinedMaps = [...paginatorMaps.value, addMap.value!];
+      final bool _idExists = Mapper.checkMapsContainMapWithID(
+        maps: _combinedMaps,
+        map: addMap.value,
+        idFieldName: idFieldName,
+      );
+
+      blog('_addMapToPaginatorMaps _idExists : $_idExists');
+
+      /// SHOULD REPLACE
+      if (_idExists == true){
+        _combinedMaps = Mapper.replaceMapInMapsWithSameIDField(
+          baseMaps: paginatorMaps.value,
+          mapToReplace: addMap.value,
+          idFieldName: idFieldName,
+        )!;
       }
+
+      /// SHOULD ADD
       else {
-        _combinedMaps = [addMap.value!, ...paginatorMaps.value,];
+
+        if (addAtEnd == true){
+          _combinedMaps = [...paginatorMaps.value, addMap.value!];
+        }
+        else {
+          _combinedMaps = [addMap.value!, ...paginatorMaps.value,];
+        }
+
       }
 
       setNotifier(
@@ -187,6 +213,12 @@ class PaginationController {
         mounted: mounted,
         value: _combinedMaps,
       );
+
+      // setNotifier(
+      //     notifier: addMap,
+      //     mounted: mounted,
+      //     value: null,
+      // );
 
       _setStartAfter(
         startAfter: startAfter,
@@ -196,6 +228,7 @@ class PaginationController {
 
     }
 
+    // blog('_addMapToPaginatorMaps ENDS WITH : ${paginatorMaps.value.length} maps');
   }
   // --------------------------------
 

@@ -198,6 +198,8 @@ class _OfficialFire{
 
               blog('$invoker.setData : CREATED ${_upload.keys.length} keys in : ${ref.path}');
 
+              // Mapper.blogMap(_upload, invoker: '_setData');
+
             },
         );
 
