@@ -13,9 +13,9 @@ dependencies:
     sdk: flutter
   # ------------------------------------
   basics:
-#    path: D:/projects/packages/helpers/basics
-    git:
-      url: https://github.com/RagehAz/basics.git
+    path: D:/projects/packages/helpers/basics
+#    git:
+#      url: https://github.com/RagehAz/basics.git
   # ------------------------------------
   cloud_firestore: ^4.8.1
   firebase_core: ^2.14.0
