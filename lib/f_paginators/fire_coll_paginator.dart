@@ -62,7 +62,9 @@ class _FireCollPaginatorState extends State<FireCollPaginator> {
   bool _isInit = true;
   @override
   void didChangeDependencies() {
+
     if (_isInit && mounted) {
+      _isInit = false; // good
 
       asyncInSync(() async {
 
@@ -74,8 +76,8 @@ class _FireCollPaginatorState extends State<FireCollPaginator> {
 
       });
 
-      _isInit = false;
     }
+
     super.didChangeDependencies();
   }
   // --------------------
