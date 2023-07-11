@@ -180,7 +180,7 @@ class _NativeEmailAuthing {
               password: password
           );
 
-          blog('_realUserCred : ${_realUserCred?.user?.uid} ');
+          blog('firedart user : ${_user?.id}  : fire_dart user : ${_realUserCred?.user?.uid}');
 
           _output = AuthModel.getAuthModelFromFiredartUser(
             user: _user,

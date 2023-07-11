@@ -95,7 +95,7 @@ linter:
     prefer_const_constructors_in_immutables: true
     prefer_contains: true
     prefer_single_quotes: true
-    prefer_equal_for_default_values: true
+#    prefer_equal_for_default_values: true // removed
     prefer_final_fields: true
     prefer_final_in_for_each: true
     prefer_final_locals: true
