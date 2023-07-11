@@ -206,4 +206,23 @@ class AuthBlog {
 
   }
   // -----------------------------------------------------------------------------
+
+  /// FIRE_DART FIREBASE APP
+
+  // --------------------
+  static void blogFirebaseApp(f_d.FirebaseApp? app){
+
+    if (app == null){
+      blog('blogFirebaseApp : FirebaseApp is null');
+    }
+    else {
+
+      Mapper.blogMap(app.options.asMap,
+        invoker: 'app.name : ${app.name}',
+      );
+
+    }
+
+  }
+  // -----------------------------------------------------------------------------
 }
