@@ -363,7 +363,7 @@ class AuthModel {
     f_a.UserInfo? _userInfo;
 
     if (map != null){
-      _userInfo = f_a.UserInfo(map);
+      _userInfo = f_a.UserInfo.fromJson(map);
     }
 
     return _userInfo;
