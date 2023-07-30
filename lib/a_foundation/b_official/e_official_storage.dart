@@ -23,7 +23,7 @@ class _OfficialStorage {
         numberOfCharacters: 'storage/'.length,
       );
 
-      return _OfficialFirebase.getStorage()?.ref(_storagePath);
+      return OfficialFirebase.getStorage()?.ref(_storagePath);
     }
 
     else {
@@ -60,7 +60,7 @@ class _OfficialStorage {
     await tryAndCatch(
       invoker: 'OfficialStorage._getRefByURL',
       functions: () async {
-        _ref = _OfficialFirebase.getStorage()?.refFromURL(url);
+        _ref = OfficialFirebase.getStorage()?.refFromURL(url);
       },
       onError: StorageError.onException,
     );

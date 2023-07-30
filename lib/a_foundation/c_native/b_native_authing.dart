@@ -201,6 +201,7 @@ class _NativeEmailAuthing {
   static Future<AuthModel?> register({
     required String? email,
     required String? password,
+    required bool autoSendVerificationEmail,
     Function(String? error)? onError,
   }) async {
     AuthModel? _output;
@@ -219,6 +220,13 @@ class _NativeEmailAuthing {
               email!,
               password!,
           );
+
+          /// NOT TESTED
+          if (autoSendVerificationEmail == true){
+            await _NativeFirebase.getAuthFire()?.requestEmailVerification(
+              langCode: 'en',
+            );
+          }
 
           _output = AuthModel.getAuthModelFromFiredartUser(
             user: _user,
@@ -265,4 +273,32 @@ class _NativeEmailAuthing {
     return false;
   }
   // -----------------------------------------------------------------------------
+
+  /// CHANGE PASSWORD
+
+  // --------------------
+  /// TASK : TEST ME
+  static Future<bool> sendPasswordResetEmail({
+    required String? email,
+    required Function(String? error)? onError,
+  }) async {
+    bool _output = false;
+
+    if (TextCheck.isEmpty(email) == false){
+
+      await tryAndCatch(
+        invoker: 'sendPasswordResetEmail',
+        functions: () async {
+
+          await _NativeFirebase.getAuthFire()!.resetPassword(email!);
+          _output = true;
+          },
+        onError: onError,
+      );
+
+    }
+
+    return _output;
+  }
+  // --------------------
 }

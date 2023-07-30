@@ -24,15 +24,15 @@ class _OfficialReal {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> _purge() async {
-    await _OfficialFirebase.getReal()?.purgeOutstandingWrites();
+    await OfficialFirebase.getReal()?.purgeOutstandingWrites();
   }
   // -----------------------------------------------------------------------------
   static Future<void> goOnline() async {
-    await _OfficialFirebase.getReal()?.goOnline();
+    await OfficialFirebase.getReal()?.goOnline();
   }
   // --------------------
   static Future<void> goOffline() async {
-    await _OfficialFirebase.getReal()?.goOffline();
+    await OfficialFirebase.getReal()?.goOffline();
   }
   // -----------------------------------------------------------------------------
 
@@ -50,14 +50,14 @@ class _OfficialReal {
       doc: doc,
       key: key,
     );
-    return _OfficialFirebase.getReal()?.ref(path);
+    return OfficialFirebase.getReal()?.ref(path);
   }
   // --------------------
   /// TESTED : WORKS PERFECT
   static f_db.DatabaseReference? _getRefByPath({
     required String path,
   }){
-    return _OfficialFirebase.getReal()?.ref(path);
+    return OfficialFirebase.getReal()?.ref(path);
   }
   // -----------------------------------------------------------------------------
 

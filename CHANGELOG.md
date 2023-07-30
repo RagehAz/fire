@@ -1,5 +1,6 @@
 ---
 
+### 2.1.0 : can reset password and send send verification email
 ### 2.0.9 : f_a.UserInfo.fromJson update
 ### 2.0.7 : fixes in didChangeDependencies
 ### 2.0.6 : pagination controller fixes

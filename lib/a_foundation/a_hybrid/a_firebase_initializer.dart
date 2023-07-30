@@ -34,7 +34,7 @@ class FirebaseInitializer {
 
     /// OFFICIAL
     if (_usesOfficial == true){
-      await _OfficialFirebase.initialize(
+      await OfficialFirebase.initialize(
         appName: appName,
         options: options,
         socialKeys: socialKeys,

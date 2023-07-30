@@ -513,7 +513,7 @@ class StorageMetaModel {
 
     if (file != null){
 
-      final Uint8List? _uInt8List = await Floaters.getUint8ListFromFile(file);
+      final Uint8List? _uInt8List = await Floaters.getBytesFromFile(file);
         // blog('_uInt8List : $_uInt8List');
       final ui.Image? _decodedImage = await Floaters.getUiImageFromUint8List(_uInt8List);
 

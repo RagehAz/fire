@@ -28,11 +28,11 @@ class _OfficialFire{
 
 
    if (doc == null || subColl == null){
-      return _OfficialFirebase.getFire()?.collection(coll);
+      return OfficialFirebase.getFire()?.collection(coll);
     }
     else {
       /// return OfficialFirebase.getFire().collection('$coll/$doc/$subColl');
-      return _OfficialFirebase.getFire()?.collection(coll)
+      return OfficialFirebase.getFire()?.collection(coll)
           .doc(doc)
           .collection(subColl);
     }
@@ -400,7 +400,7 @@ class _OfficialFire{
 
     if (collRef != null){
 
-       query = _OfficialFirebase.getFire()?.collection(collRef.path);
+       query = OfficialFirebase.getFire()?.collection(collRef.path);
 
       if (query != null){
         /// ASSIGN SEARCH FINDERS

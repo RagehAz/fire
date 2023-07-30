@@ -208,6 +208,7 @@ class EmailAuthing {
   static Future<AuthModel?> register({
     required String? email,
     required String? password,
+    required bool autoSendVerificationEmail,
     Function(String? error)? onError,
   }) async {
     AuthModel? _output;
@@ -216,6 +217,7 @@ class EmailAuthing {
       _output = await _OfficialEmailAuthing.register(
         email: email,
         password: password,
+        autoSendVerificationEmail: autoSendVerificationEmail,
         onError: onError,
       );
     }
@@ -224,6 +226,7 @@ class EmailAuthing {
       _output = await _NativeEmailAuthing.register(
         email: email,
         password: password,
+        autoSendVerificationEmail: autoSendVerificationEmail,
         onError: onError,
       );
     }
@@ -282,6 +285,34 @@ class EmailAuthing {
     }
 
     return _success;
+  }
+  // -----------------------------------------------------------------------------
+
+  /// PASSWORDS
+
+  // --------------------
+  ///
+  static Future<bool> sendPasswordResetEmail({
+    required String? email,
+    Function(String? error)? onError,
+  }) async {
+    bool _output = false;
+
+    if (FirebaseInitializer.isUsingOfficialPackages() == true){
+      _output = await _OfficialEmailAuthing.sendPasswordResetEmail(
+        email: email,
+        onError: onError,
+      );
+    }
+
+    else {
+      _output = await _NativeEmailAuthing.sendPasswordResetEmail(
+        email: email,
+        onError: onError,
+      );
+    }
+
+    return _output;
   }
   // -----------------------------------------------------------------------------
 }
