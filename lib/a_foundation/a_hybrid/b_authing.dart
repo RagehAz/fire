@@ -98,7 +98,7 @@ class Authing {
 
     return _success;
   }
-    // -----------------------------------------------------------------------------
+  // -----------------------------------------------------------------------------
 
   /// SIGN IN METHOD
 
@@ -156,6 +156,24 @@ class Authing {
     }
     else {
       return true;
+    }
+
+  }
+  // -----------------------------------------------------------------------------
+
+  /// OTHER
+
+  // --------------------
+  /// TASK : TEST ME
+  static DateTime? getLastSignIn(){
+
+    if (FirebaseInitializer.isUsingOfficialPackages() == true){
+      return _OfficialAuthing.getLastSignIn();
+    }
+
+    else {
+      blog('NativeAuthing : getLastSignIn : no implementation for this here');
+      return null;
     }
 
   }
@@ -263,25 +281,46 @@ class EmailAuthing {
   }
   // -----------------------------------------------------------------------------
 
-  /// UPDATE EMAIL
+  /// UPDATE EMAIL - PASSWORD
 
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<bool> updateUserEmail({
     required String newEmail,
+    Function(String? error)? onError,
   }) async {
     bool _success = false;
 
     if (FirebaseInitializer.isUsingOfficialPackages() == true){
       _success = await _OfficialEmailAuthing.updateUserEmail(
         newEmail: newEmail,
+        onError: onError,
       );
     }
 
     else {
-      _success = await _NativeEmailAuthing.updateUserEmail(
-        newEmail: newEmail,
+      blog('NativeAuth.updateUserEmail : updating user email is not supported');
+    }
+
+    return _success;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<bool> updateUserPassword({
+    required String newPassword,
+    Function(String? error)? onError,
+  }) async {
+    bool _success = false;
+
+    if (FirebaseInitializer.isUsingOfficialPackages() == true){
+      _success = await _OfficialEmailAuthing.updateUserPassword(
+        newPassword: newPassword,
+        onError: onError,
       );
+    }
+
+    else {
+      blog('NativeAuth.updateUserPassword : updating user password is not supported');
     }
 
     return _success;
@@ -291,7 +330,7 @@ class EmailAuthing {
   /// PASSWORDS
 
   // --------------------
-  ///
+  /// TASK : TEST ME
   static Future<bool> sendPasswordResetEmail({
     required String? email,
     Function(String? error)? onError,
@@ -307,6 +346,30 @@ class EmailAuthing {
 
     else {
       _output = await _NativeEmailAuthing.sendPasswordResetEmail(
+        email: email,
+        onError: onError,
+      );
+    }
+
+    return _output;
+  }
+  // --------------------
+  /// TASK : TEST ME
+  static Future<bool> sendVerificationEmail({
+    required String? email,
+    Function(String? error)? onError,
+  }) async {
+    bool _output = false;
+
+    if (FirebaseInitializer.isUsingOfficialPackages() == true){
+      _output = await _OfficialEmailAuthing.sendVerificationEmail(
+        email: email,
+        onError: onError,
+      );
+    }
+
+    else {
+      _output = await _NativeEmailAuthing.sendVerificationEmail(
         email: email,
         onError: onError,
       );

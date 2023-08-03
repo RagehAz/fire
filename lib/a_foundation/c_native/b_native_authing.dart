@@ -264,14 +264,13 @@ class _NativeEmailAuthing {
   /// UPDATE EMAIL
 
   // --------------------
-  /// TESTED : WORKS PERFECT
-  static Future<bool> updateUserEmail({
-    required String? newEmail,
-  }) async {
-    blog('NativeAuth.updateUserEmail : updating user email is not supported');
-
-    return false;
-  }
+  /// NOT SUPPORTED
+  // static Future<bool> updateUserEmail({
+  //   required String? newEmail,
+  // }) async {
+  //
+  //   return false;
+  // }
   // -----------------------------------------------------------------------------
 
   /// CHANGE PASSWORD
@@ -299,6 +298,31 @@ class _NativeEmailAuthing {
     }
 
     return _output;
+  }
+  // --------------------
+  /// TASK : TEST ME
+  static Future<bool> sendVerificationEmail({
+    required String? email,
+    required Function(String? error)? onError,
+  }) async {
+    bool _output = false;
+
+    if (TextCheck.isEmpty(email) == false){
+
+      await tryAndCatch(
+        invoker: 'sendVerificationEmail',
+        onError: onError,
+        functions: () async {
+
+          await _NativeFirebase.getAuthFire()?.requestEmailVerification();
+          _output = true;
+          },
+      );
+
+    }
+
+    return _output;
+
   }
   // --------------------
 }

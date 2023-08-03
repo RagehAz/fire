@@ -151,6 +151,11 @@ class _OfficialAuthing {
   static String? getAuthEmail(){
     return _getUser()?.email;
   }
+  // --------------------
+  /// TASK : TEST ME
+  static DateTime? getLastSignIn(){
+    return _getUser()?.metadata.lastSignInTime;
+  }
   // -----------------------------------------------------------------------------
 }
 
@@ -289,7 +294,7 @@ class _OfficialEmailAuthing {
   }
   // -----------------------------------------------------------------------------
 
-  /// UPDATE EMAIL
+  /// UPDATE EMAIL - PASSWORD
 
   // --------------------
   /// TESTED : WORKS PERFECT
@@ -313,6 +318,31 @@ class _OfficialEmailAuthing {
           functions: () async {
             await _auth?.currentUser?.updateEmail(newEmail);
             blog('updateUserEmail : END');
+          },
+        );
+      }
+
+    return _success;
+  }
+  // --------------------
+  /// TASK : TEST ME
+  static Future<bool> updateUserPassword({
+    required String? newPassword,
+    Function(String? error)? onError,
+  }) async {
+    blog('updateUserPassword : START');
+
+    bool _success = false;
+
+      final f_a.FirebaseAuth? _auth = OfficialFirebase.getAuth();
+
+      if (newPassword != null ) {
+        _success = await tryCatchAndReturnBool(
+          invoker: 'updateUserPassword',
+          onError: onError,
+          functions: () async {
+            await _auth?.currentUser?.updatePassword(newPassword);
+            blog('updateUserPassword : END');
           },
         );
       }
@@ -354,6 +384,29 @@ class _OfficialEmailAuthing {
           _success = true;
           },
         onError: onError,
+      );
+
+    }
+
+    return _success;
+  }
+  // --------------------
+  /// TASK : TEST ME
+  static Future<bool> sendVerificationEmail({
+    required String? email,
+    required Function(String? error)? onError,
+  }) async {
+    bool _success = false;
+
+    if (TextCheck.isEmpty(email) == false){
+
+      await tryAndCatch(
+        invoker: 'sendVerificationEmail',
+        onError: onError,
+        functions: () async {
+          await _OfficialAuthing._getUser()?.sendEmailVerification();
+          _success = true;
+          },
       );
 
     }
