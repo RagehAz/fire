@@ -38,7 +38,7 @@ void createPaginationListener({
   required bool mounted,
 }) {
 
-  blog('createPaginationListener : start');
+  // blog('createPaginationListener : start');
 
   controller.addListener(() async {
     final bool _canPaginate = canPaginate(
@@ -49,12 +49,12 @@ void createPaginationListener({
     );
 
     // blog('_canPaginate : $_canPaginate');
-    //
+
     // Sliders.blogScrolling(
     //   scrollController: controller,
     //   isPaginating: isPaginating.value,
     //   canKeepReading: canKeepReading.value,
-    //   paginationHeight: 0,
+    //   paginationHeight: 100,
     // );
 
     if (_canPaginate == true) {

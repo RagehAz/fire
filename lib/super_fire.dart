@@ -6,7 +6,6 @@ library super_fire;
 // --------------------
 /// COMMON
 import 'dart:io';
-import 'package:basics/animators/helpers/sliders.dart';
 import 'package:basics/helpers/classes/checks/device_checker.dart';
 import 'package:basics/helpers/classes/checks/error_helpers.dart';
 import 'package:basics/helpers/classes/checks/object_check.dart';

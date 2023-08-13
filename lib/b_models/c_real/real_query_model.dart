@@ -15,11 +15,12 @@ enum QueryRange {
   equalTo,
 }
 
+@immutable
 class RealQueryModel{
   // -----------------------------------------------------------------------------
   const RealQueryModel({
     required this.path,
-    this.keyFieldName,
+    this.idFieldName,
     this.limit = 5,
     this.readFromBeginningOfOrderedList = true,
     this.orderType,
@@ -29,7 +30,7 @@ class RealQueryModel{
   // -----------------------------------------------------------------------------
   final String path;
   final int? limit;
-  final String? keyFieldName;
+  final String? idFieldName;
   final bool readFromBeginningOfOrderedList;
   final RealOrderType? orderType;
   final String? fieldNameToOrderBy;
@@ -42,14 +43,14 @@ class RealQueryModel{
   /// TESTED : WORKS PERFECT
   static RealQueryModel createAscendingQueryModel({
     required String path,
-    required String keyFieldName,
+    required String idFieldName,
     String? fieldNameToOrderBy,
     int limit = 5,
   }){
     return RealQueryModel(
       path: path,
       limit: limit,
-      keyFieldName: keyFieldName, /// should be docID : 'id'
+      idFieldName: idFieldName, /// should be docID : 'id'
       fieldNameToOrderBy: 'spaceTime',
       orderType: RealOrderType.byChild,
       queryRange: QueryRange.startAfter,
@@ -61,7 +62,7 @@ class RealQueryModel{
   /// QUERY CREATOR
 
   // --------------------
-  /// TASK : TEST
+  /// TESTED : WORKS PERFECT
   static f_db.Query? createOfficialRealQuery({
     required RealQueryModel? queryModel,
     Map<String, dynamic>? lastMap,
@@ -107,7 +108,7 @@ class RealQueryModel{
         if (queryModel.queryRange == QueryRange.startAfter){
           _query = _query.startAfter(
             lastMap[queryModel.fieldNameToOrderBy],
-            key: lastMap[queryModel.keyFieldName],
+            key: lastMap[queryModel.idFieldName],
           );
         }
 
@@ -115,7 +116,7 @@ class RealQueryModel{
         if (queryModel.queryRange == QueryRange.endAt){
           _query = _query.endAt(
             lastMap[queryModel.fieldNameToOrderBy],
-            key: lastMap[queryModel.keyFieldName],
+            key: lastMap[queryModel.idFieldName],
           );
         }
 
@@ -123,7 +124,7 @@ class RealQueryModel{
         if (queryModel.queryRange == QueryRange.endBefore){
           _query = _query.endBefore(
             lastMap[queryModel.fieldNameToOrderBy],
-            key: lastMap[queryModel.keyFieldName],
+            key: lastMap[queryModel.idFieldName],
           );
         }
 
@@ -131,7 +132,7 @@ class RealQueryModel{
         if (queryModel.queryRange == QueryRange.equalTo){
           _query = _query.equalTo(
             lastMap[queryModel.fieldNameToOrderBy],
-            key: lastMap[queryModel.keyFieldName],
+            key: lastMap[queryModel.idFieldName],
           );
         }
 
@@ -205,7 +206,7 @@ class RealQueryModel{
         if (queryModel.queryRange == QueryRange.startAfter){
           _query = _query.startAt(
             lastMap[queryModel.fieldNameToOrderBy],
-            key: lastMap[queryModel.keyFieldName],
+            key: lastMap[queryModel.idFieldName],
           );
         }
 
@@ -213,7 +214,7 @@ class RealQueryModel{
         if (queryModel.queryRange == QueryRange.endAt){
           _query = _query.endAt(
             lastMap[queryModel.fieldNameToOrderBy],
-            key: lastMap[queryModel.keyFieldName],
+            key: lastMap[queryModel.idFieldName],
           );
         }
 
@@ -221,7 +222,7 @@ class RealQueryModel{
         if (queryModel.queryRange == QueryRange.endBefore){
           _query = _query.endAt(
             lastMap[queryModel.fieldNameToOrderBy],
-            key: lastMap[queryModel.keyFieldName],
+            key: lastMap[queryModel.idFieldName],
           );
         }
 
@@ -229,7 +230,7 @@ class RealQueryModel{
         if (queryModel.queryRange == QueryRange.equalTo){
           _query = _query.equalTo(
             lastMap[queryModel.fieldNameToOrderBy],
-            key: lastMap[queryModel.keyFieldName],
+            key: lastMap[queryModel.idFieldName],
           );
         }
 
@@ -286,11 +287,11 @@ class RealQueryModel{
   /// BLOGGING
 
   // --------------------
-  /// TASK : TEST
+  /// TESTED : WORKS PERFECT
   void blogModel(){
     blog('RealQueryModel ------------------------> START');
     blog('path               : $path');
-    blog('keyField           : $keyFieldName');
+    blog('keyField           : $idFieldName');
     blog('fieldNameToOrderBy : $fieldNameToOrderBy');
     blog('orderType          : $orderType');
     blog('range              : $queryRange');
@@ -299,4 +300,76 @@ class RealQueryModel{
     blog('RealQueryModel ------------------------> END');
   }
   // -----------------------------------------------------------------------------
+
+  /// EQUALITY
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static bool checkQueriesAreIdentical({
+    required RealQueryModel? model1,
+    required RealQueryModel? model2,
+  }){
+  bool _identical = false;
+
+  if (model1 == null && model2 == null){
+    _identical = true;
+  }
+
+  else if (model1 != null && model2 != null){
+
+    if (
+      model1.path == model2.path &&
+      model1.limit == model2.limit &&
+      model1.idFieldName == model2.idFieldName &&
+      model1.readFromBeginningOfOrderedList == model2.readFromBeginningOfOrderedList &&
+      model1.orderType == model2.orderType &&
+      model1.fieldNameToOrderBy == model2.fieldNameToOrderBy &&
+      model1.queryRange == model2.queryRange
+    ){
+      _identical = true;
+    }
+
+  }
+
+  return _identical;
+  }
+  // -----------------------------------------------------------------------------
+
+  /// OVERRIDES
+
+  // --------------------
+  /*
+   @override
+   String toString() => 'MapModel(key: $key, value: ${value.toString()})';
+   */
+  // --------------------
+  @override
+  bool operator == (Object other){
+
+    if (identical(this, other)) {
+      return true;
+    }
+
+    bool _areIdentical = false;
+    if (other is RealQueryModel){
+      _areIdentical = checkQueriesAreIdentical(
+        model1: this,
+        model2: other,
+      );
+    }
+
+    return _areIdentical;
+  }
+  // --------------------
+  @override
+  int get hashCode =>
+      path.hashCode^
+      idFieldName.hashCode^
+      limit.hashCode^
+      readFromBeginningOfOrderedList.hashCode^
+      orderType.hashCode^
+      fieldNameToOrderBy.hashCode^
+      queryRange.hashCode;
+  // -----------------------------------------------------------------------------
+
 }

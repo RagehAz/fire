@@ -7,7 +7,6 @@ class FireCollPaginator extends StatefulWidget {
     required this.builder,
     required this.paginationController,
     this.streamQuery,
-    this.loadingWidget,
     this.child,
     this.onDataChanged,
     super.key
@@ -15,7 +14,6 @@ class FireCollPaginator extends StatefulWidget {
   /// --------------------------------------------------------------------------
   final FireQueryModel? paginationQuery;
   final FireQueryModel? streamQuery;
-  final Widget? loadingWidget;
   final Widget? child;
   final PaginationController? paginationController;
   final ValueChanged<List<Map<String, dynamic>>>? onDataChanged;
@@ -82,22 +80,6 @@ class _FireCollPaginatorState extends State<FireCollPaginator> {
   }
   // --------------------
   @override
-  void dispose() {
-
-    /// STATE ARE HANDLED INTERNALLY
-    if (widget.paginationController == null){
-      _paginatorController.dispose();
-      _loading.dispose();
-    }
-
-    if (_streamSub != null){
-      _streamSub?.cancel();
-    }
-
-    super.dispose();
-  }
-  // --------------------
-  @override
   void didUpdateWidget(covariant FireCollPaginator oldWidget) {
 
     asyncInSync(() async {
@@ -136,10 +118,38 @@ class _FireCollPaginatorState extends State<FireCollPaginator> {
 
     super.didUpdateWidget(oldWidget);
   }
+  // --------------------
+  @override
+  void dispose() {
+
+    /// STATE ARE HANDLED INTERNALLY
+    if (widget.paginationController == null){
+      _paginatorController.dispose();
+      _loading.dispose();
+    }
+
+    if (_streamSub != null){
+      _streamSub?.cancel();
+    }
+
+    super.dispose();
+  }
   // -----------------------------------------------------------------------------
 
   /// INITIALIZATION
 
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  void _initializePaginatorController(){
+
+    /// LISTEN TO PAGINATOR CONTROLLER NOTIFIERS (AddMap - replaceMap - deleteMap - onDataChanged)
+    _paginatorController = widget.paginationController ?? PaginationController.initialize(
+      addExtraMapsAtEnd: true,
+      idFieldName: widget.paginationQuery?.idFieldName ?? 'id',
+      onDataChanged: widget.onDataChanged,
+    );
+
+  }
   // --------------------
   /// TESTED : WORKS PERFECT
   void _initializeScrollListener(){
@@ -155,21 +165,6 @@ class _FireCollPaginatorState extends State<FireCollPaginator> {
       );
 
     }
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  void _initializePaginatorController(){
-
-    /// LISTEN TO PAGINATOR CONTROLLER NOTIFIERS (AddMap - replaceMap - deleteMap - onDataChanged)
-    _paginatorController = widget.paginationController ?? PaginationController.initialize(
-      addExtraMapsAtEnd: true,
-      idFieldName: widget.paginationQuery?.idFieldName ?? 'id',
-      onDataChanged: widget.onDataChanged,
-    );
-    _paginatorController.activateListeners(
-      mounted: mounted,
-    );
-
-  }
   // --------------------
   /// TESTED : WORKS PERFECT
   void _initializeStreamListener(){
