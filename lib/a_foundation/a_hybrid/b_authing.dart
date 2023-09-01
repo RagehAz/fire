@@ -176,8 +176,8 @@ class Authing {
   /// OTHER
 
   // --------------------
-  /// TASK : TEST ME
-  static DateTime? getLastSignIn(){
+  /// TESTED : WORKS PERFECT
+  static DateTime? getMyLastSignIn(){
 
     if (FirebaseInitializer.isUsingOfficialPackages() == true){
       return _OfficialAuthing.getLastSignIn();
