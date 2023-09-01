@@ -1,10 +1,5 @@
 part of super_fire;
 
-/// SOCIAL_AUTHING_DISASTER
-/*
-DOCUMENTATION
-https://github.com/firebase/flutterfire/blob/master/packages/firebase_ui_auth/doc/providers/oauth.md#custom-screens
-
 class SocialAuthButton extends StatelessWidget {
   // --------------------------------------------------------------------------
   const SocialAuthButton({
@@ -18,14 +13,14 @@ class SocialAuthButton extends StatelessWidget {
     /// BUT THE CONTAINING BOX SIZE IS THIS :-
     this.size = standardSize,
     this.onAuthLoadingChanged,
-    Key key
-  }) : super(key: key);
+    super.key
+  });
   // --------------------------------------------------------------------------
   final SignInMethod signInMethod;
   final SocialKeys socialKeys;
-  final Function(AuthModel authModel) onSuccess;
+  final Function(AuthModel? authModel) onSuccess;
   final Function(String? error)? onError;
-  final Function(bool isLoading) onAuthLoadingChanged;
+  final Function(bool isLoading)? onAuthLoadingChanged;
   final fui.AuthAction authAction;
   final double size;
   /// AUTO AUTHING uses
@@ -54,34 +49,39 @@ class SocialAuthButton extends StatelessWidget {
     switch (signInMethod) {
 
       case SignInMethod.google:
-        return GoogleProvider(
-          clientId: socialKeys.googleClientID,
-          // redirectUri: ,
-          // scopes: ,
-          // iOSPreferPlist: ,
-        );
-        break;
+        if (socialKeys.googleClientID != null){
+          return GoogleProvider(
+            clientId: socialKeys.googleClientID!,
+            // redirectUri: ,
+            // scopes: ,
+            // iOSPreferPlist: ,
+          );
+        }
+        else {
+          return null;
+        }
 
       case SignInMethod.facebook:
-        return FacebookProvider(
-          clientId: socialKeys.facebookAppID,
-          // redirectUri: '',
-        );
-        break;
+        if (socialKeys.facebookAppID != null){
+          return FacebookProvider(
+            clientId: socialKeys.facebookAppID!,
+            // redirectUri: '',
+          );
+        }
+        else {
+          return null;
+        }
 
       case SignInMethod.apple:
         return AppleProvider(
           // scopes: ,
         );
-        break;
 
       case SignInMethod.anonymous:
         return null;
-        break;
 
       case SignInMethod.password:
         return null;
-        break;
 
     }
   }
@@ -92,13 +92,13 @@ class SocialAuthButton extends StatelessWidget {
     /// UN-INITIALIZED
     if (newState is fui.Uninitialized){
       blog('SocialAuthButton : is Uninitialized');
-      onAuthLoadingChanged(false);
+      onAuthLoadingChanged?.call(false);
     }
 
     /// SIGNING IN
     else if (newState is fui.SigningIn){
       blog('SocialAuthButton : is signing in');
-      onAuthLoadingChanged(true);
+      onAuthLoadingChanged?.call(true);
     }
 
     /// AUTH CRED RECEIVED
@@ -118,19 +118,19 @@ class SocialAuthButton extends StatelessWidget {
     else if (newState is fui.AuthFailed){
       if (onError != null){
         final fui.AuthFailed failure = newState;
-        onError(failure.exception.toString());
-        onAuthLoadingChanged(false);
+        onError?.call(failure.exception.toString());
+        onAuthLoadingChanged?.call(false);
       }
     }
 
     /// SIGNED IN
     else if (newState is fui.SignedIn) {
         final fui.SignedIn signedIn = newState;
-        final AuthModel _authModel = AuthModel._getAuthModelFromOfficialFirebaseUser(
+        final AuthModel? _authModel = AuthModel._getAuthModelFromOfficialFirebaseUser(
             user: signedIn.user,
         );
         onSuccess(_authModel);
-        onAuthLoadingChanged(false);
+        onAuthLoadingChanged?.call(false);
     }
 
     /// USER CREATED
@@ -140,15 +140,15 @@ class SocialAuthButton extends StatelessWidget {
         cred: userCreated.credential,
       );
       onSuccess(_authModel);
-      onAuthLoadingChanged(false);
+      onAuthLoadingChanged?.call(false);
     }
 
     /// DIFFERENT SIGN IN METHOD FOUND
     else if (newState is fui.DifferentSignInMethodsFound){
       if (onError != null){
         final fui.DifferentSignInMethodsFound  dif = newState;
-        onError('[DifferentSignInMethodsFound]: A different email is assigned for this account (${dif.email})');
-        onAuthLoadingChanged(false);
+        onError?.call('[DifferentSignInMethodsFound]: A different email is assigned for this account (${dif.email})');
+        onAuthLoadingChanged?.call(false);
       }
     }
 
@@ -163,7 +163,7 @@ class SocialAuthButton extends StatelessWidget {
     }
 
     else {
-      onAuthLoadingChanged(false);
+      onAuthLoadingChanged?.call(false);
     }
 
     // ignore: avoid_returning_null
@@ -175,7 +175,7 @@ class SocialAuthButton extends StatelessWidget {
     switch (signInMethod){
       case SignInMethod.apple: return Iconz.comApple;
       case SignInMethod.facebook: return Iconz.comFacebook;
-      case SignInMethod.google: return Iconz.comGooglePlus;
+      case SignInMethod.google: return Iconz.comGoogleLogo;
       case SignInMethod.password: return Iconz.comEmail;
       case SignInMethod.anonymous: return Iconz.users;
       default: return null;
@@ -197,7 +197,7 @@ class SocialAuthButton extends StatelessWidget {
   /// TESTED : WORKS PERFECT
   Future<void> _onManualAuth() async {
 
-    onAuthLoadingChanged(true);
+    onAuthLoadingChanged?.call(true);
 
     if (signInMethod == SignInMethod.google){
       await _googleManualAuthing();
@@ -211,7 +211,7 @@ class SocialAuthButton extends StatelessWidget {
       await _appleManualAuthing();
     }
 
-    onAuthLoadingChanged(false);
+    onAuthLoadingChanged?.call(false);
 
   }
   // --------------------
@@ -265,13 +265,13 @@ class SocialAuthButton extends StatelessWidget {
     /// ANDROID
     else if (manualAuthing == true){
 
-      return _AuthButtonBox(
+      return AuthButtonBox(
         size: size,
         child: SuperBox(
           height: size - 10,
           width: size - 10,
           bubble: false,
-          corners: _AuthButtonBox.corners,
+          corners: AuthButtonBox.corners,
           icon: _getIcon(signInMethod),
           iconSizeFactor: _getIconSizeFactor(signInMethod),
           color: Colorz.white255,
@@ -284,13 +284,13 @@ class SocialAuthButton extends StatelessWidget {
     /// IOS
     else {
 
-      return _AuthButtonBox(
+      return AuthButtonBox(
         size: size,
         child: fui.AuthStateListener<fui.OAuthController>(
           listener: _listen,
           child: fui.OAuthProviderButton(
             provider: _getProvider(signInMethod),
-            auth: _OfficialFirebase.getAuth(),
+            auth: OfficialFirebase.getAuth(),
             action: authAction,
             variant: fui.OAuthButtonVariant.icon,
           ),
@@ -302,4 +302,3 @@ class SocialAuthButton extends StatelessWidget {
   }
   // --------------------------------------------------------------------------
 }
- */

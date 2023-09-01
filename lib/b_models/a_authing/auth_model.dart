@@ -118,7 +118,7 @@ class AuthModel {
   }
   // --------------------
   /// SOCIAL_AUTHING_DISASTER
-  /*
+
   /// TESTED : WORKS PERFECT
   static AuthModel? _getAuthModelFromOfficialFirebaseUser({
     required f_a.User? user,
@@ -150,7 +150,6 @@ class AuthModel {
 
     return _output;
   }
-   */
   // --------------------
   ///
   static AuthModel? getAuthModelFromFiredartUser({

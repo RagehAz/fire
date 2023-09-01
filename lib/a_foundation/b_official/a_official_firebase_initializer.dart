@@ -49,7 +49,7 @@ class OfficialFirebase {
   FirebaseApp? _app;
   FirebaseApp? get app => _app;
   /// NOT USED
-  // static FirebaseApp getApp() => _OfficialFirebase.instance.app;
+  static FirebaseApp? getApp() => OfficialFirebase.instance.app;
   // --------------------
   Future<FirebaseApp> _initializeApp({
     required FirebaseOptions options,
@@ -82,29 +82,29 @@ class OfficialFirebase {
 
     blog('Social Authing is FEATURE need serious work AGAIN');
 
-    // if (socialKeys != null) {
-    //   fui.FirebaseUIAuth.configureProviders([
-    //     if (socialKeys.supportEmail == true)
-    //       fui.EmailAuthProvider(),
-    //     if (socialKeys.googleClientID != null)
-    //       GoogleProvider(
-    //         clientId: socialKeys.googleClientID,
-    //         // redirectUri: ,
-    //         // scopes: ,
-    //         // iOSPreferPlist: ,
-    //       ),
-    //     if (socialKeys.facebookAppID != null)
-    //       FacebookProvider(
-    //         clientId: socialKeys.facebookAppID,
-    //         // redirectUri: '',
-    //       ),
-    //     if (socialKeys.supportApple == true)
-    //       AppleProvider(
-    //
-    //         // scopes: ,
-    //       ),
-    //   ]);
-    // }
+    if (socialKeys != null) {
+      fui.FirebaseUIAuth.configureProviders([
+        if (socialKeys.supportEmail == true)
+          fui.EmailAuthProvider(),
+        if (socialKeys.googleClientID != null)
+          GoogleProvider(
+            clientId: socialKeys.googleClientID!,
+            // redirectUri: ,
+            // scopes: ,
+            // iOSPreferPlist: ,
+          ),
+        if (socialKeys.facebookAppID != null)
+          FacebookProvider(
+            clientId: socialKeys.facebookAppID!,
+            // redirectUri: '',
+          ),
+        if (socialKeys.supportApple == true)
+          AppleProvider(
+
+            // scopes: ,
+          ),
+      ]);
+    }
 
   }
   // -----------------------------------------------------------------------------

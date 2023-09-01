@@ -6,6 +6,8 @@ library super_fire;
 // --------------------
 /// COMMON
 import 'dart:io';
+import 'package:basics/bldrs_theme/classes/colorz.dart';
+import 'package:basics/bldrs_theme/classes/iconz.dart';
 import 'package:basics/helpers/classes/checks/device_checker.dart';
 import 'package:basics/helpers/classes/checks/error_helpers.dart';
 import 'package:basics/helpers/classes/checks/object_check.dart';
@@ -20,6 +22,7 @@ import 'package:basics/helpers/classes/strings/stringer.dart';
 import 'package:basics/helpers/classes/strings/text_check.dart';
 import 'package:basics/helpers/classes/strings/text_mod.dart';
 import 'package:basics/helpers/classes/time/timers.dart';
+import 'package:basics/super_box/super_box.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 /// NATIVE IMPLEMENTATION
@@ -29,10 +32,10 @@ import 'package:firedart/auth/user_gateway.dart' as fd_u;
 /// OFFICIAL AUTH
 import 'package:extension_google_sign_in_as_googleapis_auth/extension_google_sign_in_as_googleapis_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart' as f_a;
-// import 'package:firebase_ui_auth/firebase_ui_auth.dart' as fui;
-// import 'package:firebase_ui_oauth_apple/firebase_ui_oauth_apple.dart';
-// import 'package:firebase_ui_oauth_facebook/firebase_ui_oauth_facebook.dart';
-// import 'package:firebase_ui_oauth_google/firebase_ui_oauth_google.dart';
+import 'package:firebase_ui_auth/firebase_ui_auth.dart' as fui;
+import 'package:firebase_ui_oauth_apple/firebase_ui_oauth_apple.dart';
+import 'package:firebase_ui_oauth_facebook/firebase_ui_oauth_facebook.dart';
+import 'package:firebase_ui_oauth_google/firebase_ui_oauth_google.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';

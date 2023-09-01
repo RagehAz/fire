@@ -159,6 +159,18 @@ class Authing {
     }
 
   }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static bool checkIsSocialSignInMethod(SignInMethod? method){
+    switch (method){
+      case SignInMethod.anonymous: return false;
+      case SignInMethod.password:  return false;
+      case SignInMethod.google:    return true;
+      case SignInMethod.facebook:  return true;
+      case SignInMethod.apple:     return true;
+      default: return false;
+    }
+  }
   // -----------------------------------------------------------------------------
 
   /// OTHER
