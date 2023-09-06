@@ -281,6 +281,24 @@ class AuthModel {
     SignInMethod.facebook,
     SignInMethod.apple,
   ];
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static String? getSignInMethodIcon({
+    required SignInMethod? signInMethod,
+  }){
+
+    switch (signInMethod){
+
+      case SignInMethod.anonymous:  return Iconz.anonymousUser;
+      case SignInMethod.password:   return Iconz.comEmail;
+      case SignInMethod.google:     return Iconz.comGoogleLogo;
+      case SignInMethod.facebook:   return Iconz.comFacebook;
+      case SignInMethod.apple:      return Iconz.comApple;
+      default: return null;
+
+    }
+
+  }
   // -----------------------------------------------------------------------------
 
   /// CYPHER USER INFO
