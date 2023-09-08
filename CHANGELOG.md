@@ -1,5 +1,6 @@
 ---
 
+### 2.2.3 : lets go 2.6.0 Bldrs
 ### 2.2.2 : lets go 2.5.0 Bldrs
 ### 2.2.0 : FIXED PAGINATORS
 ### 2.1.0 : can reset password and send send verification email

@@ -51,7 +51,7 @@ class RealQueryModel{
       path: path,
       limit: limit,
       idFieldName: idFieldName, /// should be docID : 'id'
-      fieldNameToOrderBy: 'spaceTime',
+      fieldNameToOrderBy: fieldNameToOrderBy,
       orderType: RealOrderType.byChild,
       queryRange: QueryRange.startAfter,
       // readFromBeginningOfOrderedList: true,
