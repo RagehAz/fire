@@ -1,5 +1,6 @@
 ---
 
+### 2.2.4 : pubs upgrade
 ### 2.2.3 : lets go 2.6.0 Bldrs
 ### 2.2.2 : lets go 2.5.0 Bldrs
 ### 2.2.0 : FIXED PAGINATORS
