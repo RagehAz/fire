@@ -301,16 +301,32 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
 
     if (TextCheck.isEmpty(path) == false){
 
-      await tryAndCatch(
-        invoker: 'OfficialStorage.readBytesByPath',
-        functions: () async {
-          final f_s.Reference? _ref = _getRefByPath(path!);
-          // blog('got ref : $_ref');
-          /// 10'485'760 default max size
-          _output = await _ref?.getData();
-        },
-        onError: StorageError.onException,
-      );
+      bool _canRead = true;
+
+      if (kIsWeb == true){
+        blog('kIsWeb : canRead: $_canRead');
+        final StorageMetaModel? _meta = await readMetaByPath(
+          path: path,
+        );
+        blog('_meta : $_meta');
+        _canRead = _meta != null;
+        blog('_canRead : $_canRead');
+      }
+
+      if (_canRead == true){
+        await tryAndCatch(
+          invoker: 'OfficialStorage.readBytesByPath',
+          functions: () async {
+            final f_s.Reference? _ref = _getRefByPath(path!);
+            blog('got ref : $_ref');
+            /// 10'485'760 default max size
+
+            _output = await _ref?.getData();
+
+            },
+          onError: StorageError.onException,
+        );
+      }
 
     }
 
@@ -693,6 +709,8 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
       userID: currentUserID,
     );
 
+    blog('0. move : _canDelete : $_canDelete');
+
     if (
         _canDelete == true
         &&
@@ -703,10 +721,17 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
         currentUserID != null
     ){
 
+      blog('1. move : START');
+
       /// READ OLD PIC
       final Uint8List? _bytes = await readBytesByPath(path: oldPath);
 
+      blog('2. move : READ OLD PIC : _bytes : ${_bytes?.length} bytes');
+
       if (_bytes != null){
+
+        blog('3. move : bytes != null');
+
         /// READ OLD PIC META
         StorageMetaModel? _meta = await readMetaByPath(path: oldPath);
         _meta = await StorageMetaModel.completeMeta(
@@ -715,6 +740,8 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
           path: oldPath,
           );
 
+        blog('4. move : READ OLD PIC META : _meta : $_meta');
+
         /// CREATE NEW PIC
         await uploadBytesAndGetURL(
           path: newPath,
@@ -722,16 +749,22 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
           storageMetaModel: _meta,
         );
 
+        blog('5. move : CREATE NEW PIC : DONE');
+
         /// DELETE OLD PIC
         _output = await deleteDoc(
           path: oldPath!,
           currentUserID: currentUserID,
         );
 
+        blog('6. move : DELETE OLD PIC : DONE');
+
       }
 
 
     }
+
+    blog('7. move : END');
 
     return _output;
   }
@@ -919,7 +952,7 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
     required String? userID,
   }) async {
 
-    bool _canDelete = userID == 'z0Obwze3JLYjoEl6uVeXfo4Luup1'; // bldrs rage7 ID
+    bool _canDelete = userID == 'z0Obwze3JLYjoEl6uVeXfo4Luup1';
 
     blog('checkCanDeleteStorageFile : START');
 

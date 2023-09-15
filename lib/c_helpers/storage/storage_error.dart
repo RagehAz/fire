@@ -32,6 +32,8 @@ class StorageError {
   /// NOT TESTED NOR USED
   static void onException(String? error){
 
+    blog('the fucking storage onException : error : $error');
+
     if (TextCheck.isEmpty(error) == false){
 
       final String? _code = TextMod.removeTextAfterFirstSpecialCharacter(
