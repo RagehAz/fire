@@ -12,19 +12,33 @@ class _OfficialReal {
   /// TESTED : WORKS PERFECT
   static Future<void> _onRealError(String error) async {
 
-    final bool _shouldPurge = TextCheck.stringContainsSubString(
-        string: error,
-        subString: 'Timeout',
-    );
+    Errorize.throwText(text: error, invoker: 'onRealErrorThrowing');
 
-    if (_shouldPurge == true){
-      await _purge();
+    if (kIsWeb == false){
+      final bool _shouldPurge = TextCheck.stringContainsSubString(
+          string: error,
+          subString: 'Timeout',
+      );
+
+      if (_shouldPurge == true){
+        await _purge();
+      }
     }
+
   }
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> _purge() async {
-    await OfficialFirebase.getReal()?.purgeOutstandingWrites();
+
+    /// purgeOutstandingWrites is not supported for web
+    if (kIsWeb == false){
+      await tryAndCatch(
+        functions: () async {
+          await OfficialFirebase.getReal()?.purgeOutstandingWrites();
+        },
+        invoker: '_purge',
+      );
+    }
   }
   // -----------------------------------------------------------------------------
   static Future<void> goOnline() async {

@@ -10,6 +10,7 @@ import 'package:basics/bldrs_theme/classes/colorz.dart';
 import 'package:basics/bldrs_theme/classes/iconz.dart';
 import 'package:basics/helpers/classes/checks/device_checker.dart';
 import 'package:basics/helpers/classes/checks/error_helpers.dart';
+import 'package:basics/helpers/classes/checks/errorize.dart';
 import 'package:basics/helpers/classes/checks/object_check.dart';
 import 'package:basics/helpers/classes/checks/tracers.dart';
 import 'package:basics/helpers/classes/files/file_size_unit.dart';
