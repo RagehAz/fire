@@ -12,7 +12,7 @@ class _OfficialReal {
   /// TESTED : WORKS PERFECT
   static Future<void> _onRealError(String error) async {
 
-    Errorize.throwText(text: error, invoker: 'onRealErrorThrowing');
+    await Errorize.throwText(text: error, invoker: 'onRealErrorThrowing');
 
     if (kIsWeb == false){
       final bool _shouldPurge = TextCheck.stringContainsSubString(
