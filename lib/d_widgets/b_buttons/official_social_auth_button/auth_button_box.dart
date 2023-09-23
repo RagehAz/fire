@@ -22,7 +22,7 @@ class AuthButtonBox extends StatelessWidget {
 
         Container(
           width: size,
-          height: size,
+          height: size+10,
           /// NOTE : SOCIAL BUTTONS FROM FIRE UI PACKAGE ALREADY INCLUDE
           /// EdgeInsets.symmetric(horizontal: 5)
           /// so you can not have SocialAuthButton without margins
@@ -32,8 +32,8 @@ class AuthButtonBox extends StatelessWidget {
 
         IgnorePointer(
           child: SuperBox(
-            width: size - 8,//width,
-            height: size - 10,
+            width: size,//width,
+            height: size,
             // color: Colorz.bloodTest,
             // margins: EdgeInsets.symmetric(vertical: 0),
             corners: corners,

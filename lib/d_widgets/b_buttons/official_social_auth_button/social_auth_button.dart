@@ -185,11 +185,11 @@ class SocialAuthButton extends StatelessWidget {
   /// TESTED : WORKS PERFECT
   double _getIconSizeFactor(SignInMethod? signInMethod){
     switch (signInMethod){
-      case SignInMethod.apple:      return 0.6;
+      case SignInMethod.apple:      return 0.5;
       case SignInMethod.facebook:   return 1;
-      case SignInMethod.google:     return 0.6;
-      case SignInMethod.password:      return 0.6;
-      case SignInMethod.anonymous:  return 0.6;
+      case SignInMethod.google:     return 0.5;
+      case SignInMethod.password:      return 0.5;
+      case SignInMethod.anonymous:  return 0.5;
       default: return 1;
     }
   }
@@ -268,8 +268,8 @@ class SocialAuthButton extends StatelessWidget {
       return AuthButtonBox(
         size: size,
         child: SuperBox(
-          height: size - 10,
-          width: size - 10,
+          height: size,
+          width: size, // - 10,
           bubble: false,
           corners: AuthButtonBox.corners,
           icon: _getIcon(signInMethod),
