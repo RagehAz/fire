@@ -158,10 +158,7 @@ class _OfficialFireMapper {
           ihlmoo: snapshot.value,
         );
       }
-      else if (
-      snapshot.value.runtimeType.toString() == 'minified:lK<String, dynamic>' ||
-      snapshot.value.runtimeType.toString() == 'minified:lt<String, dynamic>'
-      ){
+      else if (ObjectCheck.objectIsMinified(snapshot.value) == true){
         _output = Mapper.getMapFromIHLMOO(
           ihlmoo: snapshot.value,
         );

@@ -1,5 +1,6 @@
 ---
 
+### 2.2.6 : progress for web
 ### 2.2.5 : adapting with web now
 ### 2.2.4 : pubs upgrade
 ### 2.2.3 : lets go 2.6.0 Bldrs
