@@ -10,9 +10,19 @@ class _OfficialReal {
   static int timeout = 10;
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<void> _onRealError(String error) async {
+  static Future<void> _onRealError({
+    required String error,
+    required String path,
+    required String invoker,
+  }) async {
 
-    await Errorize.throwText(text: error, invoker: 'onRealErrorThrowing');
+    await Errorize.throwMap(
+        invoker: 'onRealErrorThrowing.$invoker',
+        map: {
+          'path': path,
+          'error': error,
+        },
+    );
 
     if (kIsWeb == false){
       final bool _shouldPurge = TextCheck.stringContainsSubString(
@@ -118,7 +128,11 @@ class _OfficialReal {
       await tryAndCatch(
         invoker: 'OfficialReal._createUnnamedDoc',
         timeout: timeout,
-        onError: _onRealError,
+        onError: (String error) => _onRealError(
+          error: error,
+          path: coll,
+          invoker: 'OfficialReal._createUnnamedDoc',
+        ),
         functions: () async {
 
           final f_db.DatabaseReference? _ref = _createPathAndGetRef(coll: coll,)?.push();
@@ -163,7 +177,11 @@ class _OfficialReal {
       await tryAndCatch(
         invoker: 'OfficialReal._createNamedDoc',
         timeout: timeout,
-        onError: _onRealError,
+        onError: (String error) => _onRealError(
+          error: error,
+          path: '$coll/$doc',
+          invoker: 'OfficialReal._createNamedDoc',
+        ),
         functions: () async {
 
           await _ref?.set(Mapper.removePair(
@@ -197,14 +215,19 @@ class _OfficialReal {
     if (map != null && pathWithoutDocName != null) {
       String? _docID;
 
+      final bool _isDocNamed = doc != null;
+      final String _path = _isDocNamed ? '$pathWithoutDocName/$doc' : pathWithoutDocName;
+
       await tryAndCatch(
         invoker: 'OfficialReal.createDocInPath',
         timeout: timeout,
-        onError: _onRealError,
+        onError: (String error) => _onRealError(
+          error: error,
+          path: _path,
+          invoker: 'OfficialReal.createDocInPath',
+        ),
         functions: () async {
 
-          final bool _isDocNamed = doc != null;
-          final String _path = _isDocNamed ? '$pathWithoutDocName/$doc' : pathWithoutDocName;
 
           /// GET PATH
           f_db.DatabaseReference? _ref = _getRefByPath(
@@ -252,7 +275,11 @@ class _OfficialReal {
       await tryAndCatch(
         invoker: 'OfficialReal.createColl',
         timeout: timeout,
-        onError: _onRealError,
+        onError: (String error) => _onRealError(
+          error: error,
+          path: coll,
+          invoker: 'OfficialReal.createColl',
+        ),
         functions: () async {
 
           final f_db.DatabaseReference? _ref = _createPathAndGetRef(
@@ -293,7 +320,11 @@ class _OfficialReal {
     await tryAndCatch(
       invoker: 'OfficialReal.readPathMaps',
       timeout: timeout,
-      onError: _onRealError,
+      onError: (String error) => _onRealError(
+        error: error,
+        path: realQueryModel?.path ?? '',
+        invoker: 'OfficialReal.readPathMaps',
+      ),
       functions: () async {
 
         final f_db.Query? _query = RealQueryModel.createOfficialRealQuery(
@@ -327,7 +358,11 @@ class _OfficialReal {
     await tryAndCatch(
       invoker: 'OfficialReal.readPathMap',
       timeout: timeout,
-      onError: _onRealError,
+      onError: (String error) => _onRealError(
+        error: error,
+        path: path,
+        invoker: 'OfficialReal.readPathMap',
+      ),
       functions: () async {
 
         final f_db.DatabaseReference? _ref = _getRefByPath(path: path);
@@ -364,7 +399,11 @@ class _OfficialReal {
       await tryAndCatch(
         invoker: 'OfficialReal.readPath',
         timeout: timeout,
-        onError: _onRealError,
+        onError: (String error) => _onRealError(
+          error: error,
+          path: path,
+          invoker: 'OfficialReal.readPath',
+        ),
         functions: () async {
 
           final f_db.DatabaseEvent? event = await _ref?.once(
@@ -502,11 +541,18 @@ class _OfficialReal {
       await tryAndCatch(
           invoker: 'OfficialReal.updateDocField',
           timeout: timeout,
-          onError: _onRealError,
+          onError: (String error) => _onRealError(
+            error: error,
+            path: '$coll/$doc/$field',
+            invoker: 'OfficialReal.updateDocField',
+          ),
           functions: () async {
-            await _ref?.set(value).then((_) {}).catchError((error) {
-              _onRealError(error);
-            });
+
+            await _ref?.set(value);
+            //     .then((_) {}).catchError((error) {
+            //   _onRealError(error);
+            // })
+            // ;
           }
           );
     }
@@ -535,7 +581,11 @@ class _OfficialReal {
 
       await tryAndCatch(
         invoker: 'incrementDocFields',
-        onError: _onRealError,
+        onError: (String error) => _onRealError(
+            error: error,
+            path: '$coll/$doc',
+            invoker: 'OfficialReal.incrementDocFields',
+        ),
         functions: () async {
 
           if (_updatesMap != null && _ref != null){
@@ -569,7 +619,11 @@ class _OfficialReal {
 
       await tryAndCatch(
         invoker: 'incrementPathFields',
-        onError: _onRealError,
+        onError: (String error) => _onRealError(
+          error: error,
+          path: path,
+          invoker: 'OfficialReal.incrementPathFields',
+        ),
         functions: () async {
 
           if (_ref != null && _updatesMap != null){
@@ -601,7 +655,11 @@ class _OfficialReal {
     await tryAndCatch(
       invoker: 'OfficialReal.deleteDoc',
       timeout: timeout,
-      onError: _onRealError,
+      onError: (String error) => _onRealError(
+        error: error,
+        path: '$coll/$doc',
+        invoker: 'OfficialReal.deleteDoc',
+      ),
       functions: () async {
 
         await _ref?.remove();
@@ -629,7 +687,11 @@ class _OfficialReal {
       await tryAndCatch(
           invoker: 'OfficialReal.deleteField',
           timeout: timeout,
-          onError: _onRealError,
+          onError: (String error) => _onRealError(
+            error: error,
+            path: '$coll/$doc/$field',
+            invoker: 'OfficialReal.deleteField',
+          ),
           functions: () async {
             await _ref?.set(null).then((_) {}).catchError((error) {
               // The write failed...
@@ -655,7 +717,11 @@ class _OfficialReal {
       await tryAndCatch(
         invoker: 'OfficialReal.deletePath',
         timeout: timeout,
-        onError: _onRealError,
+        onError: (String error) => _onRealError(
+          error: error,
+          path: pathWithDocName,
+          invoker: 'OfficialReal.deletePath',
+        ),
         functions: () async {
           await _ref?.remove();
         },
@@ -686,7 +752,11 @@ class _OfficialReal {
       await tryAndCatch(
           invoker: 'OfficialReal.clonePath',
           timeout: timeout,
-          onError: _onRealError,
+          onError: (String error) => _onRealError(
+            error: error,
+            path: newPath,
+            invoker: 'OfficialReal.clonePath',
+          ),
           functions: () async {
             await _ref?.set(_object);
           });
