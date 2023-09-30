@@ -1,5 +1,6 @@
 ---
 
+### 2.2.7 : fixes and updates
 ### 2.2.6 : progress for web
 ### 2.2.5 : adapting with web now
 ### 2.2.4 : pubs upgrade

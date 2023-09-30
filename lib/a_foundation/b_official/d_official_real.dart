@@ -20,6 +20,7 @@ class _OfficialReal {
         invoker: 'onRealErrorThrowing.$invoker',
         map: {
           'path': path,
+          'userID': Authing.getUserID(),
           'error': error,
         },
     );

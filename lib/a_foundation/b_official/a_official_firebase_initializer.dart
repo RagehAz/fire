@@ -80,7 +80,7 @@ class OfficialFirebase {
     required SocialKeys? socialKeys,
   }) {
 
-    blog('Social Authing is FEATURE need serious work AGAIN');
+    // blog('Social Authing is FEATURE need serious work AGAIN');
 
     if (socialKeys != null) {
       fui.FirebaseUIAuth.configureProviders([

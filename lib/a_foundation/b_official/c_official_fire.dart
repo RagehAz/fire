@@ -196,7 +196,7 @@ class _OfficialFire{
                 onSuccess();
               }
 
-              blog('$invoker.setData : CREATED ${_upload.keys.length} keys in : ${ref.path}');
+              // blog('$invoker.setData : CREATED ${_upload.keys.length} keys in : ${ref.path}');
 
               // Mapper.blogMap(_upload, invoker: '_setData');
 
