@@ -1,5 +1,6 @@
 ---
 
+### 2.2.8 : added real force auth switch
 ### 2.2.7 : fixes and updates
 ### 2.2.6 : progress for web
 ### 2.2.5 : adapting with web now

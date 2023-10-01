@@ -144,7 +144,7 @@ class _FireCollPaginatorState extends State<FireCollPaginator> {
 
     /// LISTEN TO PAGINATOR CONTROLLER NOTIFIERS (AddMap - replaceMap - deleteMap - onDataChanged)
     _paginatorController = widget.paginationController ?? PaginationController.initialize(
-      addExtraMapsAtEnd: true,
+      addExtraMapsAtEnd: widget.paginationController?.addExtraMapsAtEnd ?? true,
       idFieldName: widget.paginationQuery?.idFieldName ?? 'id',
       onDataChanged: widget.onDataChanged,
     );
@@ -185,7 +185,10 @@ class _FireCollPaginatorState extends State<FireCollPaginator> {
 
           PaginationController.insertMapsToPaginator(
             mapsToAdd: streamMaps,
-            controller: _paginatorController,
+            controller: _paginatorController.copyWith(
+              /// to put stream maps in inverse direction
+              addExtraMapsAtEnd: !_paginatorController.addExtraMapsAtEnd,
+            ),
             mounted: mounted,
           );
 
@@ -202,6 +205,8 @@ class _FireCollPaginatorState extends State<FireCollPaginator> {
   // --------------------
   /// TESTED : WORKS PERFECT
   Future<void> _readMore() async {
+
+    blog('read more');
 
     await _triggerLoading(setTo: true);
 
@@ -236,7 +241,9 @@ class _FireCollPaginatorState extends State<FireCollPaginator> {
 
     /// NO MORE MAPS TO READ
     else {
-      // blog('FireCollPaginator : _readMore : _canKeepReading : $_canKeepReading : NO MORE MAPS AFTER THIS ${_startAfter.toString()}');
+      blog('FireCollPaginator : _readMore : _canKeepReading : ${_paginatorController.canKeepReading.value} '
+      'isPaginating : ${_paginatorController.isPaginating}'
+          );
     }
 
     await _triggerLoading(setTo: false);

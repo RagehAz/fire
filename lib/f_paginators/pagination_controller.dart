@@ -30,6 +30,39 @@ class PaginationController {
   final ValueNotifier<bool> canKeepReading;
   // -----------------------------------------------------------------------------
 
+  /// CLONING
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  PaginationController copyWith({
+    ValueNotifier<List<Map<String, dynamic>>>? paginatorMaps,
+    ValueNotifier<Map<String, dynamic>?>? replaceMap,
+    ValueNotifier<Map<String, dynamic>?>? addMap,
+    ValueNotifier<Map<String, dynamic>?>? deleteMap,
+    ValueNotifier<dynamic>? startAfter,
+    bool? addExtraMapsAtEnd,
+    String? idFieldName,
+    ValueChanged<List<Map<String, dynamic>>>? onDataChanged,
+    ScrollController? scrollController,
+    ValueNotifier<bool>? isPaginating,
+    ValueNotifier<bool>? canKeepReading,
+  }) {
+    return PaginationController(
+      paginatorMaps: paginatorMaps ?? this.paginatorMaps,
+      replaceMap: replaceMap ?? this.replaceMap,
+      addMap: addMap ?? this.addMap,
+      deleteMap: deleteMap ?? this.deleteMap,
+      startAfter: startAfter ?? this.startAfter,
+      addExtraMapsAtEnd: addExtraMapsAtEnd ?? this.addExtraMapsAtEnd,
+      idFieldName: idFieldName ?? this.idFieldName,
+      onDataChanged: onDataChanged ?? this.onDataChanged,
+      scrollController: scrollController ?? this.scrollController,
+      isPaginating: isPaginating ?? this.isPaginating,
+      canKeepReading: canKeepReading ?? this.canKeepReading,
+    );
+  }
+  // -----------------------------------------------------------------------------
+
   /// INITIALIZATION
 
   // --------------------
