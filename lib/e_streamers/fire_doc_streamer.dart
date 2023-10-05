@@ -1,77 +1,96 @@
 part of super_fire;
 
 class FireDocStreamer extends StatefulWidget {
-  /// --------------------------------------------------------------------------
+  // --------------------------------------------------------------------------
   const FireDocStreamer({
     required this.collName,
     required this.docName,
     required this.builder,
-    this.onDataChanged,
+    this.onChanged,
     this.initialMap,
-    this.loadingWidget,
     super.key
   });
-  /// --------------------------------------------------------------------------
+  // --------------------
   final String collName;
   final String docName;
-  final Widget Function(BuildContext context, Map<String, dynamic>? map) builder;
-  final Function(BuildContext context, Map<String, dynamic>? oldMap, Map<String, dynamic>? newMap)? onDataChanged;
+  final Widget Function(bool loading, Map<String, dynamic>? map) builder;
+  final Function(Map<String, dynamic>? oldMap, Map<String, dynamic>? newMap)? onChanged;
   final Map<String, dynamic>? initialMap;
-  final Widget? loadingWidget;
-  /// --------------------------------------------------------------------------
-  static Future<void> onStreamDataChanged({
+  // --------------------------------------------------------------------------
+  /// TESTED : WORKS PERFECT
+  static StreamSubscription? initializeStreamListener({
     required Stream<Map<String, dynamic>?>? stream,
-    required Map<String, dynamic>? oldMap,
+    required ValueNotifier<Map<String, dynamic>?> oldMap,
     required bool mounted,
-    required Function(Map<String, dynamic>? oldMap, Map<String, dynamic>? newMap)? onChange,
-  }) async {
+    required Function(Map<String, dynamic>? oldMap, Map<String, dynamic>? newMap)? onChanged,
+  }) {
 
-    stream?.listen((Map<String, dynamic>? newMap) async {
+    final StreamSubscription? _sub =
+    stream?.listen(
 
-      // blog('xxx - onStreamDataChanged - snapshot : $snapshot');
+          /// LISTENER
+          (Map<String, dynamic>? newMap) => _streamListener(
+            mounted: mounted,
+            newMap: newMap,
+            oldMap: oldMap,
+            onChanged: onChanged,
+          ),
 
-      final bool _mapsAreTheSame = Mapper.checkMapsAreIdentical(
-        map1: oldMap,
-        map2: newMap,
-      );
+          /// CANCEL
+          cancelOnError: false,
 
-      // blog('FireDocStreamer - onStreamDataChanged - _oldMap == _newMap : $_mapsAreTheSame');
+          /// ON DONE
+          onDone: (){
+            // blog('FireDocStreamer : onStreamDataChanged : done');
+          },
 
-
-      if (_mapsAreTheSame == false){
-        if (mounted == true){
-          onChange?.call(oldMap, newMap);
-        }
-      }
-
-
-    },
-
-      cancelOnError: false,
-
-      onDone: (){
-        // blog('FireDocStreamer : onStreamDataChanged : done');
-      },
-
-      onError: (Object error){
-        // blog('FireDocStreamer : onStreamDataChanged : error : $error');
-      },
+          /// ON ERROR
+          onError: (Object error){
+            // blog('FireDocStreamer : onStreamDataChanged : error : $error');
+          },
 
     );
 
 
+    return _sub;
   }
-  /// --------------------------------------------------------------------------
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static void _streamListener({
+    required Map<String, dynamic>? newMap,
+    required ValueNotifier<Map<String, dynamic>?> oldMap,
+    required Function(Map<String, dynamic>? oldMap, Map<String, dynamic>? newMap)? onChanged,
+    required bool mounted,
+  }) {
+
+    // blog('xxx - onStreamDataChanged - snapshot : $snapshot');
+
+    final bool _mapsAreTheSame = Mapper.checkMapsAreIdentical(
+      map1: oldMap.value,
+      map2: newMap,
+    );
+
+    // blog('FireDocStreamer - onStreamDataChanged - _oldMap == _newMap : $_mapsAreTheSame');
+
+    if (_mapsAreTheSame == false){
+      if (mounted == true){
+        onChanged?.call(oldMap.value, newMap);
+        setNotifier(notifier: oldMap, mounted: mounted, value: newMap);
+      }
+    }
+
+  }
+  // --------------------------------------------------------------------------
   @override
   _FireDocStreamerState createState() => _FireDocStreamerState();
-  /// --------------------------------------------------------------------------
+  // --------------------------------------------------------------------------
 }
 
 class _FireDocStreamerState extends State<FireDocStreamer> {
   // -----------------------------------------------------------------------------
   late Stream<Map<String, dynamic>?>? _stream;
   final ValueNotifier<Map<String, dynamic>?> _oldMap = ValueNotifier<Map<String, dynamic>?>(null);
-  late StreamSubscription? _sub;
+  StreamSubscription? _sub;
   // -----------------------------------------------------------------------------
   @override
   void initState() {
@@ -82,27 +101,17 @@ class _FireDocStreamerState extends State<FireDocStreamer> {
       doc: widget.docName,
     );
 
-    _sub = _stream?.listen((event) { });
-
-    FireDocStreamer.onStreamDataChanged(
+    _sub = FireDocStreamer.initializeStreamListener(
       stream: _stream,
-      oldMap: _oldMap.value,
+      oldMap: _oldMap,
       mounted: mounted,
-      onChange: widget.onDataChanged == null ? null : _onChanged,
+      onChanged: widget.onChanged,
     );
 
   }
   // --------------------
-  void _onChanged (Map<String, dynamic>? oldMap, Map<String, dynamic>? newMap){
-    if (mounted == true){
-      widget.onDataChanged?.call(context, oldMap, newMap);
-      setNotifier(notifier: _oldMap, mounted: mounted, value: oldMap);
-    }
-  }
-  // --------------------
   @override
   void dispose() {
-      blog('FireDocStreamer : DISPOSING THE FUCKING PAGE');
       _oldMap.dispose();
       _sub?.cancel();
       super.dispose();
@@ -117,15 +126,7 @@ class _FireDocStreamerState extends State<FireDocStreamer> {
       initialData: widget.initialMap,
       builder: (BuildContext ctx, AsyncSnapshot<dynamic>? snapshot) {
 
-        if (snapshot?.connectionState == ConnectionState.waiting) {
-          return widget.loadingWidget ?? widget.builder(ctx, null);
-        }
-
-        else {
-
-          return widget.builder(ctx, snapshot?.data);
-
-        }
+        return widget.builder(snapshot?.connectionState == ConnectionState.waiting, snapshot?.data);
 
       },
     );

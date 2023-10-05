@@ -20,6 +20,7 @@ class _NativeReal {
     if (_shouldPurge == true){
       await _purge();
     }
+
   }
   // --------------------
   /// TESTED : WORKS PERFECT
@@ -246,7 +247,7 @@ class _NativeReal {
             coll: coll,
           );
 
-          // blog('NativeReal.createColl $_ref');
+          blog('NativeReal.createColl $_ref');
 
           await _ref?.set(Mapper.removePair(
             map: map,
@@ -260,7 +261,7 @@ class _NativeReal {
             overrideExisting: true,
           );
 
-          // blog('NativeReal.createColl DONE : $_output');
+          blog('NativeReal.createColl DONE : $_output');
 
         },
       );

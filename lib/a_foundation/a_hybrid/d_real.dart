@@ -62,6 +62,8 @@ class Real {
   }) async {
     Map<String, dynamic>? _output;
 
+    blog('createColl : wtf : checkCanUseReal() : ${checkCanUseReal()}');
+
     if (checkCanUseReal() == true){
 
       if (FirebaseInitializer.isUsingOfficialPackages() == true){
