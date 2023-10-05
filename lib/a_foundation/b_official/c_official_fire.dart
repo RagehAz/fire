@@ -601,7 +601,7 @@ class _OfficialFire{
 
           await _docRef?.delete();
 
-          blog('deleteDoc : deleted : $coll : $doc : $subColl : $subDoc');
+          // blog('deleteDoc : deleted : $coll : $doc : $subColl : $subDoc');
         }
     );
   }

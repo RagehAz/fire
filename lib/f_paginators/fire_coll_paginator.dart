@@ -33,6 +33,7 @@ class _FireCollPaginatorState extends State<FireCollPaginator> {
   // -----------------------------------------------------------------------------
   late PaginationController _paginatorController;
   StreamSubscription? _streamSub;
+  final ValueNotifier<List<Map<String, dynamic>>> _streamOldMaps = ValueNotifier<List<Map<String, dynamic>>>([]);
   // -----------------------------------------------------------------------------
   /// --- LOADING
   final ValueNotifier<bool> _loading = ValueNotifier(false);
@@ -122,10 +123,12 @@ class _FireCollPaginatorState extends State<FireCollPaginator> {
   @override
   void dispose() {
 
+    _streamOldMaps.dispose();
+    _loading.dispose();
+
     /// STATE ARE HANDLED INTERNALLY
     if (widget.paginationController == null){
       _paginatorController.dispose();
-      _loading.dispose();
     }
 
     if (_streamSub != null){
@@ -175,16 +178,17 @@ class _FireCollPaginatorState extends State<FireCollPaginator> {
         queryModel: widget.streamQuery!,
       );
 
-      _streamSub = FireCollStreamer.onStreamDataChanged(
+      _streamSub = FireCollStreamer.initializeStreamListener(
         stream: _stream,
-        invoker: '_initializeStreamListener',
-        onChange: (List<Map<String, dynamic>> streamMaps){
+        mounted: mounted,
+        oldMaps: _streamOldMaps,
+        onChanged: (List<Map<String, dynamic>> oldMaps, List<Map<String, dynamic>> newMaps){
 
           // final List<Map<String, dynamic>> _allMaps = [..._paginatorController.paginatorMaps.value];
           // blog(' === > streamMaps : ${streamMaps.length} maps');
 
           PaginationController.insertMapsToPaginator(
-            mapsToAdd: streamMaps,
+            mapsToAdd: newMaps,
             controller: _paginatorController.copyWith(
               /// to put stream maps in inverse direction
               addExtraMapsAtEnd: !_paginatorController.addExtraMapsAtEnd,

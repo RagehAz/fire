@@ -1,6 +1,6 @@
 part of super_fire;
 
-/// =>
+/// => TAMAM
 class Fire {
   // -----------------------------------------------------------------------------
 
@@ -209,7 +209,7 @@ class Fire {
   /// STREAMING
 
   // --------------------
-  /// TASK : TEST ME
+  /// TESTED : WORKS PERFECT
   static Stream<List<Map<String, dynamic>>>? streamColl({
     required FireQueryModel queryModel,
   }) {
@@ -219,12 +219,13 @@ class Fire {
     }
 
     else {
+      /// NOTE / CAUTION : DOES NOT LISTEN TO DELETED DOCS
       return _NativeFire.streamColl(queryModel: queryModel);
     }
 
   }
   // --------------------
-  /// TASK : TEST ME
+  /// TESTED : WORKS PERFECT
   static Stream<Map<String, dynamic>?>? streamDoc({
     required String coll,
     required String doc,

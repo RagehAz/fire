@@ -431,7 +431,7 @@ class _NativeFire {
     return _collRef?.stream.map(_NativeFireMapper.mapDocs);
   }
   // --------------------
-  /// TASK : TEST ME
+  /// TESTED : WORKS PERFECT
   static Stream<Map<String, dynamic>?>? streamDoc({
     required String coll,
     required String doc,
@@ -572,7 +572,7 @@ class _NativeFire {
 
           await _docRef?.delete();
 
-          blog('deleteDoc : deleted : $coll : $doc : $subColl : $subDoc');
+          // blog('deleteDoc : deleted : $coll : $doc : $subColl : $subDoc');
         });
   }
   // --------------------

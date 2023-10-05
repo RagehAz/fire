@@ -20,8 +20,8 @@ class FireDocStreamer extends StatefulWidget {
   /// TESTED : WORKS PERFECT
   static StreamSubscription? initializeStreamListener({
     required Stream<Map<String, dynamic>?>? stream,
-    required ValueNotifier<Map<String, dynamic>?> oldMap,
     required bool mounted,
+    required ValueNotifier<Map<String, dynamic>?> oldMap,
     required Function(Map<String, dynamic>? oldMap, Map<String, dynamic>? newMap)? onChanged,
   }) {
 
@@ -124,9 +124,9 @@ class _FireDocStreamerState extends State<FireDocStreamer> {
       key: const ValueKey<String>('FireDocStreamer'),
       stream: _stream,
       initialData: widget.initialMap,
-      builder: (BuildContext ctx, AsyncSnapshot<dynamic>? snapshot) {
+      builder: (BuildContext ctx, AsyncSnapshot<dynamic> snapshot) {
 
-        return widget.builder(snapshot?.connectionState == ConnectionState.waiting, snapshot?.data);
+        return widget.builder(snapshot.connectionState == ConnectionState.waiting, snapshot.data);
 
       },
     );
