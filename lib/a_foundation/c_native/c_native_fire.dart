@@ -1,6 +1,6 @@
 part of super_fire;
 
-///
+/// => TAMAM
 class _NativeFire {
   // -----------------------------------------------------------------------------
 
@@ -417,7 +417,7 @@ class _NativeFire {
   /// STREAMING
 
   // --------------------
-  /// TASK : TEST ME
+  /// TESTED : WORKS PERFECT
   static Stream<List<Map<String, dynamic>>>? streamColl({
     required FireQueryModel queryModel,
   }) {
@@ -428,6 +428,7 @@ class _NativeFire {
       subColl: queryModel.subColl,
     );
 
+    /// PACKAGE LIMITATION : IT DOES NOT LISTEN TO DELETED DOCS
     return _collRef?.stream.map(_NativeFireMapper.mapDocs);
   }
   // --------------------
