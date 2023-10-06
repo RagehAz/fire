@@ -297,7 +297,7 @@ class _OfficialFireMapper {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static List<Map<String, dynamic>>? getMapsFromDataSnapshots({
+  static List<Map<String, dynamic>> getMapsFromDataSnapshots({
     required List<f_db.DataSnapshot>? snapshots,
     required bool addDocsIDs,
   }){
