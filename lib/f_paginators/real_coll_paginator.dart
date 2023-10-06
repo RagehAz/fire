@@ -18,7 +18,7 @@ class RealCollPaginator extends StatefulWidget {
   final ValueChanged<List<Map<String, dynamic>>>? onDataChanged;
   final Widget Function(
       BuildContext,
-      List<Map<String, dynamic>>? maps,
+      List<Map<String, dynamic>> maps,
       bool isLoading,
       Widget? child
       ) builder;
@@ -183,6 +183,8 @@ class _RealCollPaginatorState extends State<RealCollPaginator> {
   /// TESTED : WORKS PERFECT
   Future<void> _readMore() async {
 
+    blog('read more');
+
     await _triggerLoading(setTo: true);
 
     /// CAN KEEP READING
@@ -215,7 +217,7 @@ class _RealCollPaginatorState extends State<RealCollPaginator> {
 
     /// NO MORE MAPS TO READ
     else {
-      // blog('FireCollPaginator : _readMore : _canKeepReading : $_canKeepReading :NO MORE MAPS AFTER THIS ');
+      blog('FireCollPaginator : _readMore : _canKeepReading : ${_paginatorController.canKeepReading} :NO MORE MAPS AFTER THIS ');
     }
 
     await _triggerLoading(setTo: false);
