@@ -210,9 +210,22 @@ class _FireCollPaginatorState extends State<FireCollPaginator> {
   /// TESTED : WORKS PERFECT
   Future<void> _readMore() async {
 
-    blog('read more');
-
     await _triggerLoading(setTo: true);
+
+    if (FirebaseInitializer.isUsingOfficialPackages() == true){
+      await _readMoreOfficial();
+    }
+
+    else {
+      await _readMoreNative();
+    }
+
+    await _triggerLoading(setTo: false);
+
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  Future<void> _readMoreOfficial() async {
 
     /// CAN KEEP READING
     if (_paginatorController.canKeepReading.value  == true){
@@ -246,11 +259,71 @@ class _FireCollPaginatorState extends State<FireCollPaginator> {
     /// NO MORE MAPS TO READ
     else {
       blog('FireCollPaginator : _readMore : _canKeepReading : ${_paginatorController.canKeepReading.value} '
-      'isPaginating : ${_paginatorController.isPaginating}'
-          );
+          'isPaginating : ${_paginatorController.isPaginating}'
+      );
     }
 
-    await _triggerLoading(setTo: false);
+
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  Future<void> _readMoreNative() async {
+
+    if (widget.paginationQuery?.coll != null){
+
+      /// CAN KEEP READING
+      if (_paginatorController.canKeepReading.value  == true){
+
+        final fd.CollectionReference? _collRef = _NativeFire.getCollRef(
+          coll: widget.paginationQuery!.coll,
+          doc: widget.paginationQuery!.doc,
+          subColl: widget.paginationQuery!.subColl,
+        );
+
+        final fd.Page<fd.Document>? _page = await _collRef!.get(
+          pageSize: widget.paginationQuery?.limit ?? 10,
+          nextPageToken: _paginatorController.startAfter.value ?? '',
+        );
+
+        final List<Map<String, dynamic>>? _nextMaps = _NativeFireMapper.getMapsFromNativePage(
+          page: _page,
+          addDocsIDs: true,
+        );
+
+        if (Mapper.checkCanLoopList(_nextMaps) == true){
+
+          PaginationController.insertMapsToPaginator(
+            mapsToAdd: _nextMaps,
+            controller: _paginatorController,
+            mounted: mounted,
+          );
+
+          setNotifier(
+              notifier: _paginatorController.startAfter,
+              mounted: mounted,
+              value: _page!.nextPageToken,
+          );
+
+        }
+
+        else {
+          setNotifier(
+              notifier: _paginatorController.canKeepReading,
+              mounted: mounted,
+              value: false
+          );
+        }
+
+      }
+
+      /// NO MORE MAPS TO READ
+      else {
+        blog('FireCollPaginator : _readMore : _canKeepReading : ${_paginatorController.canKeepReading.value} '
+            'isPaginating : ${_paginatorController.isPaginating}'
+        );
+      }
+
+    }
 
   }
   // -----------------------------------------------------------------------------
@@ -267,13 +340,12 @@ class _FireCollPaginatorState extends State<FireCollPaginator> {
               builder: (_, List<Map<String, dynamic>> maps, Widget? xChild){
 
                 // Mapper.blogMaps(maps, invoker: 'FireCollPaginator : builder');
-
                 return widget.builder(context, maps, _isLoading, child);
 
               });
 
         }
-    );
+        );
 
   }
   // -----------------------------------------------------------------------------

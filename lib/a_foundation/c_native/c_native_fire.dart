@@ -12,7 +12,7 @@ class _NativeFire {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static fd.CollectionReference? _getCollRef({
+  static fd.CollectionReference? getCollRef({
     required String coll,
     String? doc,
     String? subColl,
@@ -48,13 +48,13 @@ class _NativeFire {
     /// IS DOC REF
     if (_isSubDoc == false){
       /// return NativeFirebase.getFire().document('$coll/$doc');
-      return _getCollRef(coll: coll)?.document(doc!);
+      return getCollRef(coll: coll)?.document(doc!);
     }
 
     /// IS SUB DOC REF
     else {
       /// return NativeFirebase.getFire().document('$coll/$doc/$subColl/$subDoc');
-      return _getCollRef(coll: coll)
+      return getCollRef(coll: coll)
           ?.document(doc!)
           .collection(subColl!)
           .document(subDoc!);
@@ -305,7 +305,7 @@ class _NativeFire {
           invoker: 'NativeFire.readColl',
           functions: () async {
             final fd.QueryReference? query = _createCollQuery(
-              collRef: _getCollRef(
+              collRef: getCollRef(
                 coll: queryModel.coll,
                 doc: queryModel.doc,
                 subColl: queryModel.subColl,
@@ -316,6 +316,13 @@ class _NativeFire {
               finders: queryModel.finders,
             );
             final List<fd.Document>? _page = await query?.get();
+
+            getCollRef(
+                coll: queryModel.coll,
+                doc: queryModel.doc,
+                subColl: queryModel.subColl,
+              );
+
             _output = _NativeFireMapper.getMapsFromNativePage(
               page: _page,
               addDocsIDs: true,
@@ -340,7 +347,7 @@ class _NativeFire {
       invoker: 'NativeFire.readAllColl',
       functions: () async {
 
-        final fd.CollectionReference? _collRef = _getCollRef(
+        final fd.CollectionReference? _collRef = getCollRef(
           coll: coll,
           doc: doc,
           subColl: subColl,
@@ -380,6 +387,7 @@ class _NativeFire {
 
       query = _NativeFirebase.getFire()?.collection(collRef.path).where(
           collRef.path,
+
           // isNull: false,
       );
 
@@ -404,6 +412,7 @@ class _NativeFire {
         if (startAfter != null) {
           assert(startAfter == null, 'Native Fire Implementation does not support startAfter');
           // query = query.startAfterDocument(startAfter);
+          // query?.get();
         }
 
 
@@ -422,7 +431,7 @@ class _NativeFire {
     required FireQueryModel queryModel,
   }) {
 
-    final fd.CollectionReference? _collRef = _getCollRef(
+    final fd.CollectionReference? _collRef = getCollRef(
       coll: queryModel.coll,
       doc: queryModel.doc,
       subColl: queryModel.subColl,
