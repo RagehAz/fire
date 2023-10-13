@@ -65,7 +65,7 @@ class StorageMetaModel {
 
     if (map != null){
       _output = StorageMetaModel(
-        ownersIDs: Stringer.getStringsFromDynamics(dynamics: map['ownersIDs']),
+        ownersIDs: Stringer.getStringsFromDynamics(map['ownersIDs']),
         width: map['width'],
         height: map['height'],
         name: map['name'],
