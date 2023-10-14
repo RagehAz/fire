@@ -550,4 +550,18 @@ class PaginationController {
 
   }
   // -----------------------------------------------------------------------------
+
+  /// LISTENING
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static double getVerticalPaginationTileHeight({
+    required BuildContext context,
+    required int numberOfTilesOnScreen,
+    required double totalPaddings,
+  }){
+    final double _screenHeight = Scale.screenHeight(context);
+    return (_screenHeight - totalPaddings) / numberOfTilesOnScreen;
+  }
+  // -----------------------------------------------------------------------------
 }
