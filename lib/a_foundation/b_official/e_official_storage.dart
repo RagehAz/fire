@@ -304,13 +304,13 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
       bool _canRead = true;
 
       if (kIsWeb == true){
-        blog('kIsWeb : canRead: $_canRead');
+        // blog('kIsWeb : canRead: $_canRead');
         final StorageMetaModel? _meta = await readMetaByPath(
           path: path,
         );
-        blog('_meta : $_meta');
+        // blog('_meta : $_meta');
         _canRead = _meta != null;
-        blog('_canRead : $_canRead');
+        // blog('_canRead : $_canRead');
       }
 
       if (_canRead == true){
