@@ -1,12 +1,16 @@
 part of super_fire;
-
-class AuthError {
+/// => TAMAM
+class FireError {
   // -----------------------------------------------------------------------------
 
-  const AuthError();
+  const FireError();
 
   // -----------------------------------------------------------------------------
-  static const Map<String, dynamic> _authErrors = {
+
+  /// ERROR MAPS
+
+  // --------------------
+  static const Map<String, dynamic> _errorsMap = {
     // There is no user record corresponding to this identifier. The user may have been deleted.',
     '[firebase_auth/user-not-found]': 'E-mail is not found',
     // A network error (such as timeout, interrupted connection or unreachable host) has occurred.',
@@ -26,9 +30,10 @@ class AuthError {
     //
     '[firebase_auth/account-exists-with-different-credential]': 'This email is already used by different Sign-In method',
     //
+    '[cloud_firestore/failed-precondition]': 'can not conduct this search',
 
   };
-  // -----------------------------------------------------------------------------
+  // --------------------
   static const Map<String, dynamic> allGoogleErrors = {
     'wrong-password': 'The password is invalid or the user does not have a password.',
     'claims-too-large': 'The claims payload provided to setCustomUserClaims() exceeds the maximum allowed size of 1000 bytes.',
@@ -182,15 +187,32 @@ class AuthError {
     'unauthenticated': 'The request does not have valid authentication credentials for the operation.'
 };
   // -----------------------------------------------------------------------------
-  ///
-  static String? getErrorReply({
+
+  /// GETTERS
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static String getErrorReply({
     required String? error,
   }) {
-    String _output = 'Something went wrong !';
+
+    String? _output = _getReply(map: _errorsMap, error: error);
+    _output ??= _getReply(map: allGoogleErrors, error: error);
+    _output ??= 'Something went wrong !';
+
+    return _output;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static String? _getReply({
+    required String? error,
+    required Map<String, dynamic> map,
+  }) {
+    String? _output;
 
     if (error != null){
 
-      for (final String key in _authErrors.keys.toList()){
+      for (final String key in map.keys.toList()){
 
         final bool _errorIsKnown = TextCheck.stringContainsSubString(
           string: error,
@@ -198,9 +220,9 @@ class AuthError {
         );
 
         if (_errorIsKnown == true){
-          _output = _authErrors[key];
+          _output = map[key];
+          break;
         }
-        break;
 
       }
 
@@ -209,15 +231,16 @@ class AuthError {
     return _output;
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static String? getErrorKey({
     required String? error,
+    required Map<String, dynamic> map,
   }) {
     String? _output;
 
     if (error != null){
 
-      for (final String key in _authErrors.keys.toList()){
+      for (final String key in map.keys.toList()){
 
         final bool _errorIsKnown = TextCheck.stringContainsSubString(
           string: error,
@@ -226,9 +249,8 @@ class AuthError {
 
         if (_errorIsKnown == true){
           _output = key;
+          break;
         }
-
-        break;
 
       }
 
@@ -241,7 +263,7 @@ class AuthError {
   /// CHECKERS
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static bool checkIsUserNotFound(String? error){
     bool _output = false;
 

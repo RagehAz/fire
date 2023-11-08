@@ -296,14 +296,15 @@ class _NativeFire {
   static Future<List<Map<String, dynamic>>> readColl({
     required FireQueryModel? queryModel,
     dynamic startAfter,
+    void Function(String)? onError,
   }) async {
     List<Map<String, dynamic>> _output = <Map<String, dynamic>>[];
 
     if (queryModel != null){
 
       await tryAndCatch(
-          invoker: 'NativeFire.readColl',
-          functions: () async {
+        invoker: 'NativeFire.readColl',
+        functions: () async {
             final fd.QueryReference? query = _createCollQuery(
               collRef: getCollRef(
                 coll: queryModel.coll,
@@ -327,8 +328,9 @@ class _NativeFire {
               page: _page,
               addDocsIDs: true,
             );
-          }
-          );
+          },
+        onError: onError,
+      );
     }
 
     return _output;

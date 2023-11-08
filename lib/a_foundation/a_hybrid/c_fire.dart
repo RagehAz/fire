@@ -154,6 +154,7 @@ class Fire {
     required FireQueryModel? queryModel,
     dynamic startAfter,
     bool addDocSnapshotToEachMap = false,
+    void Function(String)? onError,
   }) async {
 
     List<Map<String, dynamic>> _output;
@@ -164,6 +165,7 @@ class Fire {
         queryModel: queryModel,
         startAfter: startAfter,
         addDocSnapshotToEachMap: addDocSnapshotToEachMap,
+        onError: onError,
       );
     }
 
@@ -172,6 +174,7 @@ class Fire {
       _output = await _NativeFire.readColl(
         queryModel: queryModel,
         startAfter: startAfter,
+        onError: onError,
       );
     }
 

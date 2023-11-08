@@ -305,6 +305,7 @@ class _OfficialFire{
     required FireQueryModel? queryModel,
     cloud.QueryDocumentSnapshot<Object?>? startAfter,
     bool addDocSnapshotToEachMap = false,
+    void Function(String)? onError,
   }) async {
 
     List<Map<String, dynamic>> _maps = <Map<String,dynamic>>[];
@@ -312,36 +313,34 @@ class _OfficialFire{
     if (queryModel != null){
 
       await tryAndCatch(
-          invoker: 'OfficialFire.readColl',
-          functions: () async {
+        invoker: 'OfficialFire.readColl',
+        functions: () async {
 
-            final cloud.Query<Map<String, dynamic>>? query = _createCollQuery(
-              collRef: _getCollRef(
-                coll: queryModel.coll,
-                doc: queryModel.doc,
-                subColl: queryModel.subColl,
-              ),
-              orderBy: queryModel.orderBy,
-              limit: queryModel.limit,
-              startAfter: startAfter,
-              finders: queryModel.finders,
+          final cloud.Query<Map<String, dynamic>>? query = _createCollQuery(
+            collRef: _getCollRef(
+              coll: queryModel.coll,
+              doc: queryModel.doc,
+              subColl: queryModel.subColl,
+            ),
+            orderBy: queryModel.orderBy,
+            limit: queryModel.limit,
+            startAfter: startAfter,
+            finders: queryModel.finders,
+          );
+
+          if (query != null){
+            final cloud.QuerySnapshot<Object> _collectionSnapshot = await query.get();
+            final List<cloud.QueryDocumentSnapshot<Object>> _queryDocumentSnapshots = _collectionSnapshot.docs;
+            _maps = _OfficialFireMapper.getMapsFromQueryDocumentSnapshotsList(
+                queryDocumentSnapshots: _queryDocumentSnapshots,
+                addDocsIDs: true,
+                addDocSnapshotToEachMap: addDocSnapshotToEachMap
             );
+          }
 
-            if (query != null){
-
-              final cloud.QuerySnapshot<Object> _collectionSnapshot = await query.get();
-
-              final List<cloud.QueryDocumentSnapshot<Object>> _queryDocumentSnapshots = _collectionSnapshot.docs;
-
-              _maps = _OfficialFireMapper.getMapsFromQueryDocumentSnapshotsList(
-                  queryDocumentSnapshots: _queryDocumentSnapshots,
-                  addDocsIDs: true,
-                  addDocSnapshotToEachMap: addDocSnapshotToEachMap
-              );
-
-            }
-
-          });
+          },
+        onError: onError,
+      );
 
     }
 

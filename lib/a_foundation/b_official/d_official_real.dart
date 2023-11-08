@@ -7,7 +7,7 @@ class _OfficialReal {
   const _OfficialReal();
 
   // -----------------------------------------------------------------------------
-  static int timeout = 10;
+  static int timeout = 30;
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> _onRealError({

@@ -9,6 +9,7 @@ class FireCollPaginator extends StatefulWidget {
     this.streamQuery,
     this.child,
     this.onDataChanged,
+    this.onError,
     super.key
   });
   /// --------------------------------------------------------------------------
@@ -17,6 +18,7 @@ class FireCollPaginator extends StatefulWidget {
   final Widget? child;
   final PaginationController? paginationController;
   final ValueChanged<List<Map<String, dynamic>>>? onDataChanged;
+  final Function(String error)? onError;
   final Widget Function(
       BuildContext context,
       List<Map<String, dynamic>> maps,
@@ -234,6 +236,7 @@ class _FireCollPaginatorState extends State<FireCollPaginator> {
         queryModel: widget.paginationQuery,
         startAfter: _paginatorController.startAfter.value,
         addDocSnapshotToEachMap: true,
+        onError: widget.onError,
       );
 
       if (Mapper.checkCanLoopList(_nextMaps) == true){

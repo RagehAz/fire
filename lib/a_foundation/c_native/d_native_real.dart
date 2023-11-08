@@ -7,7 +7,7 @@ class _NativeReal {
   const _NativeReal();
 
   // -----------------------------------------------------------------------------
-  static int timeout = 10;
+  static int timeout = 30;
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> _onRealError(String error) async {
