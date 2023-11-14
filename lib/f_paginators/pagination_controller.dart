@@ -263,6 +263,20 @@ class PaginationController {
 
     // blog('_addMapToPaginatorMaps ENDS WITH : ${paginatorMaps.value.length} maps');
   }
+  // ---------
+  /// TESTED : WORKS PERFECT
+  void addMapToPaginator({
+    required Map<String, dynamic> map,
+    required bool mounted,
+  }){
+
+    setNotifier(
+        notifier: addMap,
+        mounted: mounted,
+        value: map,
+    );
+
+  }
   // --------------------------------
 
   /// REPLACE MAP
