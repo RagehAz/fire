@@ -55,8 +55,8 @@ class _FireCollPaginatorState extends State<FireCollPaginator> {
     /// PAGINATOR CONTROLLER
     _initializePaginatorController();
 
-    /// LISTEN TO SCROLL
-    _initializeScrollListener();
+    /// REMOVED
+    _paginatorController.scrollController.addListener(_scrollListener);
 
   }
   // --------------------
@@ -103,9 +103,7 @@ class _FireCollPaginatorState extends State<FireCollPaginator> {
           _streamQueryChanged == true
       ){
 
-        _paginatorController.clear(
-          mounted: mounted,
-        );
+        _paginatorController.clear();
 
         setNotifier(
             notifier: _paginatorController.canKeepReading,
@@ -124,6 +122,8 @@ class _FireCollPaginatorState extends State<FireCollPaginator> {
   // --------------------
   @override
   void dispose() {
+
+    _paginatorController.scrollController.removeListener(_scrollListener);
 
     _streamOldMaps.dispose();
     _loading.dispose();
@@ -149,27 +149,13 @@ class _FireCollPaginatorState extends State<FireCollPaginator> {
 
     /// LISTEN TO PAGINATOR CONTROLLER NOTIFIERS (AddMap - replaceMap - deleteMap - onDataChanged)
     _paginatorController = widget.paginationController ?? PaginationController.initialize(
+      mounted: mounted,
       addExtraMapsAtEnd: widget.paginationController?.addExtraMapsAtEnd ?? true,
       idFieldName: widget.paginationQuery?.idFieldName ?? 'id',
       onDataChanged: widget.onDataChanged,
     );
 
   }
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  void _initializeScrollListener(){
-
-      createPaginationListener(
-          controller: _paginatorController.scrollController,
-          isPaginating: _paginatorController.isPaginating,
-          canKeepReading: _paginatorController.canKeepReading,
-          mounted: mounted,
-          onPaginate: () async {
-            await _readMore();
-          }
-      );
-
-    }
   // --------------------
   /// TESTED : WORKS PERFECT
   void _initializeStreamListener(){
@@ -202,6 +188,24 @@ class _FireCollPaginatorState extends State<FireCollPaginator> {
       );
 
     }
+
+  }
+  // -----------------------------------------------------------------------------
+
+  /// LISTENERS
+
+  // --------------------
+  void _scrollListener(){
+
+    paginationListener(
+      canKeepReading: _paginatorController.canKeepReading,
+      controller: _paginatorController.scrollController,
+      isPaginating: _paginatorController.isPaginating,
+      onPaginate: () async {
+        await _readMore();
+      },
+      mounted: mounted,
+    );
 
   }
   // -----------------------------------------------------------------------------

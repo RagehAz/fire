@@ -1,6 +1,6 @@
 name: fire
 description: Firebase firestore API.
-version: 2.4.0
+version: 2.4.1
 publish_to: "none"
 homepage: https://github.com/RagehAz/fire.git
 # --------------------------------------------------------------------------------
@@ -13,14 +13,14 @@ dependencies:
     sdk: flutter
   # ------------------------------------
   basics:
-#    path: D:/projects/packages/helpers/basics
-    git:
-      url: https://github.com/RagehAz/basics.git
+    path: D:/projects/packages/basics
+#    git:
+#      url: https://github.com/RagehAz/basics.git
   # ------------------------------------
   firedart: ^0.9.7
   extension_google_sign_in_as_googleapis_auth: ^2.0.11
   firebase_auth: ^4.9.0
-  flutter_facebook_auth: ^5.0.11
+  flutter_facebook_auth: ^6.0.3
   google_sign_in: ^6.1.5
   googleapis_auth: ^1.4.1
   sign_in_with_apple: ^5.0.0
@@ -35,10 +35,10 @@ dependencies:
   # FIRE PACKS IN BASICS
   cloud_firestore: ^4.9.1
   firebase_core: ^2.15.1
-  http: ^0.13.0
+  http: ^1.1.0
 
-dependency_overrides:
-  intl: ^0.18.1
+#dependency_overrides:
+#  intl: ^0.18.1
 # --------------------------------------------------------------------------------
 dev_dependencies:
   flutter_test:

@@ -51,8 +51,8 @@ class _RealCollPaginatorState extends State<RealCollPaginator> {
     /// PAGINATOR CONTROLLER
     _initializePaginatorController();
 
-    /// LISTEN TO SCROLL
-    _initializeScrollListeners();
+    /// REMOVED
+    _paginatorController.scrollController.addListener(_scrollListener);
 
     /// ON CHILD ADDED TO PATH
     // _initializeOnChildAddedListener();
@@ -89,9 +89,7 @@ class _RealCollPaginatorState extends State<RealCollPaginator> {
 
       if (_paginationQueryChanged == true){
 
-        _paginatorController.clear(
-          mounted: mounted,
-        );
+        _paginatorController.clear();
 
         setNotifier(
             notifier: _paginatorController.canKeepReading,
@@ -110,6 +108,9 @@ class _RealCollPaginatorState extends State<RealCollPaginator> {
   // -----------------------------------------------------------------------------
   @override
   void dispose() {
+
+    _paginatorController.scrollController.removeListener(_scrollListener);
+
     _loading.dispose();
 
     if (_sub != null){
@@ -132,25 +133,11 @@ class _RealCollPaginatorState extends State<RealCollPaginator> {
 
     /// LISTEN TO PAGINATOR CONTROLLER NOTIFIERS (AddMap - replaceMap - deleteMap - onDataChanged)
     _paginatorController = widget.paginationController ?? PaginationController.initialize(
+      mounted: mounted,
       addExtraMapsAtEnd: true,
       idFieldName: widget.paginationQuery?.idFieldName ?? 'id',
       onDataChanged: widget.onDataChanged,
     );
-
-  }
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  void _initializeScrollListeners(){
-
-    createPaginationListener(
-        controller: _paginatorController.scrollController,
-        isPaginating: _paginatorController.isPaginating,
-        canKeepReading: _paginatorController.canKeepReading,
-        mounted: mounted,
-        onPaginate: () async {
-          await _readMore();
-        }
-        );
 
   }
   // --------------------
@@ -175,6 +162,24 @@ class _RealCollPaginatorState extends State<RealCollPaginator> {
 
   }
    */
+  // -----------------------------------------------------------------------------
+
+  /// LISTENERS
+
+  // --------------------
+  void _scrollListener(){
+
+    paginationListener(
+      controller: _paginatorController.scrollController,
+      isPaginating: _paginatorController.isPaginating,
+      canKeepReading: _paginatorController.canKeepReading,
+      mounted: mounted,
+      onPaginate: () async {
+        await _readMore();
+      },
+    );
+
+  }
   // -----------------------------------------------------------------------------
 
   /// READING

@@ -30,50 +30,45 @@ bool canPaginate({
 }
 // --------------------
 /// TESTED : WORKS PERFECT
-void createPaginationListener({
+Future<void> paginationListener({
   required ScrollController controller,
   required ValueNotifier<bool> isPaginating,
   required ValueNotifier<bool> canKeepReading,
   required Function onPaginate,
   required bool mounted,
-}) {
+}) async {
 
-  // blog('createPaginationListener : start');
+  final bool _canPaginate = canPaginate(
+    scrollController: controller,
+    isPaginating: isPaginating.value,
+    canKeepReading: canKeepReading.value,
+    paginationHeight: 100,
+  );
 
-  controller.addListener(() async {
-    final bool _canPaginate = canPaginate(
-      scrollController: controller,
-      isPaginating: isPaginating.value,
-      canKeepReading: canKeepReading.value,
-      paginationHeight: 100,
+  // blog('_canPaginate : $_canPaginate');
+
+  // Sliders.blogScrolling(
+  //   scrollController: controller,
+  //   isPaginating: isPaginating.value,
+  //   canKeepReading: canKeepReading.value,
+  //   paginationHeight: 100,
+  // );
+
+  if (_canPaginate == true) {
+    setNotifier(
+      notifier: isPaginating,
+      mounted: mounted,
+      value: true,
     );
 
-    // blog('_canPaginate : $_canPaginate');
+    await onPaginate();
 
-    // Sliders.blogScrolling(
-    //   scrollController: controller,
-    //   isPaginating: isPaginating.value,
-    //   canKeepReading: canKeepReading.value,
-    //   paginationHeight: 100,
-    // );
-
-    if (_canPaginate == true) {
-      setNotifier(
-        notifier: isPaginating,
-        mounted: mounted,
-        value: true,
-      );
-
-      await onPaginate();
-
-      setNotifier(
-        notifier: isPaginating,
-        mounted: mounted,
-        value: false,
-      );
-    }
-
-  });
+    setNotifier(
+      notifier: isPaginating,
+      mounted: mounted,
+      value: false,
+    );
+  }
 
 }
 // -----------------------------------------------------------------------------

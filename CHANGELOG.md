@@ -1,5 +1,6 @@
 ---
 
+### 2.4.1 : removed all open listeners
 ### 2.3.1 : cleanups
 ### 2.3.0 : things are good
 ### 2.2.8 : added real force auth switch

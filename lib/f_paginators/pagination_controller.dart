@@ -15,6 +15,7 @@ class PaginationController {
     required this.scrollController,
     required this.isPaginating,
     required this.canKeepReading,
+    required this.mounted,
   });
   /// -----------------------------------------------------------------------------
   final ValueNotifier<List<Map<String, dynamic>>> paginatorMaps;
@@ -28,6 +29,7 @@ class PaginationController {
   final ScrollController scrollController;
   final ValueNotifier<bool> isPaginating;
   final ValueNotifier<bool> canKeepReading;
+  final bool mounted;
   // -----------------------------------------------------------------------------
 
   /// CLONING
@@ -46,6 +48,7 @@ class PaginationController {
     ScrollController? scrollController,
     ValueNotifier<bool>? isPaginating,
     ValueNotifier<bool>? canKeepReading,
+    bool? mounted,
   }) {
     return PaginationController(
       paginatorMaps: paginatorMaps ?? this.paginatorMaps,
@@ -59,6 +62,7 @@ class PaginationController {
       scrollController: scrollController ?? this.scrollController,
       isPaginating: isPaginating ?? this.isPaginating,
       canKeepReading: canKeepReading ?? this.canKeepReading,
+      mounted: mounted ?? this.mounted,
     );
   }
   // -----------------------------------------------------------------------------
@@ -69,6 +73,7 @@ class PaginationController {
   /// TESTED : WORKS PERFECT
   static PaginationController initialize({
     required bool addExtraMapsAtEnd,
+    required bool mounted,
     ValueChanged<List<Map<String, dynamic>>>? onDataChanged,
     String idFieldName = 'id',
   }){
@@ -84,19 +89,18 @@ class PaginationController {
       onDataChanged: onDataChanged,
       scrollController: ScrollController(),
       canKeepReading: ValueNotifier(true),
+      mounted: mounted,
       isPaginating: ValueNotifier(false),
     );
 
-    _controller.activateListeners(mounted: true);
+    _controller.activateListeners();
 
     return _controller;
 
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  void clear({
-  required bool mounted,
-  }){
+  void clear(){
     setNotifier(mounted: mounted, notifier: paginatorMaps, value: <Map<String, dynamic>>[]);
     setNotifier(mounted: mounted, notifier: replaceMap, value: null);
     setNotifier(mounted: mounted, notifier: addMap, value: null);
@@ -122,6 +126,10 @@ class PaginationController {
   // --------------------
   /// TESTED : WORKS PERFECT
   void dispose(){
+    _removePaginatorMapsListener();
+    _removeAddMapListener();
+    _removeReplaceMapListener();
+    _removeDeleteMapListener();
     paginatorMaps.dispose();
     replaceMap.dispose();
     addMap.dispose();
@@ -138,25 +146,15 @@ class PaginationController {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  void activateListeners({
-    required bool mounted,
-    // required ValueChanged<List<Map<String, dynamic>>> onDataChanged,
-  }){
+  void activateListeners(){
 
     _listenToPaginatorMapsChanges();
 
-    _listenToAddMap(
-      mounted: mounted,
-      addAtEnd: addExtraMapsAtEnd,
-    );
+    _listenToAddMap();
 
-    _listenToReplaceMap(
-      mounted: mounted,
-    );
+    _listenToReplaceMap();
 
-    _listenToDeleteMap(
-      mounted: mounted,
-    );
+    _listenToDeleteMap();
 
   }
   // --------------------
@@ -168,13 +166,24 @@ class PaginationController {
   void _listenToPaginatorMapsChanges(){
 
     if (onDataChanged != null){
-      paginatorMaps.addListener(() {
-        // if (paginatorMaps.value != null){
-          onDataChanged!(paginatorMaps.value);
-        // }
-      });
+      /// REMOVED
+      paginatorMaps.addListener(_paginatorMapsListener);
     }
 
+  }
+  // ---------
+  /// TESTED : WORKS PERFECT
+  void _removePaginatorMapsListener(){
+    if (onDataChanged != null){
+      paginatorMaps.removeListener(_paginatorMapsListener);
+    }
+  }
+  // ---------
+  /// TESTED : WORKS PERFECT
+  void _paginatorMapsListener() {
+    // if (paginatorMaps.value != null){
+    onDataChanged!(paginatorMaps.value);
+    // }
   }
   // --------------------------------
 
@@ -182,30 +191,22 @@ class PaginationController {
 
   // ---------
   /// TESTED : WORKS PERFECT
-  void _listenToAddMap({
-    required bool addAtEnd,
-    required bool mounted,
-  }){
+  void _listenToAddMap(){
     // if (addMap != null){
-      addMap.addListener(() {
-
-        blog('_listenToAddMap FIRING');
-
-        _addMapToPaginatorMaps(
-          addAtEnd: addAtEnd,
-          mounted: mounted,
-        );
-
-      });
+      /// REMOVED
+      addMap.addListener(_addMapListener);
     // }
   }
   // ---------
   /// TESTED : WORKS PERFECT
-  void _addMapToPaginatorMaps({
-    required bool addAtEnd,
-    required bool mounted,
-  }){
-
+  void _removeAddMapListener(){
+    // if (addMap != null){
+      addMap.removeListener(_addMapListener);
+    // }
+  }
+  // ---------
+  /// TESTED : WORKS PERFECT
+  void _addMapListener() {
     List<Map<String, dynamic>> _combinedMaps = [...paginatorMaps.value];
 
     // blog('_addMapToPaginatorMaps STARTS WITH : ${paginatorMaps.value.length} maps');
@@ -232,7 +233,7 @@ class PaginationController {
       /// SHOULD ADD
       else {
 
-        if (addAtEnd == true){
+        if (addExtraMapsAtEnd == true){
           _combinedMaps = [...paginatorMaps.value, addMap.value!];
         }
         else {
@@ -261,7 +262,6 @@ class PaginationController {
 
     }
 
-    // blog('_addMapToPaginatorMaps ENDS WITH : ${paginatorMaps.value.length} maps');
   }
   // ---------
   /// TESTED : WORKS PERFECT
@@ -283,18 +283,23 @@ class PaginationController {
 
   // ---------
   /// TESTED : WORKS PERFECT
-  void _listenToReplaceMap({
-    required bool mounted,
-  }){
+  void _listenToReplaceMap(){
+    /// REMOVED
+    replaceMap.addListener(_replaceMapListener);
+  }
+  // ---------
+  /// TESTED : WORKS PERFECT
+  void _removeReplaceMapListener(){
+    replaceMap.removeListener(_replaceMapListener);
+  }
+  // ---------
+  /// TESTED : WORKS PERFECT
+  void _replaceMapListener() {
 
-      replaceMap.addListener(() {
-
-        _replaceExistingMap(
-          mounted: mounted,
-          controller: this,
-        );
-
-      });
+    _replaceExistingMap(
+      mounted: mounted,
+      controller: this,
+    );
 
   }
   // ---------
@@ -353,25 +358,18 @@ class PaginationController {
 
   // ---------
   /// TESTED : WORKS PERFECT
-  void _listenToDeleteMap({
-    required bool mounted,
-  }){
-
-      deleteMap.addListener(() {
-
-        _deleteExistingMap(
-          mounted: mounted,
-        );
-
-      });
-
+  void _listenToDeleteMap(){
+    /// REMOVED
+    deleteMap.addListener(_deleteMapListener);
   }
   // ---------
   /// TESTED : WORKS PERFECT
-  void _deleteExistingMap({
-    required bool mounted,
-  }){
-
+  void _removeDeleteMapListener(){
+    deleteMap.removeListener(_deleteMapListener);
+  }
+  // ---------
+  /// TESTED : WORKS PERFECT
+  void _deleteMapListener() {
     if (deleteMap.value != null){
 
       final List<Map<String, dynamic>> _updatedMaps = Mapper.removeMapFromMapsByIdField(
@@ -399,14 +397,11 @@ class PaginationController {
       );
 
     }
-
-
   }
   // ---------
   /// TESTED : WORKS PERFECT
   void deleteMapByID({
     required String? id,
-    required bool mounted,
     String idFieldName = 'id',
   }){
 
@@ -429,7 +424,6 @@ class PaginationController {
   /// TESTED : WORKS PERFECT
   void removeMapsByIDs({
     required List<String> ids,
-    required bool mounted,
     String idFieldName = 'id',
   }){
 
