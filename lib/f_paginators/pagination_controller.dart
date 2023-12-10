@@ -135,7 +135,7 @@ class PaginationController {
     addMap.dispose();
     deleteMap.dispose();
     startAfter.dispose();
-    blog('disposing scrollController');
+    // blog('disposing scrollController');
     scrollController.dispose();
     canKeepReading.dispose();
     isPaginating.dispose();
