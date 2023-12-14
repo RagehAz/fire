@@ -134,7 +134,7 @@ class StorageMetaModel {
 
       final List<String> _keys = metaMap.keys.toList();
 
-      if (Lister.checkCanLoopList(_keys) == true){
+      if (Lister.checkCanLoop(_keys) == true){
 
         for (final String key in _keys){
 
@@ -176,7 +176,7 @@ class StorageMetaModel {
     };
 
     /// ADD OWNERS IDS
-    if (Lister.checkCanLoopList(ownersIDs) == true){
+    if (Lister.checkCanLoop(ownersIDs) == true){
       for (final String ownerID in ownersIDs) {
         _metaDataMap[ownerID] = 'cool';
       }
@@ -275,7 +275,7 @@ class StorageMetaModel {
     };
 
     /// ADD OWNERS IDS
-    if (Lister.checkCanLoopList(ownersIDs) == true){
+    if (Lister.checkCanLoop(ownersIDs) == true){
       for (final String ownerID in ownersIDs) {
         _metaDataMap[ownerID] = 'cool';
       }

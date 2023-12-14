@@ -143,7 +143,7 @@ class _OfficialFire{
   }) async {
     final List<String> _output = <String>[];
 
-    if (Lister.checkCanLoopList(inputs) == true){
+    if (Lister.checkCanLoop(inputs) == true){
 
       await Future.wait(<Future>[
 
@@ -255,7 +255,7 @@ class _OfficialFire{
   }) async {
     final List<Map<String, dynamic>> _output = [];
 
-    if (Lister.checkCanLoopList(ids) == true){
+    if (Lister.checkCanLoop(ids) == true){
 
       /// READING SUB DOCS
       if (subColl != null){
@@ -403,7 +403,7 @@ class _OfficialFire{
 
       if (query != null){
         /// ASSIGN SEARCH FINDERS
-        if (Lister.checkCanLoopList(finders) == true){
+        if (Lister.checkCanLoop(finders) == true){
           query = FireFinder.createOfficialCompositeQueryByFinders(
             query: query,
             finders: finders!,
@@ -698,7 +698,7 @@ class _OfficialFire{
 
     /// PLAN : THIS SHOULD BE A CLOUD FUNCTION INSTEAD OF THIS BULLSHIT
 
-    if (Lister.checkCanLoopList(docsIDs) == true){
+    if (Lister.checkCanLoop(docsIDs) == true){
 
       final bool _isDeletingSubDocs = subColl != null && doc != null;
 
@@ -1201,7 +1201,7 @@ String pathOfSubDoc({
     /// PLAN : THIS SHOULD BE A CLOUD FUNCTION INSTEAD OF THIS BULLSHIT
 
 
-    if (Lister.checkCanLoopList(docsIDs) == true){
+    if (Lister.checkCanLoop(docsIDs) == true){
 
       for (final String id in docsIDs){
 

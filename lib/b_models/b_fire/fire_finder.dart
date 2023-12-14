@@ -92,7 +92,7 @@ class FireFinder {
 
     cloud.Query<Map<String, dynamic>> _output = query;
 
-    if (Lister.checkCanLoopList(finders) == true){
+    if (Lister.checkCanLoop(finders) == true){
 
       for (final FireFinder finder in finders){
         _output = createOfficialQueryByFinder(
@@ -189,7 +189,7 @@ class FireFinder {
 
     fd.QueryReference? _output = query;
 
-    if (Lister.checkCanLoopList(finders) == true){
+    if (Lister.checkCanLoop(finders) == true){
 
       for (final FireFinder finder in finders!){
         _output = createNativeQueryByFinder(

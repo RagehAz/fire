@@ -127,7 +127,7 @@ class _OfficialAuthing {
 
       final List<f_a.UserInfo> providerData = user.providerData;
 
-      if (Lister.checkCanLoopList(providerData) == true){
+      if (Lister.checkCanLoop(providerData) == true){
         final f_a.UserInfo _info = providerData.first;
         final String? providerID = _info.providerId;
         _output = AuthModel.decipherSignInMethod(providerID);
@@ -450,7 +450,7 @@ class OfficialGoogleAuthing {
   }) async {
     AuthClient? client;
 
-    if (Lister.checkCanLoopList(scopes) == true) {
+    if (Lister.checkCanLoop(scopes) == true) {
 
       final GoogleSignIn _googleSignIn = GoogleSignIn(
         scopes: scopes!,

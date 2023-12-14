@@ -243,7 +243,7 @@ class _FireCollPaginatorState extends State<FireCollPaginator> {
         onError: widget.onError,
       );
 
-      if (Lister.checkCanLoopList(_nextMaps) == true){
+      if (Lister.checkCanLoop(_nextMaps) == true){
 
         PaginationController.insertMapsToPaginator(
           mapsToAdd: _nextMaps,
@@ -297,7 +297,7 @@ class _FireCollPaginatorState extends State<FireCollPaginator> {
           addDocsIDs: true,
         );
 
-        if (Lister.checkCanLoopList(_nextMaps) == true){
+        if (Lister.checkCanLoop(_nextMaps) == true){
 
           PaginationController.insertMapsToPaginator(
             mapsToAdd: _nextMaps,

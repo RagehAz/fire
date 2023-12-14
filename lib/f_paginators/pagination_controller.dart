@@ -427,7 +427,7 @@ class PaginationController {
     String idFieldName = 'id',
   }){
 
-    if (Lister.checkCanLoopList(ids) == true){
+    if (Lister.checkCanLoop(ids) == true){
 
       if (paginatorMaps.value.isNotEmpty == true){
 
@@ -465,7 +465,7 @@ class PaginationController {
     required bool mounted,
   }){
 
-    if (Lister.checkCanLoopList(paginatorMaps) == true){
+    if (Lister.checkCanLoop(paginatorMaps) == true){
 
       setNotifier(
           notifier: startAfter,
@@ -498,7 +498,7 @@ class PaginationController {
 
     List<Map<String, dynamic>>? _combinedMaps = [...?controller?.paginatorMaps.value];
 
-    if (Lister.checkCanLoopList(mapsToAdd) == true && controller != null){
+    if (Lister.checkCanLoop(mapsToAdd) == true && controller != null){
 
       for (final Map<String, dynamic>? mapToInsert in mapsToAdd!) {
 

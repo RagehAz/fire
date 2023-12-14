@@ -200,7 +200,7 @@ class _RealCollPaginatorState extends State<RealCollPaginator> {
         realQueryModel: widget.paginationQuery,
       );
 
-      if (Lister.checkCanLoopList(_nextMaps) == true){
+      if (Lister.checkCanLoop(_nextMaps) == true){
 
         PaginationController.insertMapsToPaginator(
           mapsToAdd: _nextMaps,
