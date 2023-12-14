@@ -309,7 +309,7 @@ class AuthModel {
 
     List<Map<String, String?>>? _maps;
 
-    if (Mapper.checkCanLoopList(userInfos) == true){
+    if (Lister.checkCanLoopList(userInfos) == true){
 
       _maps = <Map<String, String?>>[];
 
@@ -351,13 +351,13 @@ class AuthModel {
 
     List<f_a.UserInfo>? _userInfos;
 
-    if (Mapper.checkCanLoopList(maps) == true){
+    if (Lister.checkCanLoopList(maps) == true){
 
       _userInfos = <f_a.UserInfo>[];
 
       final List<Map<String, String?>>? _maps = _fixTheImmutableMapsThing(maps);
 
-      if (Mapper.checkCanLoopList(_maps) == true){
+      if (Lister.checkCanLoopList(_maps) == true){
 
         for (final Map<String, String?>? _map in _maps!) {
 
@@ -395,10 +395,10 @@ class AuthModel {
 
     final List<Map<String, String?>> _output = <Map<String, String?>>[];
 
-    if (Mapper.checkCanLoopList(_list) == true){
+    if (Lister.checkCanLoopList(_list) == true){
       for (final dynamic object in _list){
 
-        final Map<String, String?>? _stringStringMap = Mapper.getStringStringMapFromImmutableMapStringObject(object);
+        final Map<String, String?>? _stringStringMap = MapperSS.getStringStringMapFromImmutableMapStringObject(object);
 
         // blog('5 _fixTheImmutableMapsThing : _stringStringMap type is : ${_stringStringMap.runtimeType}');
 

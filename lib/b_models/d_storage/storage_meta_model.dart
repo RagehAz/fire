@@ -108,7 +108,7 @@ class StorageMetaModel {
 
     if (customMetadata != null){
       _output = StorageMetaModel(
-        ownersIDs: Mapper.getKeysHavingThisValue(
+        ownersIDs: MapperSS.getKeysHavingThisValue(
           map: customMetadata,
           value: 'cool',
         ),
@@ -134,7 +134,7 @@ class StorageMetaModel {
 
       final List<String> _keys = metaMap.keys.toList();
 
-      if (Mapper.checkCanLoopList(_keys) == true){
+      if (Lister.checkCanLoopList(_keys) == true){
 
         for (final String key in _keys){
 
@@ -176,7 +176,7 @@ class StorageMetaModel {
     };
 
     /// ADD OWNERS IDS
-    if (Mapper.checkCanLoopList(ownersIDs) == true){
+    if (Lister.checkCanLoopList(ownersIDs) == true){
       for (final String ownerID in ownersIDs) {
         _metaDataMap[ownerID] = 'cool';
       }
@@ -188,7 +188,7 @@ class StorageMetaModel {
 
     /// ADD META DATA MAP
     if (data != null) {
-      _metaDataMap = Mapper.combineStringStringMap(
+      _metaDataMap = MapperSS.combineStringStringMap(
         baseMap: _metaDataMap,
         replaceDuplicateKeys: true,
         insert: data,
@@ -197,7 +197,7 @@ class StorageMetaModel {
 
     /// ADD EXTRA DATA MAP
     if (extraData != null) {
-      _metaDataMap = Mapper.combineStringStringMap(
+      _metaDataMap = MapperSS.combineStringStringMap(
         baseMap: _metaDataMap,
         replaceDuplicateKeys: true,
         insert: extraData,
@@ -275,7 +275,7 @@ class StorageMetaModel {
     };
 
     /// ADD OWNERS IDS
-    if (Mapper.checkCanLoopList(ownersIDs) == true){
+    if (Lister.checkCanLoopList(ownersIDs) == true){
       for (final String ownerID in ownersIDs) {
         _metaDataMap[ownerID] = 'cool';
       }
@@ -287,7 +287,7 @@ class StorageMetaModel {
 
     /// ADD META DATA MAP
     if (data != null) {
-      _metaDataMap = Mapper.combineStringStringMap(
+      _metaDataMap = MapperSS.combineStringStringMap(
         baseMap: _metaDataMap,
         replaceDuplicateKeys: true,
         insert: data,
@@ -296,7 +296,7 @@ class StorageMetaModel {
 
     /// ADD EXTRA DATA MAP
     if (extraData != null) {
-      _metaDataMap = Mapper.combineStringStringMap(
+      _metaDataMap = MapperSS.combineStringStringMap(
         baseMap: _metaDataMap,
         replaceDuplicateKeys: true,
         insert: extraData,
@@ -486,7 +486,7 @@ class StorageMetaModel {
     else if (meta1 != null && meta2 != null){
 
       if (
-          Mapper.checkListsAreIdentical(list1: meta1.ownersIDs, list2: meta2.ownersIDs) == true
+          Lister.checkListsAreIdentical(list1: meta1.ownersIDs, list2: meta2.ownersIDs) == true
               &&
           meta1.width == meta2.width
               &&

@@ -195,7 +195,7 @@ class _NativeFireMapper {
       final List<String> _keys = incrementationMap.keys.toList();
       final int _incrementer = isIncrementing == true ? 1 : -1;
 
-      if(Mapper.checkCanLoopList(_keys) == true){
+      if(Lister.checkCanLoopList(_keys) == true){
 
         for (final String _key in _keys){
 

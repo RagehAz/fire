@@ -50,7 +50,7 @@ class _OfficialFireMapper {
 
     final List<Map<String, dynamic>> _maps = <Map<String, dynamic>>[];
 
-    if (Mapper.checkCanLoopList(queryDocumentSnapshots) == true) {
+    if (Lister.checkCanLoopList(queryDocumentSnapshots) == true) {
 
       for (final cloud.QueryDocumentSnapshot<Object> docSnapshot in queryDocumentSnapshots!) {
 
@@ -259,7 +259,7 @@ class _OfficialFireMapper {
       // blog('snapshot.value : ${snapshot.value} : type : ${snapshot.value.runtimeType}');
 
 
-      if (_bigMap != null && Mapper.checkCanLoopList(_keys) == true){
+      if (_bigMap != null && Lister.checkCanLoopList(_keys) == true){
 
         for (final String key in _keys!) {
 
@@ -304,7 +304,7 @@ class _OfficialFireMapper {
 
     final List<Map<String, dynamic>> _output = <Map<String, dynamic>>[];
 
-    if (Mapper.checkCanLoopList(snapshots) == true){
+    if (Lister.checkCanLoopList(snapshots) == true){
 
       for (final f_db.DataSnapshot snap in snapshots!){
 
@@ -346,7 +346,7 @@ class _OfficialFireMapper {
 
     final List<String>? _keys = incrementationMap?.keys.toList();
 
-    if (incrementationMap != null && Mapper.checkCanLoopList(_keys) == true){
+    if (incrementationMap != null && Lister.checkCanLoopList(_keys) == true){
 
       for (final String key in _keys!){
 

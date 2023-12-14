@@ -96,7 +96,7 @@ class _NativeStorage {
     required StorageMetaModel? storageMetaModel,
   }) async {
 
-    assert(Mapper.checkCanLoopList(bytes) == true, 'uInt8List is empty or null');
+    assert(Lister.checkCanLoopList(bytes) == true, 'uInt8List is empty or null');
     assert(storageMetaModel != null, 'metaData is null');
     assert(TextCheck.isEmpty(path) == false, 'path is empty or null');
 
@@ -684,7 +684,7 @@ class _NativeStorage {
     required String? currentUserID,
   }) async {
 
-    if (Mapper.checkCanLoopList(paths) == true && currentUserID != null){
+    if (Lister.checkCanLoopList(paths) == true && currentUserID != null){
 
       await Future.wait(<Future>[
 
@@ -725,7 +725,7 @@ class _NativeStorage {
 
       final List<String>? _ownersIDs = _meta?.ownersIDs;
 
-      if (Mapper.checkCanLoopList(_ownersIDs) == true){
+      if (Lister.checkCanLoopList(_ownersIDs) == true){
 
         _canDelete = Stringer.checkStringsContainString(
           strings: _ownersIDs,

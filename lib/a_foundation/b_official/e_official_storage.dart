@@ -96,7 +96,7 @@ class _OfficialStorage {
     required StorageMetaModel? storageMetaModel,
   }) async {
 
-    // assert(Mapper.checkCanLoopList(bytes) == true, 'uInt7List is empty or null');
+    // assert(Lister.checkCanLoopList(bytes) == true, 'uInt7List is empty or null');
     // assert(TextCheck.isEmpty(path) == false, 'path is empty or null');
 
     String? _url;
@@ -931,7 +931,7 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
     required String currentUserID,
   }) async {
 
-    if (Mapper.checkCanLoopList(paths) == true){
+    if (Lister.checkCanLoopList(paths) == true){
 
       await Future.wait(<Future>[
 
@@ -974,7 +974,7 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
 
       blog('checkCanDeleteStorageFile : _ownersIDs : $_ownersIDs');
 
-      if (Mapper.checkCanLoopList(_ownersIDs) == true){
+      if (Lister.checkCanLoopList(_ownersIDs) == true){
 
         _canDelete = Stringer.checkStringsContainString(
           strings: _ownersIDs,

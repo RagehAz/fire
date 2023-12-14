@@ -138,7 +138,7 @@ class _NativeFire {
 
     /// NOTE : THIS HAS TO BE DONE ONE BY ONE TO GENERATE DIFFERENT IDS
 
-    if (Mapper.checkCanLoopList(inputs) == true) {
+    if (Lister.checkCanLoopList(inputs) == true) {
       for (final Map<String, dynamic> map in inputs!) {
         final String? _docID = await createDoc(
           input: map,
@@ -241,7 +241,7 @@ class _NativeFire {
     final List<Map<String, dynamic>> _output = [];
 
     /// READING SUB DOCS
-    if (Mapper.checkCanLoopList(ids) == true && subColl != null){
+    if (Lister.checkCanLoopList(ids) == true && subColl != null){
 
       await Future.wait(<Future>[
 
@@ -396,7 +396,7 @@ class _NativeFire {
       if (query != null) {
 
         /// ASSIGN SEARCH FINDERS
-        if (Mapper.checkCanLoopList(finders) == true) {
+        if (Lister.checkCanLoopList(finders) == true) {
           query = FireFinder.createNativeCompositeQueryByFinders(query: query, finders: finders);
         }
 
@@ -685,7 +685,7 @@ class _NativeFire {
 
     /// PLAN : THIS SHOULD BE A CLOUD FUNCTION INSTEAD OF THIS BULLSHIT
 
-    if (Mapper.checkCanLoopList(docsIDs) == true){
+    if (Lister.checkCanLoopList(docsIDs) == true){
 
       blog('deleteDocs : ids are : $docsIDs');
 
