@@ -122,18 +122,26 @@ class _OfficialStorage {
 
             blog('createDocByUint8List : 2 - uploaded uInt8List to path : $path');
 
-            await Future.wait(<Future>[
-              _uploadTask.whenComplete(() async {
-                blog('createDocByUint8List : 3 - uploaded successfully');
-                _url = await _createURLByRef(ref: _ref);
-              }),
-              _uploadTask.onError((error, stackTrace) {
-                blog('createDocByUint8List : 3 - failed to upload');
-                blog('error : ${error.runtimeType} : $error');
-                blog('stackTrace : ${stackTrace.runtimeType} : $stackTrace');
-                return Future.error(error!);
-              }),
-            ]);
+            await Future.wait(
+                <Future>[
+
+                  /// ON COMPLETION
+                  _uploadTask.whenComplete(() async {
+                    blog('createDocByUint8List : 3 - uploaded successfully');
+                    _url = await _createURLByRef(ref: _ref);
+                  }),
+
+                  /// ON ERROR
+                  _uploadTask.onError((error, stackTrace) {
+                    blog('createDocByUint8List : 3 - failed to upload');
+                    blog('error : ${error.runtimeType} : $error');
+                    blog('stackTrace : ${stackTrace.runtimeType} : $stackTrace');
+                    return Future.error(error!);
+                  }),
+
+                ]
+            );
+
 
           }
           },
