@@ -1,5 +1,6 @@
 ---
 
+### 2.5.1 : refactors
 ### 2.5.0 : refactored Lister & Mapper & MapperSS
 ### 2.4.2 : cleanup + pub updates
 ### 2.4.1 : removed all open listeners
