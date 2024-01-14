@@ -280,7 +280,7 @@ class RealQueryModel{
 
     }
 
-    return _path;
+    return Pathing.fixPathFormatting(_path)!;
   }
   // -----------------------------------------------------------------------------
 

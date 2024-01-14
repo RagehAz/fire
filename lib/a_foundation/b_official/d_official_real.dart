@@ -544,7 +544,7 @@ class _OfficialReal {
           timeout: timeout,
           onError: (String error) => _onRealError(
             error: error,
-            path: '$coll/$doc/$field',
+            path: Pathing.fixPathFormatting('$coll/$doc/$field')!,
             invoker: 'OfficialReal.updateDocField',
           ),
           functions: () async {
