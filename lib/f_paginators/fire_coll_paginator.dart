@@ -55,6 +55,14 @@ class _FireCollPaginatorState extends State<FireCollPaginator> {
     /// PAGINATOR CONTROLLER
     _initializePaginatorController();
 
+    /// THOSE REFRESH THE WIDGET WHEN ITS REBUILT AGAIN ANAD AGAIN
+    _paginatorController.clear();
+    setNotifier(
+      notifier: _paginatorController.canKeepReading,
+      mounted: mounted,
+      value: true,
+    );
+
     /// REMOVED
     _paginatorController.scrollController.addListener(_scrollListener);
 
@@ -63,7 +71,7 @@ class _FireCollPaginatorState extends State<FireCollPaginator> {
   bool _isInit = true;
   @override
   void didChangeDependencies() {
-
+    
     if (_isInit && mounted) {
       _isInit = false; // good
 
@@ -84,7 +92,7 @@ class _FireCollPaginatorState extends State<FireCollPaginator> {
   // --------------------
   @override
   void didUpdateWidget(covariant FireCollPaginator oldWidget) {
-
+    
     asyncInSync(() async {
 
       final bool _paginationQueryChanged = FireQueryModel.checkQueriesAreIdentical(
@@ -96,7 +104,7 @@ class _FireCollPaginatorState extends State<FireCollPaginator> {
         model1: oldWidget.streamQuery,
         model2: widget.streamQuery,
       ) == false;
-
+      
       if (
           _paginationQueryChanged == true
           ||
@@ -110,7 +118,7 @@ class _FireCollPaginatorState extends State<FireCollPaginator> {
             mounted: mounted,
             value: true,
         );
-
+        
         await _readMore();
 
       }
@@ -215,7 +223,7 @@ class _FireCollPaginatorState extends State<FireCollPaginator> {
   // --------------------
   /// TESTED : WORKS PERFECT
   Future<void> _readMore() async {
-
+    
     await _triggerLoading(setTo: true);
 
     if (FirebaseInitializer.isUsingOfficialPackages() == true){
@@ -232,7 +240,7 @@ class _FireCollPaginatorState extends State<FireCollPaginator> {
   // --------------------
   /// TESTED : WORKS PERFECT
   Future<void> _readMoreOfficial() async {
-
+    
     /// CAN KEEP READING
     if (_paginatorController.canKeepReading.value  == true){
 
@@ -336,7 +344,7 @@ class _FireCollPaginatorState extends State<FireCollPaginator> {
   // -----------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
-
+    
     return ValueListenableBuilder(
         valueListenable: _loading,
         child: widget.child,

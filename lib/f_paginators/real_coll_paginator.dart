@@ -51,6 +51,14 @@ class _RealCollPaginatorState extends State<RealCollPaginator> {
     /// PAGINATOR CONTROLLER
     _initializePaginatorController();
 
+    /// THOSE REFRESH THE WIDGET WHEN ITS REBUILT AGAIN ANAD AGAIN
+    _paginatorController.clear();
+    setNotifier(
+      notifier: _paginatorController.canKeepReading,
+      mounted: mounted,
+      value: true,
+    );
+    
     /// REMOVED
     _paginatorController.scrollController.addListener(_scrollListener);
 
