@@ -192,7 +192,7 @@ class StorageMetaModel {
         baseMap: _metaDataMap,
         replaceDuplicateKeys: true,
         insert: data,
-      )?.cast<String, String>();
+      ).cast<String, String>();
     }
 
     /// ADD EXTRA DATA MAP
@@ -201,7 +201,7 @@ class StorageMetaModel {
         baseMap: _metaDataMap,
         replaceDuplicateKeys: true,
         insert: extraData,
-      )?.cast<String, String>();
+      ).cast<String, String>();
     }
 
     return f_s.SettableMetadata(
@@ -291,7 +291,7 @@ class StorageMetaModel {
         baseMap: _metaDataMap,
         replaceDuplicateKeys: true,
         insert: data,
-      )?.cast<String, String>();
+      ).cast<String, String>();
     }
 
     /// ADD EXTRA DATA MAP
@@ -300,7 +300,7 @@ class StorageMetaModel {
         baseMap: _metaDataMap,
         replaceDuplicateKeys: true,
         insert: extraData,
-      )?.cast<String, String>();
+      ).cast<String, String>();
     }
 
     blog('meta data are : $_metaDataMap');
