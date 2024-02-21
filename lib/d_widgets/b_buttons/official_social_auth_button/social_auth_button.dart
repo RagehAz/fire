@@ -144,13 +144,13 @@ class SocialAuthButton extends StatelessWidget {
     }
 
     /// DIFFERENT SIGN IN METHOD FOUND
-    else if (newState is fui.DifferentSignInMethodsFound){
-      if (onError != null){
-        final fui.DifferentSignInMethodsFound  dif = newState;
-        onError?.call('[DifferentSignInMethodsFound]: A different email is assigned for this account (${dif.email})');
-        onAuthLoadingChanged?.call(false);
-      }
-    }
+    // else if (newState is fui.DifferentSignInMethodsFound){
+    //   if (onError != null){
+    //     final fui.DifferentSignInMethodsFound  dif = newState;
+    //     onError?.call('[DifferentSignInMethodsFound]: A different email is assigned for this account (${dif.email})');
+    //     onAuthLoadingChanged?.call(false);
+    //   }
+    // }
 
     /// FETCHING PROVIDERS FOR EMAIL
     else if (newState is fui.FetchingProvidersForEmail){
@@ -166,7 +166,7 @@ class SocialAuthButton extends StatelessWidget {
       onAuthLoadingChanged?.call(false);
     }
 
-    // ignore: avoid_returning_null
+    // ignore: # avoid_returning_null
     return false;
   }
   // --------------------

@@ -27,7 +27,7 @@ class _NativeAuthing{
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<AuthModel?> anonymousSignin({
+  static Future<AuthModel?> anonymousSignIn({
     Function(String? error)? onError,
   }) async {
     AuthModel? _output;

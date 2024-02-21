@@ -1,6 +1,7 @@
 part of super_fire;
+
 /// => TAMAM
-class SocialKeys{
+class SocialKeys {
   // -----------------------------------------------------------------------------
   const SocialKeys({
     this.facebookAppID,
@@ -11,6 +12,7 @@ class SocialKeys{
   // -----------------------------------------------------------------------------
   /// GET CLIENT_ID TAG FROM GoogleService-info.plist
   final String? googleClientID;
+
   /// GET IT FROM FACEBOOK DEV DASHBOARD
   final String? facebookAppID;
   final bool supportApple;

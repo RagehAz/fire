@@ -316,7 +316,9 @@ class _OfficialEmailAuthing {
           invoker: 'updateUserEmail',
           onError: onError,
           functions: () async {
-            await _auth?.currentUser?.updateEmail(newEmail);
+
+            await _auth?.currentUser?.verifyBeforeUpdateEmail(newEmail);
+            // await _auth?.currentUser?.updateEmail(newEmail);
             blog('updateUserEmail : END');
           },
         );

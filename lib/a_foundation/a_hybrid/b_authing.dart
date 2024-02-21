@@ -29,7 +29,7 @@ class Authing {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<AuthModel?> anonymousSignin({
+  static Future<AuthModel?> anonymousSignIn({
     Function(String? error)? onError,
   }) async {
     AuthModel? _output;
@@ -40,7 +40,7 @@ class Authing {
       );
     }
     else {
-      _output = await _NativeAuthing.anonymousSignin(
+      _output = await _NativeAuthing.anonymousSignIn(
         onError: onError,
       );
     }
