@@ -7,7 +7,7 @@ class _OfficialReal {
   const _OfficialReal();
 
   // -----------------------------------------------------------------------------
-  static int timeout = 30;
+  static int timeout = 60;
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> _onRealError({
@@ -16,24 +16,52 @@ class _OfficialReal {
     required String invoker,
   }) async {
 
-    await Errorize.throwMap(
-        invoker: 'onRealErrorThrowing.$invoker',
-        map: {
-          'path': path,
-          'userID': Authing.getUserID(),
-          'error': error,
-        },
+    final bool _writeCancelled = TextCheck.stringContainsSubString(
+      string: error,
+      subString: 'write-cancelled',
+    );
+    final bool _writeCancelled2 = TextCheck.stringContainsSubString(
+        string: error,
+        subString: 'The write was canceled by the user',
     );
 
-    if (kIsWeb == false){
-      final bool _shouldPurge = TextCheck.stringContainsSubString(
-          string: error,
-          subString: 'Timeout',
+    if (_writeCancelled || _writeCancelled2){
+      blog('_onRealError : $error');
+    }
+    else {
+
+      final String? deviceID = await DeviceChecker.getDeviceID();
+      final String? deviceName = await DeviceChecker.getDeviceName();
+      final String? _email = await Authing.getAuthEmail();
+
+      await Errorize.throwMap(
+        invoker: 'onRealErrorThrowing.$invoker',
+        map: {
+          'userID': Authing.getUserID(),
+          'hasID': Authing.userHasID(),
+          'email': _email,
+          'userLastSignIn': Timers.cipherTime(time: Authing.getMyLastSignIn(), toJSON: false),
+          'deviceID': deviceID,
+          'deviceName': deviceName,
+          'deviceOS': DeviceChecker.getDeviceOS(),
+          'errorTime': Timers.cipherTime(time: DateTime.now(), toJSON: false),
+          'errorInvoker': invoker,
+          'realPath': path,
+          'error': error,
+        },
       );
 
-      if (_shouldPurge == true){
-        await _purge();
+      if (kIsWeb == false){
+        final bool _shouldPurge = TextCheck.stringContainsSubString(
+          string: error,
+          subString: 'Timeout',
+        );
+
+        if (_shouldPurge == true){
+          await _purge();
+        }
       }
+
     }
 
   }
