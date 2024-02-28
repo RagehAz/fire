@@ -355,7 +355,7 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
           /// call http.get method and pass imageUrl into it to get response.
           final http.Response? _response = await Rest.get(
             rawLink: url!,
-            // timeout: 60,
+            timeoutSeconds: 500,
             invoker: 'OfficialStorage.readBytesByURL',
           );
 

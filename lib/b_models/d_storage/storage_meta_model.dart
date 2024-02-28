@@ -10,6 +10,7 @@ class StorageMetaModel {
     this.height,
     this.name,
     this.sizeMB,
+    this.fileType,
     this.data,
   });
   // -----------------------------------------------------------------------------
@@ -18,6 +19,7 @@ class StorageMetaModel {
   final double? height;
   final String? name;
   final double? sizeMB;
+  final FileType? fileType;
   final Map<String, String>? data;
   // -----------------------------------------------------------------------------
 
@@ -31,6 +33,7 @@ class StorageMetaModel {
     double? height,
     String? name,
     double? sizeMB,
+    FileType? fileType,
     Map<String, String>? data,
   }){
     return StorageMetaModel(
@@ -39,6 +42,7 @@ class StorageMetaModel {
       height: height ?? this.height,
       name: name ?? this.name,
       sizeMB: sizeMB ?? this.sizeMB,
+      fileType: fileType ?? this.fileType,
       data: data ?? this.data,
     );
   }
@@ -55,6 +59,7 @@ class StorageMetaModel {
       'height': height,
       'name': name,
       'sizeMB': sizeMB,
+      'fileType': FireFileTyper._cipherType(fileType),
       'data': data,
     };
   }
@@ -210,7 +215,10 @@ class StorageMetaModel {
       // contentDisposition: ,
       // contentEncoding: ,
       // contentLanguage: ,
-      contentType: FireFileTyper.getContentType(bytes),
+      contentType: FireFileTyper.getContentType(
+        bytes: bytes,
+        forceType: fileType,
+      ),
     );
 
   }
@@ -303,7 +311,7 @@ class StorageMetaModel {
       ).cast<String, String>();
     }
 
-    blog('meta data are : $_metaDataMap');
+    // blog('meta data are : $_metaDataMap');
 
     return f_d.SettableMetadata(
       customMetadata: _metaDataMap,
@@ -311,7 +319,10 @@ class StorageMetaModel {
       // contentDisposition: ,
       // contentEncoding: ,
       // contentLanguage: ,
-      contentType: FireFileTyper.getContentType(bytes),
+      contentType: FireFileTyper.getContentType(
+        bytes: bytes,
+        forceType: fileType,
+      ),
     );
 
   }
