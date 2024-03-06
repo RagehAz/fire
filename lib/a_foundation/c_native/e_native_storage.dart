@@ -93,11 +93,11 @@ class _NativeStorage {
   static Future<String?> uploadBytesAndGetURL({
     required Uint8List? bytes,
     required String? path,
-    required StorageMetaModel? storageMetaModel,
+    required MediaMetaModel? meta,
   }) async {
 
     assert(Lister.checkCanLoop(bytes) == true, 'uInt8List is empty or null');
-    assert(storageMetaModel != null, 'metaData is null');
+    assert(meta != null, 'metaData is null');
     assert(TextCheck.isEmpty(path) == false, 'path is empty or null');
 
     String? _url;
@@ -109,18 +109,19 @@ class _NativeStorage {
         final f_d.Reference? _ref = _getRefByPath(path);
 
         if (_ref != null && bytes != null){
-          final f_d.SettableMetadata? meta = storageMetaModel?.toNativeSettableMetadata(
+          final f_d.SettableMetadata? _meta = StorageMetaModel.toNativeSettableMetadata(
+            meta: meta,
             bytes: bytes,
             // extraData:
           );
           final f_d.UploadTask _uploadTask = _ref.putData(
             bytes,
-            meta,/// NOTE : THIS DOES NOT WORK
+            _meta,/// NOTE : THIS DOES NOT WORK
           );
           await Future.wait(<Future>[
             _uploadTask.whenComplete(() async {
               _url = await _createURLByRef(ref: _ref);
-              await _ref.updateMetadata(meta!);
+              await _ref.updateMetadata(_meta!);
             }),
             _uploadTask.onError((error, stackTrace) {
               blog('createDocByUint8List : 3 - failed to upload');
@@ -321,10 +322,10 @@ class _NativeStorage {
 
   // --------------------
   /// TESTED: WORKS PERFECT
-  static Future<StorageMetaModel?> readMetaByPath({
+  static Future<MediaMetaModel?> readMetaByPath({
     required String? path,
   }) async {
-    StorageMetaModel? _output;
+    MediaMetaModel? _output;
 
     if (TextCheck.isEmpty(path) == false){
 
@@ -353,10 +354,10 @@ class _NativeStorage {
   }
   // --------------------
   /// TESTED: WORKS PERFECT
-  static Future<StorageMetaModel?> readMetaByURL({
+  static Future<MediaMetaModel?> readMetaByURL({
     required String? url,
   }) async {
-    StorageMetaModel? _output;
+    MediaMetaModel? _output;
 
     if (ObjectCheck.isAbsoluteURL(url) == true){
 
@@ -392,7 +393,7 @@ class _NativeStorage {
   /// TESTED: WORKS PERFECT
   static Future<void> updateMetaByURL({
     required String? url,
-    required StorageMetaModel? meta,
+    required MediaMetaModel? meta,
   }) async {
 
     /// ASSIGNING NULL TO KEY DELETES PAIR AUTOMATICALLY.
@@ -416,8 +417,9 @@ class _NativeStorage {
 
             if (_bytes != null) {
 
-              final f_d.SettableMetadata? _meta = meta.toNativeSettableMetadata(
+              final f_d.SettableMetadata? _meta = StorageMetaModel.toNativeSettableMetadata(
                 bytes: _bytes,
+                meta: meta,
               );
 
               if (_meta != null) {
@@ -437,7 +439,7 @@ class _NativeStorage {
   /// TESTED: WORKS PERFECT
   static Future<void> updateMetaByPath({
     required String? path,
-    required StorageMetaModel? meta,
+    required MediaMetaModel? meta,
   }) async {
 
     /// ASSIGNING NULL TO KEY DELETES PAIR AUTOMATICALLY.
@@ -459,8 +461,9 @@ class _NativeStorage {
 
             if (_bytes != null){
 
-              final f_d.SettableMetadata? _meta = meta.toNativeSettableMetadata(
+              final f_d.SettableMetadata? _meta = StorageMetaModel.toNativeSettableMetadata(
                 bytes: _bytes,
+                meta: meta,
               );
 
               if (_meta != null){
@@ -511,8 +514,8 @@ class _NativeStorage {
 
       if (_bytes != null) {
         /// READ OLD PIC META
-        StorageMetaModel? _meta = await readMetaByPath(path: oldPath);
-        _meta = await StorageMetaModel.completeMeta(
+        MediaMetaModel? _meta = await readMetaByPath(path: oldPath);
+        _meta = await MediaMetaModel.completeMeta(
           bytes: _bytes,
           meta: _meta,
           path: oldPath,
@@ -522,7 +525,7 @@ class _NativeStorage {
         final String? _url = await uploadBytesAndGetURL(
           path: newPath,
           bytes: _bytes,
-          storageMetaModel: _meta,
+          meta: _meta,
         );
 
         blog('_NativeStorage.move : _url : $_url');
@@ -563,7 +566,7 @@ class _NativeStorage {
       /// READ OLD PIC
       final Uint8List? _bytes = await readBytesByPath(path: path);
       /// READ OLD PIC META
-      StorageMetaModel? _meta = await readMetaByPath(path: path);
+      MediaMetaModel? _meta = await readMetaByPath(path: path);
       _meta = _meta?.copyWith(
         name: newName,
       );
@@ -577,7 +580,7 @@ class _NativeStorage {
       await uploadBytesAndGetURL(
         path: '$_pathWithoutOldName/$newName',
         bytes: _bytes,
-        storageMetaModel: _meta,
+        meta: _meta,
       );
 
       /// DELETE OLD PIC
@@ -612,8 +615,8 @@ class _NativeStorage {
       /// READ OLD PIC
       final Uint8List? _bytes = await readBytesByPath(path: path);
       /// READ OLD PIC META
-      StorageMetaModel? _meta = await readMetaByPath(path: path);
-      _meta = await StorageMetaModel.completeMeta(
+      MediaMetaModel? _meta = await readMetaByPath(path: path);
+      _meta = await MediaMetaModel.completeMeta(
         bytes: _bytes,
         meta: _meta,
         path: path,
@@ -719,7 +722,7 @@ class _NativeStorage {
 
     if (path != null && userID != null){
 
-      final StorageMetaModel? _meta = await readMetaByPath(
+      final MediaMetaModel? _meta = await readMetaByPath(
         path: path,
       );
 

@@ -93,7 +93,7 @@ class _OfficialStorage {
   static Future<String?> uploadBytesAndGetURL({
     required Uint8List? bytes,
     required String? path,
-    required StorageMetaModel? storageMetaModel,
+    required MediaMetaModel? meta,
   }) async {
 
     // assert(Lister.checkCanLoop(bytes) == true, 'uInt7List is empty or null');
@@ -101,7 +101,7 @@ class _OfficialStorage {
 
     String? _url;
 
-    if (bytes != null && path != null && storageMetaModel != null){
+    if (bytes != null && path != null && meta != null){
 
       await tryAndCatch(
         invoker: 'OfficialStorage.createDocByUint8List',
@@ -115,7 +115,8 @@ class _OfficialStorage {
 
             final f_s.UploadTask _uploadTask = _ref.putData(
               bytes,
-              storageMetaModel.toOfficialSettableMetadata(
+              StorageMetaModel.toOfficialSettableMetadata(
+                meta: meta,
                 bytes: bytes,
               ),
             );
@@ -313,7 +314,7 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
 
       if (kIsWeb == true){
         // blog('kIsWeb : canRead: $_canRead');
-        final StorageMetaModel? _meta = await readMetaByPath(
+        final MediaMetaModel? _meta = await readMetaByPath(
           path: path,
         );
         // blog('_meta : $_meta');
@@ -447,10 +448,10 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<StorageMetaModel?> readMetaByPath({
+  static Future<MediaMetaModel?> readMetaByPath({
     required String? path,
   }) async {
-    StorageMetaModel? _output;
+    MediaMetaModel? _output;
 
     if (TextCheck.isEmpty(path) == false){
 
@@ -477,10 +478,10 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<StorageMetaModel?> readMetaByURL({
+  static Future<MediaMetaModel?> readMetaByURL({
     required String? url,
   }) async {
-    StorageMetaModel? _output;
+    MediaMetaModel? _output;
 
     if (ObjectCheck.isAbsoluteURL(url) == true){
 
@@ -639,7 +640,7 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
   /// TESTED : WORKS PERFECT
   static Future<void> updateMetaByURL({
     required String? url,
-    required StorageMetaModel? meta,
+    required MediaMetaModel? meta,
   }) async {
 
     /// ASSIGNING NULL TO KEY DELETES PAIR AUTOMATICALLY.
@@ -659,7 +660,8 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
 
             final Uint8List? _bytes = await readBytesByURL(url: url);
 
-            await _ref.updateMetadata(meta.toOfficialSettableMetadata(
+            await _ref.updateMetadata(StorageMetaModel.toOfficialSettableMetadata(
+              meta: meta,
               bytes: _bytes,
             ));
           }
@@ -673,7 +675,7 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
   /// TESTED: WORKS PERFECT
   static Future<void> updateMetaByPath({
     required String? path,
-    required StorageMetaModel? meta,
+    required MediaMetaModel? meta,
   }) async {
 
     /// ASSIGNING NULL TO KEY DELETES PAIR AUTOMATICALLY.
@@ -691,7 +693,8 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
 
             final Uint8List? _bytes = await readBytesByPath(path: path);
 
-            await _ref.updateMetadata(meta.toOfficialSettableMetadata(
+            await _ref.updateMetadata(StorageMetaModel.toOfficialSettableMetadata(
+              meta: meta,
               bytes: _bytes,
             ));
 
@@ -741,8 +744,8 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
         blog('3. move : bytes != null');
 
         /// READ OLD PIC META
-        StorageMetaModel? _meta = await readMetaByPath(path: oldPath);
-        _meta = await StorageMetaModel.completeMeta(
+        MediaMetaModel? _meta = await readMetaByPath(path: oldPath);
+        _meta = await MediaMetaModel.completeMeta(
           bytes: _bytes,
           meta: _meta,
           path: oldPath,
@@ -754,7 +757,7 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
         await uploadBytesAndGetURL(
           path: newPath,
           bytes: _bytes,
-          storageMetaModel: _meta,
+          meta: _meta,
         );
 
         blog('5. move : CREATE NEW PIC : DONE');
@@ -805,7 +808,7 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
       /// READ OLD PIC
       final Uint8List? _bytes = await readBytesByPath(path: path);
       /// READ OLD PIC META
-      StorageMetaModel? _meta = await readMetaByPath(path: path);
+      MediaMetaModel? _meta = await readMetaByPath(path: path);
       _meta = _meta?.copyWith(
         name: newName,
       );
@@ -819,7 +822,7 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
       await uploadBytesAndGetURL(
         path: '$_pathWithoutOldName/$newName',
         bytes: _bytes,
-        storageMetaModel: _meta,
+        meta: _meta,
       );
 
       /// DELETE OLD PIC
@@ -854,8 +857,8 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
       /// READ OLD PIC
       final Uint8List? _bytes = await readBytesByPath(path: path);
       /// READ OLD PIC META
-      StorageMetaModel? _meta = await readMetaByPath(path: path);
-      _meta = await StorageMetaModel.completeMeta(
+      MediaMetaModel? _meta = await readMetaByPath(path: path);
+      _meta = await MediaMetaModel.completeMeta(
         bytes: _bytes,
         meta: _meta,
         path: path,
@@ -870,7 +873,7 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
         ownersIDs: [..._meta.ownersIDs, ...?addOwners],
       );
 
-      StorageMetaModel.blogStorageMetaModel(_meta);
+      MediaMetaModel.blogStorageMetaModel(_meta);
 
       /// UPDATE META
       await updateMetaByURL(
@@ -959,14 +962,13 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
     required String? path,
     required String? userID,
   }) async {
-
-    bool _canDelete = userID == 'z0Obwze3JLYjoEl6uVeXfo4Luup1';
+    bool _canDelete = false;
 
     blog('checkCanDeleteStorageFile : START');
 
-    if (userID != null && _canDelete == false){
+    if (userID != null){
 
-      final StorageMetaModel? _meta = await readMetaByPath(
+      final MediaMetaModel? _meta = await readMetaByPath(
         path: path,
       );
 

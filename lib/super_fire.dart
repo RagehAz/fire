@@ -5,7 +5,6 @@ library super_fire;
 
 // --------------------
 /// COMMON
-import 'dart:io';
 import 'package:basics/bldrs_theme/classes/colorz.dart';
 import 'package:basics/bldrs_theme/classes/iconz.dart';
 import 'package:basics/helpers/checks/device_checker.dart';
@@ -13,9 +12,6 @@ import 'package:basics/helpers/checks/error_helpers.dart';
 import 'package:basics/helpers/checks/errorize.dart';
 import 'package:basics/helpers/checks/object_check.dart';
 import 'package:basics/helpers/checks/tracers.dart';
-import 'package:basics/helpers/files/file_size_unit.dart';
-import 'package:basics/helpers/files/filers.dart';
-import 'package:basics/helpers/files/floaters.dart';
 import 'package:basics/helpers/maps/lister.dart';
 import 'package:basics/helpers/maps/mapper.dart';
 import 'package:basics/helpers/maps/mapper_ss.dart';
@@ -28,6 +24,8 @@ import 'package:basics/helpers/strings/text_check.dart';
 import 'package:basics/helpers/strings/text_mod.dart';
 import 'package:basics/helpers/time/timers.dart';
 import 'package:basics/components/super_box/super_box.dart';
+import 'package:basics/mediator/models/file_typer.dart';
+import 'package:basics/mediator/models/media_meta_model.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 /// NATIVE IMPLEMENTATION
@@ -56,7 +54,6 @@ import 'package:http/http.dart' as http;
 /// OFFICIAL STORAGE
 // ignore: unnecessary_import
 import 'dart:typed_data';
-import 'dart:ui' as ui;
 import 'package:firebase_storage/firebase_storage.dart' as f_s;
 // -----------------------------------------------------------------------------
 
@@ -127,7 +124,6 @@ part 'c_helpers/mappers/official_fire_mapper.dart';
 part 'c_helpers/mappers/native_fire_mapper.dart';
 /// STORAGE
 part 'c_helpers/storage/storage_error.dart';
-part 'c_helpers/storage/fire_file_typer.dart';
 // -----------------------------------------------------------------------------
 
 /// WIDGETS

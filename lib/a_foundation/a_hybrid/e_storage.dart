@@ -15,7 +15,7 @@ class Storage {
   static Future<String?> uploadBytesAndGetURL({
     required Uint8List? bytes,
     required String? path,
-    required StorageMetaModel? storageMetaModel,
+    required MediaMetaModel? storageMetaModel,
   }) async {
 
     String? _url;
@@ -24,7 +24,7 @@ class Storage {
       _url = await _OfficialStorage.uploadBytesAndGetURL(
           bytes: bytes,
           path: path,
-          storageMetaModel: storageMetaModel
+          meta: storageMetaModel
       );
     }
 
@@ -33,7 +33,7 @@ class Storage {
       _url = await _NativeStorage.uploadBytesAndGetURL(
           bytes: bytes,
           path: path,
-          storageMetaModel: storageMetaModel
+          meta: storageMetaModel
       );
 
     }
@@ -221,10 +221,10 @@ class Storage {
 
   // --------------------
   /// TESTED: WORKS PERFECT
-  static Future<StorageMetaModel?> readMetaByPath({
+  static Future<MediaMetaModel?> readMetaByPath({
     required String? path,
   }) async {
-    StorageMetaModel? _output;
+    MediaMetaModel? _output;
 
     if (FirebaseInitializer.isUsingOfficialPackages() == true){
       _output = await _OfficialStorage.readMetaByPath(
@@ -242,10 +242,10 @@ class Storage {
   }
   // --------------------
   /// TESTED: WORKS PERFECT
-  static Future<StorageMetaModel?> readMetaByURL({
+  static Future<MediaMetaModel?> readMetaByURL({
     required String? url,
   }) async {
-    StorageMetaModel? _output;
+    MediaMetaModel? _output;
 
     if (FirebaseInitializer.isUsingOfficialPackages() == true){
       _output = await _OfficialStorage.readMetaByURL(
@@ -269,7 +269,7 @@ class Storage {
   /// TESTED: WORKS PERFECT
   static Future<void> updateMetaByURL({
     required String? url,
-    required StorageMetaModel? meta,
+    required MediaMetaModel? meta,
   }) async {
 
     if (FirebaseInitializer.isUsingOfficialPackages() == true) {
@@ -291,7 +291,7 @@ class Storage {
   /// TESTED: WORKS PERFECT
   static Future<void> updateMetaByPath({
     required String? path,
-    required StorageMetaModel? meta,
+    required MediaMetaModel? meta,
   }) async {
 
     if (FirebaseInitializer.isUsingOfficialPackages() == true) {
