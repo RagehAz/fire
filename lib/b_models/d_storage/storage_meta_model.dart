@@ -104,9 +104,9 @@ class StorageMetaModel {
 
     }
 
-    else {
-      _output = MediaMetaModel.emptyModel();
-    }
+    // else {
+    //   _output = MediaMetaModel.emptyModel();
+    // }
 
     return _output;
   }
@@ -189,9 +189,9 @@ class StorageMetaModel {
 
     }
 
-    else {
-      _output = MediaMetaModel.emptyModel();
-    }
+    // else {
+    //   _output = MediaMetaModel.emptyModel();
+    // }
 
     return _output;
   }
