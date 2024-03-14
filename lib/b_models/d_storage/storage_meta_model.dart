@@ -25,6 +25,8 @@ class StorageMetaModel {
       'sizeMB': '${meta?.sizeMB}',
       'width': '${meta?.width}',
       'height': '${meta?.height}',
+      'uploadPath': meta?.uploadPath ?? '',
+      'fileType': FileTyper.cipherType(meta?.fileType) ?? '',
     };
 
     /// ADD OWNERS IDS
@@ -128,6 +130,8 @@ class StorageMetaModel {
       'sizeMB': '${meta?.sizeMB}',
       'width': '${meta?.width}',
       'height': '${meta?.height}',
+      'uploadPath': meta?.uploadPath ?? '',
+      'fileType': FileTyper.cipherType(meta?.fileType) ?? '',
     };
 
     /// ADD OWNERS IDS
