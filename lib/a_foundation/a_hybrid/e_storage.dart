@@ -14,7 +14,6 @@ class Storage {
   /// TESTED: WORKS PERFECT
   static Future<String?> uploadBytesAndGetURL({
     required Uint8List? bytes,
-    required String? path,
     required MediaMetaModel? storageMetaModel,
   }) async {
 
@@ -23,7 +22,6 @@ class Storage {
     if (FirebaseInitializer.isUsingOfficialPackages() == true){
       _url = await _OfficialStorage.uploadBytesAndGetURL(
           bytes: bytes,
-          path: path,
           meta: storageMetaModel
       );
     }
@@ -32,7 +30,6 @@ class Storage {
 
       _url = await _NativeStorage.uploadBytesAndGetURL(
           bytes: bytes,
-          path: path,
           meta: storageMetaModel
       );
 

@@ -92,49 +92,55 @@ class _NativeStorage {
   /// TESTED: WORKS PERFECT
   static Future<String?> uploadBytesAndGetURL({
     required Uint8List? bytes,
-    required String? path,
     required MediaMetaModel? meta,
   }) async {
 
-    assert(Lister.checkCanLoop(bytes) == true, 'uInt8List is empty or null');
-    assert(meta != null, 'metaData is null');
-    assert(TextCheck.isEmpty(path) == false, 'path is empty or null');
-
     String? _url;
 
-    await tryAndCatch(
-      invoker: 'NativeStorage.createDocByUint8List',
-      functions: () async {
+    if (bytes != null && meta?.uploadPath != null){
 
-        final f_d.Reference? _ref = _getRefByPath(path);
+      await tryAndCatch(
+        invoker: 'NativeStorage.createDocByUint8List',
+        functions: () async {
 
-        if (_ref != null && bytes != null){
-          final f_d.SettableMetadata? _meta = StorageMetaModel.toNativeSettableMetadata(
-            meta: meta,
-            bytes: bytes,
-            // extraData:
-          );
-          final f_d.UploadTask _uploadTask = _ref.putData(
-            bytes,
-            _meta,/// NOTE : THIS DOES NOT WORK
-          );
-          await Future.wait(<Future>[
-            _uploadTask.whenComplete(() async {
-              _url = await _createURLByRef(ref: _ref);
-              await _ref.updateMetadata(_meta!);
-            }),
-            _uploadTask.onError((error, stackTrace) {
-              blog('createDocByUint8List : 3 - failed to upload');
-              blog('error : ${error.runtimeType} : $error');
-              blog('stackTrace : ${stackTrace.runtimeType} : $stackTrace');
-              return Future.error(error!);
-            }),
-          ]);
-        }
+          final f_d.Reference? _ref = _getRefByPath(meta!.uploadPath);
 
-      },
-      onError: StorageError.onException,
-    );
+          if (_ref != null){
+
+            final f_d.SettableMetadata? _meta = StorageMetaModel.toNativeSettableMetadata(
+              meta: meta,
+              bytes: bytes,
+              // extraData:
+            );
+
+            final f_d.UploadTask _uploadTask = _ref.putData(
+              bytes,
+              _meta,/// NOTE : THIS DOES NOT WORK
+            );
+
+            await Future.wait(<Future>[
+
+              _uploadTask.whenComplete(() async {
+                _url = await _createURLByRef(ref: _ref);
+                await _ref.updateMetadata(_meta!);
+              }),
+
+              _uploadTask.onError((error, stackTrace) {
+                blog('createDocByUint8List : 3 - failed to upload');
+                blog('error : ${error.runtimeType} : $error');
+                blog('stackTrace : ${stackTrace.runtimeType} : $stackTrace');
+                return Future.error(error!);
+              }),
+
+            ]);
+          }
+
+          },
+        onError: StorageError.onException,
+      );
+
+    }
+
 
     return _url;
   }
@@ -518,12 +524,11 @@ class _NativeStorage {
         _meta = await MediaMetaModel.completeMeta(
           bytes: _bytes,
           meta: _meta,
-          path: oldPath,
+          uploadPath: newPath,
         );
 
         /// CREATE NEW PIC
         final String? _url = await uploadBytesAndGetURL(
-          path: newPath,
           bytes: _bytes,
           meta: _meta,
         );
@@ -565,20 +570,20 @@ class _NativeStorage {
 
       /// READ OLD PIC
       final Uint8List? _bytes = await readBytesByPath(path: path);
-      /// READ OLD PIC META
-      MediaMetaModel? _meta = await readMetaByPath(path: path);
-      _meta = _meta?.copyWith(
-        name: newName,
-      );
-
       final String? _pathWithoutOldName = TextMod.removeTextAfterLastSpecialCharacter(
           text: path,
           specialCharacter: '/',
       );
+      /// READ OLD PIC META
+      MediaMetaModel? _meta = await readMetaByPath(path: path);
+      _meta = _meta?.copyWith(
+        name: newName,
+        uploadPath: '$_pathWithoutOldName/$newName',
+      );
+
 
       /// CREATE NEW PIC
       await uploadBytesAndGetURL(
-        path: '$_pathWithoutOldName/$newName',
         bytes: _bytes,
         meta: _meta,
       );
@@ -619,7 +624,7 @@ class _NativeStorage {
       _meta = await MediaMetaModel.completeMeta(
         bytes: _bytes,
         meta: _meta,
-        path: path,
+        uploadPath: path,
       );
 
       /// CREATE URL

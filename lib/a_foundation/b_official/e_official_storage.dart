@@ -92,7 +92,6 @@ class _OfficialStorage {
   /// TESTED : WORKS PERFECT
   static Future<String?> uploadBytesAndGetURL({
     required Uint8List? bytes,
-    required String? path,
     required MediaMetaModel? meta,
   }) async {
 
@@ -101,13 +100,13 @@ class _OfficialStorage {
 
     String? _url;
 
-    if (bytes != null && path != null && meta != null){
+    if (bytes != null && meta?.uploadPath != null){
 
       await tryAndCatch(
         invoker: 'OfficialStorage.createDocByUint8List',
         functions: () async {
 
-          final f_s.Reference? _ref = _getRefByPath(path);
+          final f_s.Reference? _ref = _getRefByPath(meta!.uploadPath);
 
           // blog('createDocByUint8List : 1 - got ref : $_ref');
 
@@ -121,7 +120,7 @@ class _OfficialStorage {
               ),
             );
 
-            blog('createDocByUint8List : 2 - uploaded uInt8List to path : $path');
+            blog('createDocByUint8List : 2 - uploaded uInt8List to path : ${meta.uploadPath}');
 
             await Future.wait(
                 <Future>[
@@ -748,16 +747,17 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
         _meta = await MediaMetaModel.completeMeta(
           bytes: _bytes,
           meta: _meta,
-          path: oldPath,
+          uploadPath: oldPath,
           );
 
         blog('4. move : READ OLD PIC META : _meta : $_meta');
 
         /// CREATE NEW PIC
         await uploadBytesAndGetURL(
-          path: newPath,
           bytes: _bytes,
-          meta: _meta,
+          meta: _meta?.copyWith(
+            uploadPath: newPath,
+          ),
         );
 
         blog('5. move : CREATE NEW PIC : DONE');
@@ -807,20 +807,21 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
 
       /// READ OLD PIC
       final Uint8List? _bytes = await readBytesByPath(path: path);
+
+      final String? _pathWithoutOldName = TextMod.removeTextAfterLastSpecialCharacter(
+        text: path,
+        specialCharacter: '/',
+      );
+
       /// READ OLD PIC META
       MediaMetaModel? _meta = await readMetaByPath(path: path);
       _meta = _meta?.copyWith(
         name: newName,
-      );
-
-      final String? _pathWithoutOldName = TextMod.removeTextAfterLastSpecialCharacter(
-          text: path,
-          specialCharacter: '/',
+        uploadPath: '$_pathWithoutOldName/$newName',
       );
 
       /// CREATE NEW PIC
       await uploadBytesAndGetURL(
-        path: '$_pathWithoutOldName/$newName',
         bytes: _bytes,
         meta: _meta,
       );
@@ -861,7 +862,7 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
       _meta = await MediaMetaModel.completeMeta(
         bytes: _bytes,
         meta: _meta,
-        path: path,
+        uploadPath: path,
       );
 
       /// CREATE URL
