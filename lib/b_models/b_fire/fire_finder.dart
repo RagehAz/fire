@@ -1,7 +1,5 @@
 part of super_fire;
 
-xxx
-
 @immutable
 class FireFinder {
   /// --------------------------------------------------------------------------
