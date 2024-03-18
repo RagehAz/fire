@@ -26,7 +26,7 @@ class StorageMetaModel {
       'width': '${meta?.width}',
       'height': '${meta?.height}',
       'uploadPath': meta?.uploadPath ?? '',
-      'fileType': FileTyper.cipherType(meta?.fileType) ?? '',
+      'fileType': FileTyper.cipherType(meta?.fileExt) ?? '',
     };
 
     /// ADD OWNERS IDS
@@ -66,7 +66,7 @@ class StorageMetaModel {
       // contentLanguage: ,
       contentType: FileTyper.getContentType(
         bytes: bytes,
-        forceType: meta?.fileType,
+        forceType: meta?.fileExt,
       ),
     );
 
@@ -131,7 +131,7 @@ class StorageMetaModel {
       'width': '${meta?.width}',
       'height': '${meta?.height}',
       'uploadPath': meta?.uploadPath ?? '',
-      'fileType': FileTyper.cipherType(meta?.fileType) ?? '',
+      'fileType': FileTyper.cipherType(meta?.fileExt) ?? '',
     };
 
     /// ADD OWNERS IDS
@@ -173,7 +173,7 @@ class StorageMetaModel {
       // contentLanguage: ,
       contentType: FileTyper.getContentType(
         bytes: bytes,
-        forceType: meta?.fileType,
+        forceType: meta?.fileExt,
       ),
     );
 

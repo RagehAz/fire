@@ -7,6 +7,7 @@ library super_fire;
 /// COMMON
 import 'package:basics/bldrs_theme/classes/colorz.dart';
 import 'package:basics/bldrs_theme/classes/iconz.dart';
+import 'package:basics/filing/filing.dart';
 import 'package:basics/helpers/checks/device_checker.dart';
 import 'package:basics/helpers/checks/error_helpers.dart';
 import 'package:basics/helpers/checks/errorize.dart';
@@ -24,7 +25,6 @@ import 'package:basics/helpers/strings/text_check.dart';
 import 'package:basics/helpers/strings/text_mod.dart';
 import 'package:basics/helpers/time/timers.dart';
 import 'package:basics/components/super_box/super_box.dart';
-import 'package:basics/mediator/models/file_typer.dart';
 import 'package:basics/mediator/models/media_meta_model.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
