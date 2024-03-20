@@ -20,30 +20,30 @@ class StorageMetaModel {
   }){
 
     /// ASSIGNING NULL TO KEY DELETES PAIR AUTOMATICALLY.
-    Map<String, String>? _metaDataMap = <String, String>{
-      'name': meta?.name ?? '',
-      'sizeMB': '${meta?.sizeMB}',
-      'width': '${meta?.width}',
-      'height': '${meta?.height}',
-      'uploadPath': meta?.uploadPath ?? '',
-      'fileType': FileTyper.cipherType(meta?.fileExt) ?? '',
+    final Map<String, String?>? _metaDataMap = <String, String?>{
+      'name': meta?.name,
+      'sizeMB': meta?.sizeMB?.toString(),
+      'width': meta?.width?.toString(),
+      'height': meta?.height?.toString(),
+      'uploadPath': meta?.uploadPath,
+      'fileType': FileTyper.getMimeByType(meta?.fileExt),
     };
 
     /// ADD OWNERS IDS
     if (Lister.checkCanLoop(meta?.ownersIDs) == true){
       for (final String ownerID in meta!.ownersIDs) {
-        _metaDataMap[ownerID] = 'cool';
+        _metaDataMap?[ownerID] = 'cool';
       }
     }
 
-    _metaDataMap = MapperSS.cleanNullPairs(
+    Map<String, String>? _output = MapperSS.cleanNullPairs(
         map: _metaDataMap,
     );
 
     /// ADD META DATA MAP
     if (meta?.data != null) {
-      _metaDataMap = MapperSS.combineStringStringMap(
-        baseMap: _metaDataMap,
+      _output = MapperSS.combineStringStringMap(
+        baseMap: _output,
         replaceDuplicateKeys: true,
         insert: meta!.data,
       );
@@ -51,23 +51,20 @@ class StorageMetaModel {
 
     /// ADD EXTRA DATA MAP
     if (extraData != null) {
-      _metaDataMap = MapperSS.combineStringStringMap(
-        baseMap: _metaDataMap,
+      _output = MapperSS.combineStringStringMap(
+        baseMap: _output,
         replaceDuplicateKeys: true,
         insert: extraData,
       );
     }
 
     return f_s.SettableMetadata(
-      customMetadata: _metaDataMap,
+      customMetadata: _output,
       // cacheControl: ,
       // contentDisposition: ,
       // contentEncoding: ,
       // contentLanguage: ,
-      contentType: FileTyper.getContentType(
-        bytes: bytes,
-        forceType: meta?.fileExt,
-      ),
+      contentType: FileTyper.getMimeByType(meta?.fileExt),
     );
 
   }
@@ -125,30 +122,30 @@ class StorageMetaModel {
   }){
 
     /// ASSIGNING NULL TO KEY DELETES PAIR AUTOMATICALLY.
-    Map<String, String>? _metaDataMap = <String, String>{
-      'name': meta?.name ?? '',
-      'sizeMB': '${meta?.sizeMB}',
-      'width': '${meta?.width}',
-      'height': '${meta?.height}',
-      'uploadPath': meta?.uploadPath ?? '',
-      'fileType': FileTyper.cipherType(meta?.fileExt) ?? '',
+    final Map<String, String?>? _metaDataMap = <String, String?>{
+      'name': meta?.name,
+      'sizeMB': meta?.sizeMB?.toString(),
+      'width': meta?.width?.toString(),
+      'height': meta?.height?.toString(),
+      'uploadPath':  meta?.uploadPath,
+      'fileType': FileTyper.getMimeByType(meta?.fileExt),
     };
 
     /// ADD OWNERS IDS
     if (Lister.checkCanLoop(meta?.ownersIDs) == true){
       for (final String ownerID in meta!.ownersIDs) {
-        _metaDataMap[ownerID] = 'cool';
+        _metaDataMap?[ownerID] = 'cool';
       }
     }
 
-    _metaDataMap = MapperSS.cleanNullPairs(
+    Map<String, String>? _output = MapperSS.cleanNullPairs(
       map: _metaDataMap,
     );
 
     /// ADD META DATA MAP
     if (meta?.data != null) {
-      _metaDataMap = MapperSS.combineStringStringMap(
-        baseMap: _metaDataMap,
+      _output = MapperSS.combineStringStringMap(
+        baseMap: _output,
         replaceDuplicateKeys: true,
         insert: meta!.data,
       );
@@ -156,8 +153,8 @@ class StorageMetaModel {
 
     /// ADD EXTRA DATA MAP
     if (extraData != null) {
-      _metaDataMap = MapperSS.combineStringStringMap(
-        baseMap: _metaDataMap,
+      _output = MapperSS.combineStringStringMap(
+        baseMap: _output,
         replaceDuplicateKeys: true,
         insert: extraData,
       );
@@ -166,15 +163,12 @@ class StorageMetaModel {
     // blog('meta data are : $_metaDataMap');
 
     return f_d.SettableMetadata(
-      customMetadata: _metaDataMap,
+      customMetadata: _output,
       // cacheControl: ,
       // contentDisposition: ,
       // contentEncoding: ,
       // contentLanguage: ,
-      contentType: FileTyper.getContentType(
-        bytes: bytes,
-        forceType: meta?.fileExt,
-      ),
+      contentType: FileTyper.getMimeByType(meta?.fileExt),
     );
 
   }
