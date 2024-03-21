@@ -25,7 +25,7 @@ import 'package:basics/helpers/strings/text_check.dart';
 import 'package:basics/helpers/strings/text_mod.dart';
 import 'package:basics/helpers/time/timers.dart';
 import 'package:basics/components/super_box/super_box.dart';
-import 'package:basics/mediator/models/media_meta_model.dart';
+import 'package:basics/mediator/models/media_models.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 /// NATIVE IMPLEMENTATION

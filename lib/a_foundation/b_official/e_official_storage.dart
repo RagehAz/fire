@@ -16,7 +16,7 @@ class _OfficialStorage {
   /// TESTED: WORKS PERFECT
   static f_s.Reference? _getRefByPath(String? path){
 
-    if (ObjectCheck.objectIsPicPath(path) == true){
+    if (ObjectCheck.objectIsFireStoragePicPath(path) == true){
 
       final String? _storagePath = TextMod.removeNumberOfCharactersFromBeginningOfAString(
         string: path,
@@ -679,7 +679,7 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
 
     /// ASSIGNING NULL TO KEY DELETES PAIR AUTOMATICALLY.
 
-    if (ObjectCheck.objectIsPicPath(path) == true && meta != null) {
+    if (ObjectCheck.objectIsFireStoragePicPath(path) == true && meta != null) {
 
       await tryAndCatch(
         invoker: 'OfficialStorage.updatePicMetaData',
@@ -724,9 +724,9 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
     if (
         _canDelete == true
         &&
-        ObjectCheck.objectIsPicPath(oldPath) == true
+        ObjectCheck.objectIsFireStoragePicPath(oldPath) == true
         &&
-        ObjectCheck.objectIsPicPath(newPath) == true
+        ObjectCheck.objectIsFireStoragePicPath(newPath) == true
         &&
         currentUserID != null
     ){
@@ -796,7 +796,7 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
     if (
         _canEdit == true
         &&
-        ObjectCheck.objectIsPicPath(path) == true
+        ObjectCheck.objectIsFireStoragePicPath(path) == true
         &&
         TextCheck.isEmpty(newName) == false
         &&
@@ -852,7 +852,7 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
     if (
         _canEdit == true
         &&
-        ObjectCheck.objectIsPicPath(path) == true
+        ObjectCheck.objectIsFireStoragePicPath(path) == true
     ){
 
       /// READ OLD PIC

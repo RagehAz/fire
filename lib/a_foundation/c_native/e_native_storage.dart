@@ -16,7 +16,7 @@ class _NativeStorage {
   /// TESTED: WORKS PERFECT
   static f_d.Reference? _getRefByPath(String? path){
 
-    if (ObjectCheck.objectIsPicPath(path) == true){
+    if (ObjectCheck.objectIsFireStoragePicPath(path) == true){
 
       final String? _storagePath = TextMod.removeNumberOfCharactersFromBeginningOfAString(
         string: path,
@@ -450,7 +450,7 @@ class _NativeStorage {
 
     /// ASSIGNING NULL TO KEY DELETES PAIR AUTOMATICALLY.
 
-    if (ObjectCheck.objectIsPicPath(path) == true && meta != null) {
+    if (ObjectCheck.objectIsFireStoragePicPath(path) == true && meta != null) {
 
       await tryAndCatch(
         invoker: 'NativeStorage.updatePicMetaData',
@@ -502,15 +502,15 @@ class _NativeStorage {
 
     blog('_NativeStorage.move : _canDelete : $_canDelete');
 
-    blog('ObjectCheck.objectIsPicPath(oldPath) : ${ObjectCheck.objectIsPicPath(oldPath)}');
-    blog('ObjectCheck.objectIsPicPath(newPath) : ${ObjectCheck.objectIsPicPath(newPath)}');
+    blog('ObjectCheck.objectIsPicPath(oldPath) : ${ObjectCheck.objectIsFireStoragePicPath(oldPath)}');
+    blog('ObjectCheck.objectIsPicPath(newPath) : ${ObjectCheck.objectIsFireStoragePicPath(newPath)}');
 
     if (
         _canDelete == true
         &&
-        ObjectCheck.objectIsPicPath(oldPath) == true
+        ObjectCheck.objectIsFireStoragePicPath(oldPath) == true
         &&
-        ObjectCheck.objectIsPicPath(newPath) == true
+        ObjectCheck.objectIsFireStoragePicPath(newPath) == true
     ){
 
       /// READ OLD PIC
@@ -563,7 +563,7 @@ class _NativeStorage {
     if (
         _canEdit == true
         &&
-        ObjectCheck.objectIsPicPath(path) == true
+        ObjectCheck.objectIsFireStoragePicPath(path) == true
         &&
         TextCheck.isEmpty(newName) == false
     ){
@@ -614,7 +614,7 @@ class _NativeStorage {
     if (
         _canEdit == true
         &&
-        ObjectCheck.objectIsPicPath(path) == true
+        ObjectCheck.objectIsFireStoragePicPath(path) == true
     ){
 
       /// READ OLD PIC
