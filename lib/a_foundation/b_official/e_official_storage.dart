@@ -120,14 +120,14 @@ class _OfficialStorage {
               ),
             );
 
-            blog('createDocByUint8List : 2 - uploaded uInt8List to path : ${meta.uploadPath}');
+            // blog('createDocByUint8List : 2 - uploaded uInt8List to path : ${meta.uploadPath}');
 
             await Future.wait(
                 <Future>[
 
                   /// ON COMPLETION
                   _uploadTask.whenComplete(() async {
-                    blog('createDocByUint8List : 3 - uploaded successfully');
+                    // blog('createDocByUint8List : 3 - uploaded successfully');
                     _url = await _createURLByRef(ref: _ref);
                   }),
 
@@ -150,7 +150,7 @@ class _OfficialStorage {
 
     }
 
-    blog('createDocByUint8List : 4 - END');
+    // blog('createDocByUint8List : 4 - END');
 
     return _url;
   }
