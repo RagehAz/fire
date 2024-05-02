@@ -23,6 +23,7 @@ class OfficialFirebase {
 
     if (DeviceChecker.deviceIsWindows() == false) {
       await tryAndCatch(
+        invoker: 'OfficialFirebase.initialize',
         functions: () async {
 
           /// IOS - ANDROID - WEB : NO WINDOWS SUPPORT

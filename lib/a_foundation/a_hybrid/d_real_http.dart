@@ -36,6 +36,7 @@ abstract class RealHttp{
     String? _docID;
 
     await tryAndCatch(
+        invoker: 'RealHttp.createDoc',
         functions: () async {
 
           /// post map to realtime database
@@ -86,6 +87,7 @@ abstract class RealHttp{
     Map<String, Object>? _map;
 
     await tryAndCatch(
+      invoker: 'RealHttp.readDoc',
         functions: () async {
 
           /// READ data
@@ -118,6 +120,7 @@ abstract class RealHttp{
   }) async {
 
     await tryAndCatch(
+        invoker: 'RealHttp.updateDoc',
         functions: () async {
 
           /// post map to realtime database
