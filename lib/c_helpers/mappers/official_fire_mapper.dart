@@ -74,6 +74,7 @@ class _OfficialFireMapper {
         }
 
       }
+
     }
 
     return _maps;

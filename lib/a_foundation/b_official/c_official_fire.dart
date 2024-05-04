@@ -329,13 +329,18 @@ class _OfficialFire{
           );
 
           if (query != null){
+
             final cloud.QuerySnapshot<Object> _collectionSnapshot = await query.get();
             final List<cloud.QueryDocumentSnapshot<Object>> _queryDocumentSnapshots = _collectionSnapshot.docs;
-            _maps = _OfficialFireMapper.getMapsFromQueryDocumentSnapshotsList(
-                queryDocumentSnapshots: _queryDocumentSnapshots,
-                addDocsIDs: true,
-                addDocSnapshotToEachMap: addDocSnapshotToEachMap
-            );
+
+            _maps = await Isolate.run((){
+              return _OfficialFireMapper.getMapsFromQueryDocumentSnapshotsList(
+                  queryDocumentSnapshots: _queryDocumentSnapshots,
+                  addDocsIDs: true,
+                  addDocSnapshotToEachMap: addDocSnapshotToEachMap
+              );
+            });
+
           }
 
           },
@@ -373,11 +378,13 @@ class _OfficialFire{
 
           final List<cloud.QueryDocumentSnapshot<Object>>? _queryDocumentSnapshots = _snapshot?.docs;
 
-          _output = _OfficialFireMapper.getMapsFromQueryDocumentSnapshotsList(
+          _output = await Isolate.run((){
+            return _OfficialFireMapper.getMapsFromQueryDocumentSnapshotsList(
               queryDocumentSnapshots: _queryDocumentSnapshots,
               addDocsIDs: true,
               addDocSnapshotToEachMap: false,
-          );
+            );
+          });
 
         }
       },
