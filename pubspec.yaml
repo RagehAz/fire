@@ -30,7 +30,7 @@ dependencies:
   firebase_ui_oauth_apple: ^1.0.24
   firebase_ui_oauth_google: ^1.0.21
   firebase_ui_auth: ^1.1.17
-  firebase_dart: ^1.0.11
+  firebase_dart: ^1.1.4
 
   # FIRE PACKS IN BASICS
   cloud_firestore: ^4.9.1

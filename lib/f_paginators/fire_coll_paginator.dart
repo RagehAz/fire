@@ -111,6 +111,8 @@ class _FireCollPaginatorState extends State<FireCollPaginator> {
           _streamQueryChanged == true
       ){
 
+        await Future.delayed(const Duration(milliseconds: 100));
+
         _paginatorController.clear();
 
         setNotifier(

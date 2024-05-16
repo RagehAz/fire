@@ -207,7 +207,7 @@ class FireFinder {
   /// QUERY CREATOR
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static bool checkFindersAreIdentical(FireFinder? finder1, FireFinder? finder2){
     bool _identical = false;
 
@@ -231,7 +231,7 @@ class FireFinder {
 
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static bool checkFindersListsAreIdentical(List<FireFinder>? finders1, List<FireFinder>? finders2){
     bool _output = false;
 
