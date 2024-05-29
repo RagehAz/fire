@@ -293,7 +293,7 @@ class Fire {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<void> updateDocField({
+  static Future<bool> updateDocField({
     required dynamic input,
     required String field,
     required String coll,
@@ -301,9 +301,10 @@ class Fire {
     String? subColl,
     String? subDoc,
   }) async {
+    bool _success = false;
 
     if (FirebaseInitializer.isUsingOfficialPackages() == true) {
-      await _OfficialFire.updateDocField(
+      _success = await _OfficialFire.updateDocField(
         input: input,
         field: field,
         coll: coll,
@@ -314,7 +315,7 @@ class Fire {
     }
 
     else {
-      await _NativeFire.updateDocField(
+      _success = await _NativeFire.updateDocField(
         input: input,
         field: field,
         coll: coll,
@@ -324,6 +325,7 @@ class Fire {
       );
     }
 
+    return _success;
   }
   // -----------------------------------------------------------------------------
 

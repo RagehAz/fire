@@ -486,7 +486,7 @@ class _NativeFire {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<void> updateDocField({
+  static Future<bool> updateDocField({
     required dynamic input,
     required String field,
     required String coll,
@@ -494,6 +494,7 @@ class _NativeFire {
     String? subColl,
     String? subDoc,
   }) async {
+    bool _success = false;
 
     // NOTES
     /// this updates a field if exists,
@@ -508,7 +509,7 @@ class _NativeFire {
         subDoc: subDoc,
       );
 
-      await _updateData(
+      _success = await _updateData(
         ref: _docRef,
         invoker: 'NativeFire.updateDocField',
         input: <String, dynamic>{field: input},
@@ -516,15 +517,17 @@ class _NativeFire {
 
     }
 
+    return _success;
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<void> _updateData({
+  static Future<bool> _updateData({
     required fd.DocumentReference? ref,
     required Map<String, dynamic>? input,
     required String invoker,
     Function? onSuccess,
   }) async {
+    bool _success = false;
 
       final Map<String, dynamic>? _upload = Mapper.cleanNullPairs(
         map: input,
@@ -549,15 +552,14 @@ class _NativeFire {
 
             blog('$invoker.updateData : UPDATED ${_upload.keys.length} keys in : ${ref?.path}');
 
+            _success = true;
           },
           // onError: (){},
         );
 
-
-
-
       }
 
+      return _success;
     }
   // -----------------------------------------------------------------------------
 
