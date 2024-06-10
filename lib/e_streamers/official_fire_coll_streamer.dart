@@ -1,8 +1,8 @@
 part of super_fire;
 
-class FireCollStreamer extends StatefulWidget {
+class OfficialFireCollStreamer extends StatefulWidget {
   // --------------------------------------------------------------------------
-  const FireCollStreamer({
+  const OfficialFireCollStreamer({
     required this.queryModel,
     required this.builder,
     this.onChanged,
@@ -77,11 +77,11 @@ class FireCollStreamer extends StatefulWidget {
   }
   // --------------------------------------------------------------------------
   @override
-  State<FireCollStreamer> createState() => _FireCollStreamerState();
+  State<OfficialFireCollStreamer> createState() => _OfficialFireCollStreamerState();
   // --------------------------------------------------------------------------
 }
 
-class _FireCollStreamerState extends State<FireCollStreamer> {
+class _OfficialFireCollStreamerState extends State<OfficialFireCollStreamer> {
   // -----------------------------------------------------------------------------
   late Stream<List<Map<String, dynamic>>>? _stream;
   final ValueNotifier<List<Map<String, dynamic>>> _oldMaps = ValueNotifier<List<Map<String, dynamic>>>([]);
@@ -91,11 +91,11 @@ class _FireCollStreamerState extends State<FireCollStreamer> {
   void initState() {
     super.initState();
 
-    _stream = Fire.streamColl(
+    _stream = OfficialFire.streamColl(
       queryModel: widget.queryModel,
     );
 
-    _sub = FireCollStreamer.initializeStreamListener(
+    _sub = OfficialFireCollStreamer.initializeStreamListener(
       stream: _stream,
       mounted: mounted,
       oldMaps: _oldMaps,

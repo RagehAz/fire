@@ -96,7 +96,7 @@ class _FireDocStreamerState extends State<FireDocStreamer> {
   void initState() {
     super.initState();
 
-    _stream = Fire.streamDoc(
+    _stream = OfficialFire.streamDoc(
       coll: widget.collName,
       doc: widget.docName,
     );

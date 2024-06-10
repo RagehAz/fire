@@ -1,10 +1,10 @@
 part of super_fire;
 
 /// => TAMAM
-class _OfficialReal {
+class OfficialReal {
   // -----------------------------------------------------------------------------
 
-  const _OfficialReal();
+  const OfficialReal();
 
   // -----------------------------------------------------------------------------
   static int timeout = 60;
@@ -32,15 +32,15 @@ class _OfficialReal {
 
       final String? deviceID = await DeviceChecker.getDeviceID();
       final String? deviceName = await DeviceChecker.getDeviceName();
-      final String? _email = await Authing.getAuthEmail();
+      final String? _email = OfficialAuthing.getAuthEmail();
 
       await Errorize.throwMap(
         invoker: 'onRealErrorThrowing.$invoker',
         map: {
-          'userID': Authing.getUserID(),
-          'hasID': Authing.userHasID(),
+          'userID': OfficialAuthing.getUserID(),
+          'hasID': OfficialAuthing.userHasID(),
           'email': _email,
-          'userLastSignIn': Timers.cipherTime(time: Authing.getMyLastSignIn(), toJSON: false),
+          'userLastSignIn': Timers.cipherTime(time: OfficialAuthing.getLastSignIn(), toJSON: false),
           'deviceID': deviceID,
           'deviceName': deviceName,
           'deviceOS': DeviceChecker.getDeviceOS(),

@@ -16,7 +16,6 @@ import 'package:basics/helpers/checks/tracers.dart';
 import 'package:basics/helpers/maps/lister.dart';
 import 'package:basics/helpers/maps/mapper.dart';
 import 'package:basics/helpers/maps/mapper_ss.dart';
-import 'package:basics/helpers/nums/numeric.dart';
 import 'package:basics/helpers/rest/rest.dart';
 import 'package:basics/helpers/space/scale.dart';
 import 'package:basics/helpers/strings/pathing.dart';
@@ -28,10 +27,6 @@ import 'package:basics/components/super_box/super_box.dart';
 import 'package:basics/mediator/models/media_models.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
-/// NATIVE IMPLEMENTATION
-import 'package:firedart/firedart.dart' as fd;
-import 'package:firebase_dart/firebase_dart.dart' as f_d;
-import 'package:firedart/auth/user_gateway.dart' as fd_u;
 /// OFFICIAL AUTH
 import 'package:extension_google_sign_in_as_googleapis_auth/extension_google_sign_in_as_googleapis_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart' as f_a;
@@ -72,27 +67,13 @@ export 'package:firebase_storage/firebase_storage.dart';
 /// FOUNDATION
 
 // --------------------
-/// HYBRID
-part 'a_foundation/a_hybrid/a_firebase_initializer.dart';
-part 'a_foundation/a_hybrid/b_authing.dart';
-part 'a_foundation/a_hybrid/c_fire.dart';
-part 'a_foundation/a_hybrid/d_real.dart';
-part 'a_foundation/a_hybrid/d_real_http.dart';
-part 'a_foundation/a_hybrid/e_storage.dart';
-// --------------------
 /// OFFICIAL
-part 'a_foundation/b_official/a_official_firebase_initializer.dart';
-part 'a_foundation/b_official/b_official_authing.dart';
-part 'a_foundation/b_official/c_official_fire.dart';
-part 'a_foundation/b_official/d_official_real.dart';
-part 'a_foundation/b_official/e_official_storage.dart';
-// --------------------
-/// NATIVE
-part 'a_foundation/c_native/a_native_firebase_initializer.dart';
-part 'a_foundation/c_native/b_native_authing.dart';
-part 'a_foundation/c_native/c_native_fire.dart';
-part 'a_foundation/c_native/d_native_real.dart';
-part 'a_foundation/c_native/e_native_storage.dart';
+part 'a_foundation/a_official_firebase_initializer.dart';
+part 'a_foundation/b_official_authing.dart';
+part 'a_foundation/c_official_fire.dart';
+part 'a_foundation/d_official_real.dart';
+part 'a_foundation/d_real_http.dart';
+part 'a_foundation/e_official_storage.dart';
 // -----------------------------------------------------------------------------
 
 /// MODELS
@@ -121,7 +102,6 @@ part 'c_helpers/authing/auth_error.dart';
 part 'c_helpers/authing/auth_blog.dart';
 /// MAPPERS
 part 'c_helpers/mappers/official_fire_mapper.dart';
-part 'c_helpers/mappers/native_fire_mapper.dart';
 /// STORAGE
 part 'c_helpers/storage/storage_error.dart';
 // -----------------------------------------------------------------------------
@@ -140,22 +120,22 @@ part 'd_widgets/b_buttons/official_social_auth_button/social_auth_button.dart';
 
 // --------------------
 /// FIRE STREAMERS
-part 'e_streamers/fire_coll_streamer.dart';
-part 'e_streamers/fire_doc_streamer.dart';
+part 'e_streamers/official_fire_coll_streamer.dart';
+part 'e_streamers/official_fire_doc_streamer.dart';
 /// REAL STREAMERS
-part 'e_streamers/real_coll_streamer.dart';
-part 'e_streamers/real_doc_streamer.dart';
-part 'e_streamers/real_stream.dart';
+part 'e_streamers/official_real_coll_streamer.dart';
+part 'e_streamers/official_real_doc_streamer.dart';
+part 'e_streamers/official_real_stream.dart';
 // -----------------------------------------------------------------------------
 
 /// PAGINATORS
 
 // --------------------
 /// FIRE PAGINATOR
-part 'f_paginators/fire_coll_paginator.dart';
-part 'f_paginators/pagination_controller.dart';
+part 'f_paginators/official_fire_coll_paginator.dart';
+part 'c_helpers/pagination_controller/pagination_controller.dart';
 /// REAL PAGINATOR
-part 'f_paginators/real_coll_paginator.dart';
+part 'f_paginators/official_real_coll_paginator.dart';
 /// HELPERS
-part 'f_paginators/scroll_listeners.dart';
+part 'c_helpers/pagination_controller/scroll_listeners.dart';
 // -----------------------------------------------------------------------------

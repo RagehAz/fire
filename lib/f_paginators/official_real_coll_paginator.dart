@@ -1,9 +1,9 @@
 // ignore_for_file: avoid_positional_boolean_parameters;
 part of super_fire;
 
-class RealCollPaginator extends StatefulWidget {
+class OfficialRealCollPaginator extends StatefulWidget {
   /// --------------------------------------------------------------------------
-  const RealCollPaginator({
+  const OfficialRealCollPaginator({
     required this.builder,
     required this.paginationController,
     this.paginationQuery,
@@ -24,11 +24,11 @@ class RealCollPaginator extends StatefulWidget {
       ) builder;
   /// --------------------------------------------------------------------------
   @override
-  _RealCollPaginatorState createState() => _RealCollPaginatorState();
+  _OfficialRealCollPaginatorState createState() => _OfficialRealCollPaginatorState();
   /// --------------------------------------------------------------------------
 }
 
-class _RealCollPaginatorState extends State<RealCollPaginator> {
+class _OfficialRealCollPaginatorState extends State<OfficialRealCollPaginator> {
   // -----------------------------------------------------------------------------
   late PaginationController _paginatorController;
   StreamSubscription? _sub;
@@ -86,7 +86,7 @@ class _RealCollPaginatorState extends State<RealCollPaginator> {
   }
   // --------------------
   @override
-  void didUpdateWidget(covariant RealCollPaginator oldWidget) {
+  void didUpdateWidget(covariant OfficialRealCollPaginator oldWidget) {
 
     asyncInSync(() async {
 
@@ -203,7 +203,7 @@ class _RealCollPaginatorState extends State<RealCollPaginator> {
     /// CAN KEEP READING
     if (_paginatorController.canKeepReading.value  == true){
 
-      final List<Map<String, dynamic>> _nextMaps = await Real.readPathMaps(
+      final List<Map<String, dynamic>> _nextMaps = await OfficialReal.readPathMaps(
         startAfter: _paginatorController.startAfter.value,
         realQueryModel: widget.paginationQuery,
       );

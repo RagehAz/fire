@@ -1,12 +1,12 @@
 part of super_fire;
 
 /// => TAMAM
-class _OfficialStorage {
+class OfficialStorage {
   // -----------------------------------------------------------------------------
   /// Note : use picName without file extension <---------------
   // -----------------------------------------------------------------------------
 
-  const _OfficialStorage();
+  const OfficialStorage();
 
   // -----------------------------------------------------------------------------
 

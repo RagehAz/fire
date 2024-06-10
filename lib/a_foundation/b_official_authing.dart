@@ -1,10 +1,10 @@
 part of super_fire;
 
 /// => TAMAM
-class _OfficialAuthing {
+class OfficialAuthing {
   // -----------------------------------------------------------------------------
 
-  const _OfficialAuthing();
+  const OfficialAuthing();
 
   // -----------------------------------------------------------------------------
 
@@ -114,7 +114,7 @@ class _OfficialAuthing {
   // --------------------
   /// TESTED : WORKS PERFECT
   static SignInMethod? getCurrentSignInMethod(){
-    return _getSignInMethodFromUser(user: _OfficialAuthing._getUser());
+    return _getSignInMethodFromUser(user: OfficialAuthing._getUser());
   }
   // --------------------
   /// TESTED : WORKS PERFECT
@@ -130,7 +130,10 @@ class _OfficialAuthing {
       if (Lister.checkCanLoop(providerData) == true){
         final f_a.UserInfo _info = providerData.first;
         final String? providerID = _info.providerId;
-        _output = AuthModel.decipherSignInMethod(providerID);
+        _output = AuthModel.decipherSignInMethod(
+          providerID: providerID,
+          userID: getUserID(),
+        );
       }
 
     }
@@ -160,10 +163,10 @@ class _OfficialAuthing {
 }
 
 /// => TAMAM
-class _OfficialEmailAuthing {
+class OfficialEmailAuthing {
   // -----------------------------------------------------------------------------
 
-  const _OfficialEmailAuthing();
+  const OfficialEmailAuthing();
 
   // -----------------------------------------------------------------------------
 
@@ -233,7 +236,7 @@ class _OfficialEmailAuthing {
             );
 
             if (autoSendVerificationEmail == true){
-              await _OfficialAuthing._getUser()?.sendEmailVerification();
+              await OfficialAuthing._getUser()?.sendEmailVerification();
             }
 
             _output = AuthModel._getAuthModelFromOfficialUserCredential(
@@ -406,7 +409,7 @@ class _OfficialEmailAuthing {
         invoker: 'sendVerificationEmail',
         onError: onError,
         functions: () async {
-          await _OfficialAuthing._getUser()?.sendEmailVerification();
+          await OfficialAuthing._getUser()?.sendEmailVerification();
           _success = true;
           },
       );

@@ -13,11 +13,11 @@ dependencies:
     sdk: flutter
   # ------------------------------------
   basics:
-#    path: D:/projects/packages/basics
-    git:
-      url: https://github.com/RagehAz/basics.git
+    path: D:/projects/packages/basics
+#    git:
+#      url: https://github.com/RagehAz/basics.git
   # ------------------------------------
-  firedart: ^0.9.7
+
   extension_google_sign_in_as_googleapis_auth: ^2.0.11
   firebase_auth: ^4.9.0
   flutter_facebook_auth: ^6.0.3
@@ -30,7 +30,6 @@ dependencies:
   firebase_ui_oauth_apple: ^1.0.24
   firebase_ui_oauth_google: ^1.0.21
   firebase_ui_auth: ^1.1.17
-  firebase_dart: ^1.1.4
 
   # FIRE PACKS IN BASICS
   cloud_firestore: ^4.9.1

@@ -1,8 +1,8 @@
 part of super_fire;
 
-class RealDocStreamer extends StatelessWidget {
+class OfficialRealDocStreamer extends StatelessWidget {
   /// --------------------------------------------------------------------------
-  const RealDocStreamer({
+  const OfficialRealDocStreamer({
     required this.coll,
     required this.doc,
     required this.builder,
@@ -16,9 +16,7 @@ class RealDocStreamer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    if (FirebaseInitializer.isUsingOfficialPackages() == true){
-
-      return StreamBuilder<f_db.DatabaseEvent>(
+    return StreamBuilder<f_db.DatabaseEvent>(
         stream: OfficialFirebase.getReal()?.ref('$coll/$doc').onValue,
         builder: (_, snapshot){
 
@@ -34,35 +32,13 @@ class RealDocStreamer extends StatelessWidget {
         }
     );
 
-    }
-
-    else {
-
-      return StreamBuilder<f_d.Event>(
-        stream: _NativeFirebase.getReal()?.reference().child(coll).child(doc).onValue,
-        builder: (_, snapshot){
-
-          final f_d.Event? _event = snapshot.data;
-          final f_d.DataSnapshot? _snap = _event?.snapshot;
-          final Map<String, dynamic>? _map = _NativeFireMapper.getMapFromDataSnapshot(
-            snapshot: _snap,
-            addDocID: true,
-          );
-
-          return builder(snapshot.connectionState == ConnectionState.waiting, _map);
-
-        }
-    );
-
-    }
-
   }
 /// --------------------------------------------------------------------------
 }
 
-class RealPathStreamer extends StatelessWidget {
+class OfficialRealPathStreamer extends StatelessWidget {
   /// --------------------------------------------------------------------------
-  const RealPathStreamer({
+  const OfficialRealPathStreamer({
     required this.path,
     required this.builder,
     super.key
@@ -74,9 +50,7 @@ class RealPathStreamer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    if (FirebaseInitializer.isUsingOfficialPackages() == true){
-
-      return StreamBuilder<f_db.DatabaseEvent>(
+    return StreamBuilder<f_db.DatabaseEvent>(
         stream: OfficialFirebase.getReal()?.ref(path).onValue,
         builder: (_, snapshot){
 
@@ -91,28 +65,6 @@ class RealPathStreamer extends StatelessWidget {
 
         }
     );
-
-    }
-
-    else {
-
-      return StreamBuilder<f_d.Event>(
-        stream: _NativeFirebase.getReal()?.reference().child(path).onValue,
-        builder: (_, snapshot){
-
-          final f_d.Event? _event = snapshot.data;
-          final f_d.DataSnapshot? _snap = _event?.snapshot;
-          final Map<String, dynamic>? _map = _NativeFireMapper.getMapFromDataSnapshot(
-            snapshot: _snap,
-            addDocID: true,
-          );
-
-          return builder(snapshot.connectionState == ConnectionState.waiting, _map);
-
-        }
-    );
-
-    }
 
   }
   /// --------------------------------------------------------------------------

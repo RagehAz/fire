@@ -65,7 +65,8 @@ class AuthModel {
   // --------------------
   /// TESTED : WORKS PERFECT
   static AuthModel? decipher({
-    required Map<String, dynamic>? map
+    required Map<String, dynamic>? map,
+    required String? userID,
   }){
     AuthModel? _output;
 
@@ -77,7 +78,10 @@ class AuthModel {
           email: map['email'],
           phone: map['phone'],
           imageURL: map['imageURL'],
-          signInMethod: decipherSignInMethod(map['signInMethod']),
+          signInMethod: decipherSignInMethod(
+            providerID: map['signInMethod'],
+            userID: userID,
+          ),
           data: map['data'],
       );
 
@@ -105,7 +109,7 @@ class AuthModel {
         email: cred.user?.email,
         phone: cred.user?.phoneNumber,
         imageURL: _getUserImageURLFromOfficialUserCredential(cred),
-        signInMethod: _OfficialAuthing._getSignInMethodFromUser(user: cred.user),
+        signInMethod: OfficialAuthing._getSignInMethodFromUser(user: cred.user),
         data: _createAuthModelDataMap(
           cred: cred,
           addData: addData,
@@ -133,7 +137,7 @@ class AuthModel {
         email: user.email,
         phone: user.phoneNumber,
         imageURL: user.photoURL,
-        signInMethod: _OfficialAuthing._getSignInMethodFromUser(user: user),
+        signInMethod: OfficialAuthing._getSignInMethodFromUser(user: user),
         data: Mapper.cleanNullPairs(
             map: {
               'user.emailVerified': user.emailVerified,
@@ -144,30 +148,6 @@ class AuthModel {
               'user.tenantId': user.tenantId,
             },
         ),
-      );
-
-    }
-
-    return _output;
-  }
-  // --------------------
-  ///
-  static AuthModel? getAuthModelFromFiredartUser({
-    required fd_u.User? user,
-    required SignInMethod? signInMethod,
-  }){
-    AuthModel? _output;
-
-    if (user != null){
-
-      _output = AuthModel(
-        id: user.id,
-        name: user.displayName,
-        email: user.email,
-        phone: null,
-        imageURL: user.photoUrl,
-        signInMethod: signInMethod,
-        data: null,
       );
 
     }
@@ -258,7 +238,10 @@ class AuthModel {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static SignInMethod? decipherSignInMethod(String? providerID){
+  static SignInMethod? decipherSignInMethod({
+    required String? providerID,
+    required String? userID,
+  }){
 
     switch (providerID){
 
@@ -268,7 +251,7 @@ class AuthModel {
       case 'apple.com': return SignInMethod.apple;
       case 'password': return SignInMethod.password;
       // case 'phone': return SignInMethod.phone;
-      default: return Authing.getUserID() == null ? null : SignInMethod.anonymous;
+      default: return userID == null ? null : SignInMethod.anonymous;
     }
 
   }
@@ -423,7 +406,7 @@ class AuthModel {
 
     if (cred != null){
 
-      final SignInMethod? signInMethod = _OfficialAuthing.getCurrentSignInMethod();
+      final SignInMethod? signInMethod = OfficialAuthing.getCurrentSignInMethod();
 
       if (signInMethod == SignInMethod.google){
         _output = cred.user?.photoURL;

@@ -79,7 +79,7 @@ class AuthBlog {
   /// TESTED : WORKS PERFECT
   static void blogCurrentOfficialFirebaseUser(){
 
-    final f_a.User ?_user = _OfficialAuthing._getUser();
+    final f_a.User ?_user = OfficialAuthing._getUser();
 
     if (_user == null){
       blog('blogCurrentFirebaseUser : user is null');
@@ -202,25 +202,6 @@ class AuthBlog {
       blog('GoogleSignInAuthentication :----> ');
       blog('auth.accessToken : ${auth.accessToken}');
       blog('auth.idToken : ${auth.idToken}');
-    }
-
-  }
-  // -----------------------------------------------------------------------------
-
-  /// FIRE_DART FIREBASE APP
-
-  // --------------------
-  static void blogFirebaseApp(f_d.FirebaseApp? app){
-
-    if (app == null){
-      blog('blogFirebaseApp : FirebaseApp is null');
-    }
-    else {
-
-      Mapper.blogMap(app.options.asMap,
-        invoker: 'app.name : ${app.name}',
-      );
-
     }
 
   }
