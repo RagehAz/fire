@@ -141,6 +141,36 @@ class OfficialAuthing {
     return _output;
   }
   // -----------------------------------------------------------------------------
+  
+  /// CHECKERS
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static bool checkIsSocialSignInMethod(SignInMethod? method){
+    switch (method){
+      case SignInMethod.anonymous: return false;
+      case SignInMethod.password:  return false;
+      case SignInMethod.google:    return true;
+      case SignInMethod.facebook:  return true;
+      case SignInMethod.apple:     return true;
+      default: return false;
+    }
+  }
+  /// TESTED : WORKS PERFECT
+  static bool userIsSignedUp(SignInMethod? method){
+
+    if (
+    method == null ||
+        method == SignInMethod.anonymous
+    ){
+      return false;
+    }
+    else {
+      return true;
+    }
+
+  }
+  // -----------------------------------------------------------------------------
 
   /// USER
 
