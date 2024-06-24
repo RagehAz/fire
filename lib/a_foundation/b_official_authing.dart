@@ -13,7 +13,7 @@ class OfficialAuthing {
   // --------------------
   /// TESTED : WORKS PERFECT
   static String? getUserID() {
-    return _getUser()?.uid;
+    return getUser()?.uid;
   }
   // -----------------------------------------------------------------------------
 
@@ -109,12 +109,12 @@ class OfficialAuthing {
   // --------------------
   /// TESTED : WORKS PERFECT
   static bool userHasID() {
-    return _getUser() != null;
+    return getUser() != null;
   }
   // --------------------
   /// TESTED : WORKS PERFECT
   static SignInMethod? getCurrentSignInMethod(){
-    return _getSignInMethodFromUser(user: OfficialAuthing._getUser());
+    return _getSignInMethodFromUser(user: OfficialAuthing.getUser());
   }
   // --------------------
   /// TESTED : WORKS PERFECT
@@ -176,18 +176,18 @@ class OfficialAuthing {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static f_a.User? _getUser() {
+  static f_a.User? getUser() {
     return OfficialFirebase.getAuth()?.currentUser;
   }
   // --------------------
   /// TESTED : WORKS PERFECT
   static String? getAuthEmail(){
-    return _getUser()?.email;
+    return getUser()?.email;
   }
   // --------------------
   /// TASK : TEST ME
   static DateTime? getLastSignIn(){
-    return _getUser()?.metadata.lastSignInTime;
+    return getUser()?.metadata.lastSignInTime;
   }
   // -----------------------------------------------------------------------------
 }
@@ -266,7 +266,7 @@ class OfficialEmailAuthing {
             );
 
             if (autoSendVerificationEmail == true){
-              await OfficialAuthing._getUser()?.sendEmailVerification();
+              await OfficialAuthing.getUser()?.sendEmailVerification();
             }
 
             _output = AuthModel._getAuthModelFromOfficialUserCredential(
@@ -439,7 +439,7 @@ class OfficialEmailAuthing {
         invoker: 'sendVerificationEmail',
         onError: onError,
         functions: () async {
-          await OfficialAuthing._getUser()?.sendEmailVerification();
+          await OfficialAuthing.getUser()?.sendEmailVerification();
           _success = true;
           },
       );
