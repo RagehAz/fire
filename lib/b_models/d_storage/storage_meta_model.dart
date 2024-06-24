@@ -18,48 +18,15 @@ class StorageMetaModel {
     required MediaMetaModel? meta,
     Map<String, String>? extraData,
   }){
-
+    
     /// ASSIGNING NULL TO KEY DELETES PAIR AUTOMATICALLY.
-    final Map<String, String?>? _metaDataMap = <String, String?>{
-      'name': meta?.name,
-      'sizeMB': meta?.sizeMB?.toString(),
-      'width': meta?.width?.toString(),
-      'height': meta?.height?.toString(),
-      'uploadPath': meta?.uploadPath,
-      'fileType': FileMiming.getMimeByType(meta?.fileExt),
-    };
-
-    /// ADD OWNERS IDS
-    if (Lister.checkCanLoop(meta?.ownersIDs) == true){
-      for (final String ownerID in meta!.ownersIDs) {
-        _metaDataMap?[ownerID] = 'cool';
-      }
-    }
-
-    Map<String, String>? _output = MapperSS.cleanNullPairs(
-        map: _metaDataMap,
+    final Map<String, String>? _metaDataMap = MediaMetaModel.generateSettableMap(
+        bytes: bytes,
+        meta: meta
     );
 
-    /// ADD META DATA MAP
-    if (meta?.data != null) {
-      _output = MapperSS.combineStringStringMap(
-        baseMap: _output,
-        replaceDuplicateKeys: true,
-        insert: meta!.data,
-      );
-    }
-
-    /// ADD EXTRA DATA MAP
-    if (extraData != null) {
-      _output = MapperSS.combineStringStringMap(
-        baseMap: _output,
-        replaceDuplicateKeys: true,
-        insert: extraData,
-      );
-    }
-
     return f_s.SettableMetadata(
-      customMetadata: _output,
+      customMetadata: _metaDataMap,
       // cacheControl: ,
       // contentDisposition: ,
       // contentEncoding: ,
