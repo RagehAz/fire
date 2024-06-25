@@ -1,10 +1,10 @@
 part of super_fire;
 
 /// => TAMAM
-class AuthBlog {
+class OfficialAuthBlog {
   // -----------------------------------------------------------------------------
 
-  const AuthBlog();
+  const OfficialAuthBlog();
 
   // -----------------------------------------------------------------------------
 

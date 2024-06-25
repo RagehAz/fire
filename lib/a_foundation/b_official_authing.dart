@@ -34,7 +34,7 @@ class OfficialAuthing {
         final f_a.UserCredential? _userCredential = await OfficialFirebase
             .getAuth()?.signInAnonymously();
 
-        _output = AuthModel._getAuthModelFromOfficialUserCredential(
+        _output = OfficialModelling.getAuthModelFromOfficialUserCredential(
             cred: _userCredential,
         );
 
@@ -225,7 +225,7 @@ class OfficialEmailAuthing {
             password: password!,
           );
 
-          _output = AuthModel._getAuthModelFromOfficialUserCredential(
+          _output = OfficialModelling.getAuthModelFromOfficialUserCredential(
             cred: _userCredential,
           );
 
@@ -269,7 +269,7 @@ class OfficialEmailAuthing {
               await OfficialAuthing.getUser()?.sendEmailVerification();
             }
 
-            _output = AuthModel._getAuthModelFromOfficialUserCredential(
+            _output = OfficialModelling.getAuthModelFromOfficialUserCredential(
                 cred: _userCredential,
             );
 
@@ -553,7 +553,7 @@ class OfficialGoogleAuthing {
         /// get [user credential] from [auth provider]
         final f_a.UserCredential? _userCredential = await _firebaseAuth?.signInWithPopup(_googleAuthProvider);
 
-        _output = AuthModel._getAuthModelFromOfficialUserCredential(
+        _output = OfficialModelling.getAuthModelFromOfficialUserCredential(
           cred: _userCredential,
         );
 
@@ -594,7 +594,7 @@ class OfficialGoogleAuthing {
               /// C - get [user credential] from [auth credential]
               final f_a.UserCredential? _userCredential = await _firebaseAuth?.signInWithCredential(_authCredential);
 
-              _output = AuthModel._getAuthModelFromOfficialUserCredential(
+              _output = OfficialModelling.getAuthModelFromOfficialUserCredential(
                 cred: _userCredential,
                 addData: _createGoogleAuthDataMap(
                   googleSignInAuthentication: _googleSignInAuthentication,
@@ -678,7 +678,7 @@ class OfficialFacebookAuthing {
             final f_a.UserCredential? _userCredential =
             await OfficialFirebase.getAuth()?.signInWithCredential(_facebookAuthCredential);
 
-            _output = AuthModel._getAuthModelFromOfficialUserCredential(
+            _output = OfficialModelling.getAuthModelFromOfficialUserCredential(
             cred: _userCredential,
             addData: _createFacebookAuthDataMap(
               facebookAuthCredential: _facebookAuthCredential,
@@ -790,7 +790,7 @@ class OfficialAppleAuthing {
 
         // AuthBlog.blogAppleCred(credential);
 
-        _output = AuthModel.getAuthModelFromAppleCred(
+        _output = OfficialModelling.getAuthModelFromAppleCred(
           cred: credential,
         );
 

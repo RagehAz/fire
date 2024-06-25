@@ -105,13 +105,13 @@ class SocialAuthButton extends StatelessWidget {
     else if (newState is fui.CredentialReceived){
       final fui.CredentialReceived cred = newState;
       blog('SocialAuthButton : is CredentialReceived');
-      AuthBlog.blogAuthCred(cred.credential);
+      OfficialAuthBlog.blogAuthCred(cred.credential);
     }
 
     /// AUTH CRED LINKED
     else if (newState is fui.CredentialLinked){
         final fui.CredentialLinked cred = newState;
-        AuthBlog.blogAuthCred(cred.credential);
+        OfficialAuthBlog.blogAuthCred(cred.credential);
     }
 
     /// AUTH FAILED
@@ -126,7 +126,7 @@ class SocialAuthButton extends StatelessWidget {
     /// SIGNED IN
     else if (newState is fui.SignedIn) {
         final fui.SignedIn signedIn = newState;
-        final AuthModel? _authModel = AuthModel._getAuthModelFromOfficialFirebaseUser(
+        final AuthModel? _authModel = OfficialModelling.getAuthModelFromOfficialFirebaseUser(
             user: signedIn.user,
         );
         onSuccess(_authModel);
@@ -136,7 +136,7 @@ class SocialAuthButton extends StatelessWidget {
     /// USER CREATED
     else if (newState is fui.UserCreated) {
       final fui.UserCreated userCreated = newState;
-      final AuthModel? _authModel = AuthModel._getAuthModelFromOfficialUserCredential(
+      final AuthModel? _authModel = OfficialModelling.getAuthModelFromOfficialUserCredential(
         cred: userCreated.credential,
       );
       onSuccess(_authModel);

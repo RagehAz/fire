@@ -114,7 +114,7 @@ class OfficialStorage {
 
             final f_s.UploadTask _uploadTask = _ref.putData(
               bytes,
-              StorageMetaModel.toOfficialSettableMetadata(
+              OfficialModelling.toOfficialSettableMetadata(
                 meta: meta,
                 bytes: bytes,
               ),
@@ -483,7 +483,7 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
             if (_ref != null) {
               final f_s.FullMetadata _meta = await _ref.getMetadata();
 
-              _output = StorageMetaModel.decipherOfficialFullMetaData(
+              _output = OfficialModelling.decipherOfficialFullMetaData(
                 fullMetadata: _meta,
               );
             }
@@ -515,7 +515,7 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
           if (_ref != null) {
             final f_s.FullMetadata _meta = await _ref.getMetadata();
 
-            _output = StorageMetaModel.decipherOfficialFullMetaData(
+            _output = OfficialModelling.decipherOfficialFullMetaData(
               fullMetadata: _meta,
             );
           }
@@ -679,7 +679,7 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
 
             final Uint8List? _bytes = await readBytesByURL(url: url);
 
-            await _ref.updateMetadata(StorageMetaModel.toOfficialSettableMetadata(
+            await _ref.updateMetadata(OfficialModelling.toOfficialSettableMetadata(
               meta: meta,
               bytes: _bytes,
             ));
@@ -712,7 +712,7 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
 
             final Uint8List? _bytes = await readBytesByPath(path: path);
 
-            await _ref.updateMetadata(StorageMetaModel.toOfficialSettableMetadata(
+            await _ref.updateMetadata(OfficialModelling.toOfficialSettableMetadata(
               meta: meta,
               bytes: _bytes,
             ));

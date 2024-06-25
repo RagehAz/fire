@@ -356,7 +356,7 @@ class OfficialReal {
       ),
       functions: () async {
 
-        final f_db.Query? _query = RealQueryModel.createOfficialRealQuery(
+        final f_db.Query? _query = OfficialModelling.createOfficialRealQuery(
           queryModel: realQueryModel,
           lastMap: startAfter,
         );

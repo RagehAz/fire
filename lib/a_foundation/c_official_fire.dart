@@ -407,7 +407,7 @@ class OfficialFire{
       if (query != null){
         /// ASSIGN SEARCH FINDERS
         if (Lister.checkCanLoop(finders) == true){
-          query = FireFinder.createOfficialCompositeQueryByFinders(
+          query = OfficialModelling.createOfficialCompositeQueryByFinders(
             query: query,
             finders: finders!,
           );
