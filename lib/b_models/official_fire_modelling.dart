@@ -447,14 +447,14 @@ class OfficialModelling {
   // --------------------
   /// TESTED : WORKS PERFECT
   static f_s.SettableMetadata toOfficialSettableMetadata({
-    required Uint8List? bytes,
+    // required Uint8List? bytes,
     required MediaMetaModel? meta,
     Map<String, String>? extraData,
   }){
 
     /// ASSIGNING NULL TO KEY DELETES PAIR AUTOMATICALLY.
     final Map<String, String>? _metaDataMap = MediaMetaModel.generateSettableMap(
-        bytes: bytes,
+        // bytes: bytes,
         meta: meta
     );
 

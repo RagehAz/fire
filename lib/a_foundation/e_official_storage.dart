@@ -116,7 +116,7 @@ class OfficialStorage {
               bytes,
               OfficialModelling.toOfficialSettableMetadata(
                 meta: meta,
-                bytes: bytes,
+                // bytes: bytes,
               ),
             );
 
@@ -677,11 +677,11 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
 
           if (_ref != null){
 
-            final Uint8List? _bytes = await readBytesByURL(url: url);
+            // final Uint8List? _bytes = await readBytesByURL(url: url);
 
             await _ref.updateMetadata(OfficialModelling.toOfficialSettableMetadata(
               meta: meta,
-              bytes: _bytes,
+              // bytes: _bytes,
             ));
           }
 
@@ -710,11 +710,11 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
 
           if (_ref != null){
 
-            final Uint8List? _bytes = await readBytesByPath(path: path);
+            // final Uint8List? _bytes = await readBytesByPath(path: path);
 
             await _ref.updateMetadata(OfficialModelling.toOfficialSettableMetadata(
               meta: meta,
-              bytes: _bytes,
+              // bytes: _bytes,
             ));
 
           }
@@ -811,7 +811,6 @@ https://medium.com/@debnathakash8/firebase-cloud-storage-with-flutter-aad7de6c43
       path: path,
       userID: currentUserID,
     );
-
 
     if (
         _canEdit == true
