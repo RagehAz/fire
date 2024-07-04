@@ -55,16 +55,7 @@ class _OfficialFireCollPaginatorState extends State<OfficialFireCollPaginator> {
     /// PAGINATOR CONTROLLER
     _initializePaginatorController();
 
-    /// THOSE REFRESH THE WIDGET WHEN ITS REBUILT AGAIN ANAD AGAIN
-    _paginatorController.clear();
-    setNotifier(
-      notifier: _paginatorController.canKeepReading,
-      mounted: mounted,
-      value: true,
-    );
 
-    /// REMOVED
-    _paginatorController.scrollController.addListener(_scrollListener);
 
   }
   // --------------------
@@ -76,6 +67,19 @@ class _OfficialFireCollPaginatorState extends State<OfficialFireCollPaginator> {
       _isInit = false; // good
 
       asyncInSync(() async {
+
+        /// THOSE REFRESH THE WIDGET WHEN ITS REBUILT AGAIN ANAD AGAIN
+        _paginatorController.clear(
+          isMounted: mounted,
+        );
+        setNotifier(
+          notifier: _paginatorController.canKeepReading,
+          mounted: mounted,
+          value: true,
+        );
+
+        /// REMOVED
+        _paginatorController.scrollController.addListener(_scrollListener);
 
         /// INITIAL PAGINATION READ
         await _readMore();
