@@ -15,10 +15,10 @@ dependencies:
   basics:
     # ----------------
     # IOS
-#    path: /Users/rageh/projects/bldrs/basics
+    path: /Users/rageh/projects/bldrs/basics
     # ----------------
     # ANDROID
-    path: D:/projects/bldrs_packs/basics
+#    path: D:/projects/bldrs_packs/basics
     # ----------------
     # GIT
 #    git:
