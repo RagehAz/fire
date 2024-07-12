@@ -13,9 +13,10 @@ dependencies:
     sdk: flutter
   # ------------------------------------
   basics:
+    path: /Users/rageh/projects/bldrs/basics
 #    path: D:/projects/bldrs_packs/basics
-    git:
-      url: https://github.com/RagehAz/basics.git
+#    git:
+#      url: https://github.com/RagehAz/basics.git
   # ------------------------------------
 
   extension_google_sign_in_as_googleapis_auth: ^2.0.11
