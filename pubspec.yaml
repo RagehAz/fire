@@ -1,6 +1,6 @@
 name: fire
 description: Firebase firestore API.
-version: 4.4.0
+version: 4.5.0
 publish_to: "none"
 homepage: https://github.com/RagehAz/fire.git
 # --------------------------------------------------------------------------------
@@ -15,10 +15,10 @@ dependencies:
   basics:
     # ----------------
     # IOS
-    path: /Users/rageh/projects/bldrs/basics
+#    path: /Users/rageh/projects/bldrs/basics
     # ----------------
     # ANDROID
-#    path: D:/projects/bldrs_packs/basics
+    path: D:/projects/bldrs_packs/basics
     # ----------------
     # GIT
 #    git:
