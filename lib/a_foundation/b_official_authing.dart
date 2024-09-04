@@ -330,7 +330,7 @@ class OfficialEmailAuthing {
   /// UPDATE EMAIL - PASSWORD
 
   // --------------------
-  /// TESTED : WORKS PERFECT
+  /// TASK : TEST ME
   static Future<bool> updateUserEmail({
     required String? newEmail,
     Function(String? error)? onError,
@@ -351,7 +351,7 @@ class OfficialEmailAuthing {
           functions: () async {
 
             await _auth?.currentUser?.verifyBeforeUpdateEmail(newEmail);
-            await _auth?.currentUser?.updateEmail(newEmail);
+            // await _auth?.currentUser?.updateEmail(newEmail);
             blog('updateUserEmail : END');
           },
         );

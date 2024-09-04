@@ -552,12 +552,13 @@ class OfficialReal {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<void> updateDocField({
+  static Future<bool> updateDocField({
     required String? coll,
     required String? doc,
     required String? field,
     required dynamic value,
   }) async {
+    bool _success = false;
 
     if (value != null && coll != null && doc != null && field != null){
 
@@ -578,6 +579,7 @@ class OfficialReal {
           functions: () async {
 
             await _ref?.set(value);
+            _success = true;
             //     .then((_) {}).catchError((error) {
             //   _onRealError(error);
             // })
@@ -586,15 +588,17 @@ class OfficialReal {
           );
     }
 
+    return _success;
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<void> incrementDocFields({
+  static Future<bool> incrementDocFields({
     required String coll,
     required String doc,
     required Map<String, int>? incrementationMap,
     required bool isIncrementing,
   }) async {
+    bool _success = false;
 
     if (incrementationMap != null){
 
@@ -619,6 +623,7 @@ class OfficialReal {
 
           if (_updatesMap != null && _ref != null){
             await _ref.update(_updatesMap);
+            _success = true;
           }
 
         },
@@ -626,14 +631,16 @@ class OfficialReal {
 
     }
 
+    return _success;
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<void> incrementPathFields({
+  static Future<bool> incrementPathFields({
     required String path,
     required Map<String, int>? incrementationMap,
     required bool isIncrementing,
   }) async {
+    bool _success = false;
 
     if (incrementationMap != null){
 
@@ -657,6 +664,7 @@ class OfficialReal {
 
           if (_ref != null && _updatesMap != null){
             await _ref.update(_updatesMap);
+            _success = true;
           }
 
         },
@@ -664,6 +672,7 @@ class OfficialReal {
 
     }
 
+    return _success;
   }
   // -----------------------------------------------------------------------------
 
@@ -671,10 +680,11 @@ class OfficialReal {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<void> deleteDoc({
+  static Future<bool> deleteDoc({
     required String coll,
     required String doc,
   }) async {
+    bool _success = false;
 
     final f_db.DatabaseReference? _ref = _createPathAndGetRef(
       coll: coll,
@@ -692,18 +702,21 @@ class OfficialReal {
       functions: () async {
 
         await _ref?.remove();
+        _success = true;
 
       },
     );
 
+    return _success;
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<void> deleteField({
+  static Future<bool> deleteField({
     required String? coll,
     required String? doc,
     required String? field,
   }) async {
+    bool _success = false;
 
      if (coll != null && doc != null && field != null){
 
@@ -722,7 +735,10 @@ class OfficialReal {
             invoker: 'OfficialReal.deleteField',
           ),
           functions: () async {
-            await _ref?.set(null).then((_) {}).catchError((error) {
+            await _ref?.set(null).then((_) {
+              _success = true;
+            }).catchError((error) {
+              _success = false;
               // The write failed...
             });
           }
@@ -730,12 +746,14 @@ class OfficialReal {
 
      }
 
+     return _success;
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<void> deletePath({
+  static Future<bool> deletePath({
     required String? pathWithDocName,
   }) async {
+    bool _success = false;
 
     if (TextCheck.isEmpty(pathWithDocName) == false){
 
@@ -753,11 +771,13 @@ class OfficialReal {
         ),
         functions: () async {
           await _ref?.remove();
+          _success = true;
         },
       );
 
     }
 
+    return _success;
   }
   // -----------------------------------------------------------------------------
 
@@ -765,10 +785,11 @@ class OfficialReal {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<void> clonePath({
+  static Future<bool> clonePath({
     required String oldPath,
     required String newPath,
   }) async {
+    bool _success = false;
 
     final Object? _object = await readPath(path: oldPath);
 
@@ -788,9 +809,11 @@ class OfficialReal {
           ),
           functions: () async {
             await _ref?.set(_object);
+            _success = true;
           });
     }
 
+    return _success;
   }
   // -----------------------------------------------------------------------------
 

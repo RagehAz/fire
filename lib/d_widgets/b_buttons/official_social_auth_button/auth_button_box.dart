@@ -37,6 +37,8 @@ class AuthButtonBox extends StatelessWidget {
             // color: Colorz.bloodTest,
             // margins: EdgeInsets.symmetric(vertical: 0),
             corners: corners,
+            bubble: false,
+            borderColor: Colorz.white50,
           ),
         ),
 

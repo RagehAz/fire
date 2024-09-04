@@ -485,7 +485,7 @@ class OfficialFire{
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<void> updateDoc({
+  static Future<bool> updateDoc({
     required Map<String, dynamic>? input,
     required String coll,
     required String doc,
@@ -493,7 +493,7 @@ class OfficialFire{
     String? subDoc,
   }) async {
 
-    await createDoc(
+    final String? _docID = await createDoc(
       coll: coll,
       doc: doc,
       subColl: subColl,
@@ -501,6 +501,7 @@ class OfficialFire{
       input: input,
     );
 
+    return _docID != null;
   }
   // --------------------
   /// TESTED : WORKS PERFECT
@@ -585,12 +586,13 @@ class OfficialFire{
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<void> deleteDoc({
+  static Future<bool> deleteDoc({
     required String coll,
     required String? doc,
     String? subColl,
     String? subDoc,
   }) async {
+    bool _success = false;
 
     await tryAndCatch(
         invoker: 'OfficialFire.deleteDoc',
@@ -604,10 +606,13 @@ class OfficialFire{
           );
 
           await _docRef?.delete();
+          _success = true;
 
           // blog('deleteDoc : deleted : $coll : $doc : $subColl : $subDoc');
         }
     );
+
+    return _success;
   }
   // --------------------
   /// TESTED : WORKS PERFECT

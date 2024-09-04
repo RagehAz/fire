@@ -265,12 +265,13 @@ class SocialAuthButton extends StatelessWidget {
         child: SuperBox(
           height: size,
           width: size, // - 10,
-          bubble: false,
           corners: AuthButtonBox.corners,
           icon: _getIcon(signInMethod),
           iconSizeFactor: _getIconSizeFactor(signInMethod),
           color: Colorz.white255,
           onTap: _onManualAuth,
+          bubble: false,
+          borderColor: Colorz.white50,
         ),
       );
 
