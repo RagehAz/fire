@@ -117,7 +117,9 @@ class _OfficialFireCollPaginatorState extends State<OfficialFireCollPaginator> {
 
         await Future.delayed(const Duration(milliseconds: 100));
 
-        _paginatorController.clear();
+        _paginatorController.clear(
+          isMounted: mounted,
+        );
 
         setNotifier(
             notifier: _paginatorController.canKeepReading,
