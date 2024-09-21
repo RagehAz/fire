@@ -50,11 +50,11 @@ import 'package:googleapis_auth/googleapis_auth.dart'; // as gapis;
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 /// OFFICIAL FIRE
 import 'package:firebase_core/firebase_core.dart';
-import 'package:cloud_firestore/cloud_firestore.dart' as cloud;
+import 'package:basics/exports/cloud_firestore.dart' as cloud;
 /// OFFICIAL REAL
 import 'dart:convert';
 import 'package:firebase_database/firebase_database.dart' as f_db;
-import 'package:http/http.dart' as http;
+import 'package:basics/exports/http.dart'as http;
 /// OFFICIAL STORAGE
 // ignore: unnecessary_import
 import 'dart:typed_data';
@@ -68,7 +68,7 @@ import 'package:firebase_storage/firebase_storage.dart' as f_s;
 export 'package:firebase_auth/firebase_auth.dart';
 /// FIRE
 export 'package:firebase_core/firebase_core.dart';
-export 'package:cloud_firestore/cloud_firestore.dart';
+export 'package:basics/exports/cloud_firestore.dart';
 /// STORAGE
 export 'package:firebase_storage/firebase_storage.dart';
 // -----------------------------------------------------------------------------
