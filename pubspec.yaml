@@ -13,7 +13,7 @@ dependencies:
     sdk: flutter
   # ------------------------------------
   basics:
-    # ----------------
+    # -----------------
     # IOS
 #    path: /Users/rageh/projects/bldrs/basics
     # ----------------
