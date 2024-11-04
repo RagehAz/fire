@@ -10,6 +10,7 @@ class OfficialFireCollPaginator extends StatefulWidget {
     this.child,
     this.onDataChanged,
     this.onError,
+    this.reloadOnRebuild = false,
     super.key
   });
   /// --------------------------------------------------------------------------
@@ -19,8 +20,8 @@ class OfficialFireCollPaginator extends StatefulWidget {
   final PaginationController? paginationController;
   final ValueChanged<List<Map<String, dynamic>>>? onDataChanged;
   final Function(String error)? onError;
+  final bool reloadOnRebuild;
   final Widget Function(
-      BuildContext context,
       List<Map<String, dynamic>> maps,
       bool isLoading,
       Widget? child
@@ -33,9 +34,9 @@ class OfficialFireCollPaginator extends StatefulWidget {
 
 class _OfficialFireCollPaginatorState extends State<OfficialFireCollPaginator> {
   // -----------------------------------------------------------------------------
-  late PaginationController _paginatorController;
+  PaginationController? _paginatorController;
   StreamSubscription? _streamSub;
-  final ValueNotifier<List<Map<String, dynamic>>> _streamOldMaps = ValueNotifier<List<Map<String, dynamic>>>([]);
+  ValueNotifier<List<Map<String, dynamic>>>? _streamOldMaps;
   // -----------------------------------------------------------------------------
   /// --- LOADING
   final ValueNotifier<bool> _loading = ValueNotifier(false);
@@ -51,6 +52,8 @@ class _OfficialFireCollPaginatorState extends State<OfficialFireCollPaginator> {
   @override
   void initState() {
     super.initState();
+
+    _streamOldMaps = ValueNotifier<List<Map<String, dynamic>>>([]);
 
     /// PAGINATOR CONTROLLER
     _initializePaginatorController();
@@ -69,17 +72,17 @@ class _OfficialFireCollPaginatorState extends State<OfficialFireCollPaginator> {
       asyncInSync(() async {
 
         /// THOSE REFRESH THE WIDGET WHEN ITS REBUILT AGAIN ANAD AGAIN
-        _paginatorController.clear(
+        _paginatorController?.clear(
           isMounted: mounted,
         );
         setNotifier(
-          notifier: _paginatorController.canKeepReading,
+          notifier: _paginatorController?.canKeepReading,
           mounted: mounted,
           value: true,
         );
 
         /// REMOVED
-        _paginatorController.scrollController.addListener(_scrollListener);
+        _paginatorController?.scrollController.addListener(_scrollListener);
 
         /// INITIAL PAGINATION READ
         await _readMore();
@@ -109,22 +112,17 @@ class _OfficialFireCollPaginatorState extends State<OfficialFireCollPaginator> {
         model2: widget.streamQuery,
       ) == false;
       
-      if (
-          _paginationQueryChanged == true
-          ||
-          _streamQueryChanged == true
-      ){
+      if (widget.reloadOnRebuild || _paginationQueryChanged == true || _streamQueryChanged == true){
 
         await Future.delayed(const Duration(milliseconds: 100));
 
-        _paginatorController.clear(
+        _paginatorController?.clear(
           isMounted: mounted,
         );
 
-        setNotifier(
-            notifier: _paginatorController.canKeepReading,
-            mounted: mounted,
-            value: true,
+        _paginatorController?.canKeepReading.set(
+          mounted: mounted,
+          value: true,
         );
         
         await _readMore();
@@ -139,14 +137,17 @@ class _OfficialFireCollPaginatorState extends State<OfficialFireCollPaginator> {
   @override
   void dispose() {
 
-    _paginatorController.scrollController.removeListener(_scrollListener);
+    _paginatorController?.scrollController.removeListener(_scrollListener);
 
-    _streamOldMaps.dispose();
+    _streamOldMaps?.dispose();
+    _streamOldMaps = null;
+
     _loading.dispose();
 
     /// STATE ARE HANDLED INTERNALLY
     if (widget.paginationController == null){
-      _paginatorController.dispose();
+      _paginatorController?.dispose();
+      _paginatorController = null;
     }
 
     if (_streamSub != null){
@@ -182,26 +183,30 @@ class _OfficialFireCollPaginatorState extends State<OfficialFireCollPaginator> {
         queryModel: widget.streamQuery!,
       );
 
-      _streamSub = OfficialFireCollStreamer.initializeStreamListener(
-        stream: _stream,
-        mounted: mounted,
-        oldMaps: _streamOldMaps,
-        onChanged: (List<Map<String, dynamic>> oldMaps, List<Map<String, dynamic>> newMaps){
+      if (_streamOldMaps != null){
+        _streamSub = OfficialFireCollStreamer.initializeStreamListener(
+          stream: _stream,
+          mounted: mounted,
+          oldMaps: _streamOldMaps!,
+          onChanged: (List<Map<String, dynamic>> oldMaps, List<Map<String, dynamic>> newMaps){
 
-          // final List<Map<String, dynamic>> _allMaps = [..._paginatorController.paginatorMaps.value];
-          // blog(' === > streamMaps : ${streamMaps.length} maps');
+            // final List<Map<String, dynamic>> _allMaps = [..._paginatorController.paginatorMaps.value];
+            // blog(' === > streamMaps : ${streamMaps.length} maps');
 
-          PaginationController.insertMapsToPaginator(
-            mapsToAdd: newMaps,
-            controller: _paginatorController.copyWith(
-              /// to put stream maps in inverse direction
-              addExtraMapsAtEnd: !_paginatorController.addExtraMapsAtEnd,
-            ),
-            mounted: mounted,
-          );
+            if (_paginatorController != null){
+              PaginationController.insertMapsToPaginator(
+                mapsToAdd: newMaps,
+                controller: _paginatorController!.copyWith(
+                  /// to put stream maps in inverse direction
+                  addExtraMapsAtEnd: !_paginatorController!.addExtraMapsAtEnd,
+                ),
+                mounted: mounted,
+              );
+            }
 
-        },
-      );
+          },
+        );
+      }
 
     }
 
@@ -213,15 +218,17 @@ class _OfficialFireCollPaginatorState extends State<OfficialFireCollPaginator> {
   // --------------------
   void _scrollListener(){
 
-    paginationListener(
-      canKeepReading: _paginatorController.canKeepReading,
-      controller: _paginatorController.scrollController,
-      isPaginating: _paginatorController.isPaginating,
-      onPaginate: () async {
-        await _readMore();
-      },
-      mounted: mounted,
-    );
+    if (_paginatorController != null){
+      paginationListener(
+        canKeepReading: _paginatorController!.canKeepReading,
+        controller: _paginatorController!.scrollController,
+        isPaginating: _paginatorController!.isPaginating,
+        onPaginate: () async {
+          await _readMore();
+        },
+        mounted: mounted,
+      );
+    }
 
   }
   // -----------------------------------------------------------------------------
@@ -244,11 +251,11 @@ class _OfficialFireCollPaginatorState extends State<OfficialFireCollPaginator> {
   Future<void> _readMoreOfficial() async {
     
     /// CAN KEEP READING
-    if (mounted == true && _paginatorController.canKeepReading.value  == true){
+    if (mounted == true && Mapper.boolIsTrue(_paginatorController?.canKeepReading.value)  == true){
 
       final List<Map<String, dynamic>>? _nextMaps = await OfficialFire.readColl(
         queryModel: widget.paginationQuery,
-        startAfter: _paginatorController.startAfter.value,
+        startAfter: _paginatorController?.startAfter.value,
         addDocSnapshotToEachMap: true,
         onError: widget.onError,
       );
@@ -265,7 +272,7 @@ class _OfficialFireCollPaginatorState extends State<OfficialFireCollPaginator> {
 
       else {
         setNotifier(
-            notifier: _paginatorController.canKeepReading,
+            notifier: _paginatorController?.canKeepReading,
             mounted: mounted,
             value: false
         );
@@ -275,8 +282,8 @@ class _OfficialFireCollPaginatorState extends State<OfficialFireCollPaginator> {
 
     /// NO MORE MAPS TO READ
     else {
-      blog('FireCollPaginator : _readMore : _canKeepReading : ${_paginatorController.canKeepReading.value} '
-          'isPaginating : ${_paginatorController.isPaginating}'
+      blog('FireCollPaginator : _readMore : _canKeepReading : ${_paginatorController?.canKeepReading.value} '
+          'isPaginating : ${_paginatorController?.isPaginating}'
       );
     }
 
@@ -286,19 +293,18 @@ class _OfficialFireCollPaginatorState extends State<OfficialFireCollPaginator> {
   @override
   Widget build(BuildContext context) {
     
-    return ValueListenableBuilder(
-        valueListenable: _loading,
+    return MultiWires(
+        wires: <Wire?>[
+          _loading,
+          _paginatorController?.paginatorMaps,
+        ],
         child: widget.child,
-        builder: (_, bool _isLoading, Widget? child){
+        builder: (Widget? child){
 
-          return ValueListenableBuilder(
-              valueListenable: _paginatorController.paginatorMaps,
-              builder: (_, List<Map<String, dynamic>> maps, Widget? xChild){
+          final bool _isLoading = _loading.value;
+          final List<Map<String, dynamic>> maps = _paginatorController?.paginatorMaps.value ?? [];
 
-                // Mapper.blogMaps(maps, invoker: 'FireCollPaginator : builder');
-                return widget.builder(context, maps, _isLoading, child);
-
-              });
+          return widget.builder(maps, _isLoading, child);
 
         }
         );
