@@ -18,11 +18,11 @@ dependencies:
 #    path: /Users/rageh/projects/bldrs/basics
     # ----------------
     # ANDROID
-    path: D:/projects/bldrs_packs/basics
+#    path: D:/projects/bldrs_packs/basics
     # ----------------
     # GIT
-#    git:
-#      url: https://github.com/RagehAz/basics.git
+    git:
+      url: https://github.com/RagehAz/basics.git
   # ------------------------------------
   extension_google_sign_in_as_googleapis_auth: ^2.0.12
   flutter_facebook_auth: ^6.2.0
