@@ -45,28 +45,6 @@ class OfficialAuthing {
   }
   // -----------------------------------------------------------------------------
 
-  /// RE AUTH
-
-  // --------------------
-  /// TASK_TEST_REAUTH
-  static Future<bool> reAuth({
-    Function? doStuffBetweenReAuthing,
-  }) async {
-    bool _output = false;
-    final f_a.FirebaseAuth? _firebaseAuth = OfficialFirebase.getAuth();
-    final String? _idToken = await _firebaseAuth?.currentUser?.getIdToken();
-    if (_idToken != null){
-
-      await doStuffBetweenReAuthing?.call();
-
-      final f_a.UserCredential? cred = await _firebaseAuth?.signInWithCustomToken(_idToken);
-      final AuthModel? _auth = OfficialModelling.getAuthModelFromOfficialUserCredential(cred: cred);
-      _output = _auth != null;
-    }
-    return _output;
-  }
-  // -----------------------------------------------------------------------------
-
   /// SIGN OUT
 
   // --------------------
