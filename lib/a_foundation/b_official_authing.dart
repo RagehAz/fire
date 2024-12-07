@@ -45,6 +45,28 @@ class OfficialAuthing {
   }
   // -----------------------------------------------------------------------------
 
+  /// RE AUTH
+
+  // --------------------
+  /// TASK_TEST_REAUTH
+  static Future<bool> reAuth({
+    Function? doStuffBetweenReAuthing,
+  }) async {
+    bool _output = false;
+    final f_a.FirebaseAuth? _firebaseAuth = OfficialFirebase.getAuth();
+    final String? _idToken = await _firebaseAuth?.currentUser?.getIdToken();
+    if (_idToken != null){
+
+      await doStuffBetweenReAuthing?.call();
+
+      final f_a.UserCredential? cred = await _firebaseAuth?.signInWithCustomToken(_idToken);
+      final AuthModel? _auth = OfficialModelling.getAuthModelFromOfficialUserCredential(cred: cred);
+      _output = _auth != null;
+    }
+    return _output;
+  }
+  // -----------------------------------------------------------------------------
+
   /// SIGN OUT
 
   // --------------------
@@ -192,7 +214,7 @@ class OfficialAuthing {
   // -----------------------------------------------------------------------------
 }
 
-/// => TAMAM
+/// => UPDATE_EMAIL_TASK
 class OfficialEmailAuthing {
   // -----------------------------------------------------------------------------
 
@@ -330,7 +352,7 @@ class OfficialEmailAuthing {
   /// UPDATE EMAIL - PASSWORD
 
   // --------------------
-  /// TASK : TEST ME
+  /// UPDATE_EMAIL_TASK
   static Future<bool> updateUserEmail({
     required String? newEmail,
     Function(String? error)? onError,
@@ -360,7 +382,7 @@ class OfficialEmailAuthing {
     return _success;
   }
   // --------------------
-  /// TASK : TEST ME
+  /// UPDATE_EMAIL_TASK
   static Future<bool> updateUserPassword({
     required String? newPassword,
     Function(String? error)? onError,
@@ -389,7 +411,7 @@ class OfficialEmailAuthing {
   /// CHANGE PASSWORD
 
   // --------------------
-  /// TESTED : WORKS PERFECT
+  /// TESTED : WORKS PERFECT : UPDATE_EMAIL_TASK
   static Future<bool> sendPasswordResetEmail({
     required String? email,
     required Function(String? error)? onError,
@@ -426,7 +448,7 @@ class OfficialEmailAuthing {
     return _success;
   }
   // --------------------
-  /// TASK : TEST ME
+  /// UPDATE_EMAIL_TASK
   static Future<bool> sendVerificationEmail({
     required String? email,
     required Function(String? error)? onError,
