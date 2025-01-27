@@ -21,7 +21,7 @@ class OfficialFirebase {
     String? appName,
   }) async {
 
-    if (DeviceChecker.deviceIsWindows() == false) {
+    // if (DeviceChecker.deviceIsWindows() == false) {
       await tryAndCatch(
         invoker: 'OfficialFirebase.initialize',
         functions: () async {
@@ -38,7 +38,7 @@ class OfficialFirebase {
 
         },
       );
-    }
+    // }
 
   }
   // -----------------------------------------------------------------------------

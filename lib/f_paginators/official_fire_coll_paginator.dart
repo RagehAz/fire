@@ -251,7 +251,7 @@ class _OfficialFireCollPaginatorState extends State<OfficialFireCollPaginator> {
   Future<void> _readMoreOfficial() async {
     
     /// CAN KEEP READING
-    if (mounted == true && Mapper.boolIsTrue(_paginatorController?.canKeepReading.value)  == true){
+    if (mounted == true && Booler.boolIsTrue(_paginatorController?.canKeepReading.value)  == true){
 
       final List<Map<String, dynamic>>? _nextMaps = await OfficialFire.readColl(
         queryModel: widget.paginationQuery,

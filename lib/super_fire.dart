@@ -26,6 +26,7 @@ import 'package:basics/helpers/checks/object_check.dart';
 import 'package:basics/helpers/checks/tracers.dart';
 import 'package:basics/helpers/maps/lister.dart';
 import 'package:basics/helpers/maps/mapper.dart';
+import 'package:basics/helpers/nums/booler.dart';
 import 'package:basics/helpers/rest/rest.dart';
 import 'package:basics/helpers/strings/pathing.dart';
 import 'package:basics/helpers/strings/stringer.dart';
