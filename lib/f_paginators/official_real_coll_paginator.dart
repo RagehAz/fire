@@ -4,6 +4,7 @@ part of super_fire;
 class OfficialRealCollPaginator extends StatefulWidget {
   /// --------------------------------------------------------------------------
   const OfficialRealCollPaginator({
+    required this.isConnected,
     required this.builder,
     required this.paginationController,
     this.paginationQuery,
@@ -11,7 +12,8 @@ class OfficialRealCollPaginator extends StatefulWidget {
     this.onDataChanged,
     super.key
   });
-  /// --------------------------------------------------------------------------
+  // --------------------------------------------------------------------------
+  final bool isConnected;
   final RealQueryModel? paginationQuery;
   final PaginationController? paginationController;
   final Widget? child;
@@ -208,6 +210,7 @@ class _OfficialRealCollPaginatorState extends State<OfficialRealCollPaginator> {
       final List<Map<String, dynamic>> _nextMaps = await OfficialReal.readPathMaps(
         startAfter: _paginatorController.startAfter.value,
         realQueryModel: widget.paginationQuery,
+        isConnected: widget.isConnected,
       );
 
       if (Lister.checkCanLoop(_nextMaps) == true){
