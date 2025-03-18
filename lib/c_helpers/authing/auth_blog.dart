@@ -1,11 +1,7 @@
 part of super_fire;
 
 /// => TAMAM
-class OfficialAuthBlog {
-  // -----------------------------------------------------------------------------
-
-  const OfficialAuthBlog();
-
+abstract class OfficialAuthBlog {
   // -----------------------------------------------------------------------------
 
   /// FIREBASE

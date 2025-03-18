@@ -1,11 +1,7 @@
 part of super_fire;
 
 /// => TAMAM
-class _OfficialFireMapper {
-  // -----------------------------------------------------------------------------
-
-  const _OfficialFireMapper();
-
+abstract class _OfficialFireMapper {
   // -----------------------------------------------------------------------------
 
   /// QUERY SNAPSHOT - QUERY DOCUMENT SNAPSHOT

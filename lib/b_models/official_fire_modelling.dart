@@ -1,10 +1,6 @@
 part of super_fire;
 
-class OfficialModelling {
-  // -----------------------------------------------------------------------------
-
-  const OfficialModelling();
-
+abstract class OfficialModelling {
   // --------------------------------------------------------------------------
 
   /// GETTERS

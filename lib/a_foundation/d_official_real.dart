@@ -1,11 +1,7 @@
 part of super_fire;
 
 /// => TAMAM
-class OfficialReal {
-  // -----------------------------------------------------------------------------
-
-  const OfficialReal();
-
+abstract class OfficialReal {
   // -----------------------------------------------------------------------------
   static int readingTimeout30 = 30;
   static int creationTimeout60 = 60;

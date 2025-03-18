@@ -1,11 +1,7 @@
 part of super_fire;
 
 /// =>
-class OfficialFire{
-  // -----------------------------------------------------------------------------
-
-  const OfficialFire();
-
+abstract class OfficialFire{
   // -----------------------------------------------------------------------------
 
   /// REFERENCES

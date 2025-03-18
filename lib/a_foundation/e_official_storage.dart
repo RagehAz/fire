@@ -1,13 +1,9 @@
 part of super_fire;
 
 /// => TAMAM
-class OfficialStorage {
+abstract class OfficialStorage {
   // -----------------------------------------------------------------------------
   /// Note : use picName without file extension <---------------
-  // -----------------------------------------------------------------------------
-
-  const OfficialStorage();
-
   // -----------------------------------------------------------------------------
 
   /// f_s.REFERENCES

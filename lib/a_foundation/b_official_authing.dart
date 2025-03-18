@@ -1,11 +1,7 @@
 part of super_fire;
 
 /// => TAMAM
-class OfficialAuthing {
-  // -----------------------------------------------------------------------------
-
-  const OfficialAuthing();
-
+abstract class OfficialAuthing {
   // -----------------------------------------------------------------------------
 
   /// USER ID
