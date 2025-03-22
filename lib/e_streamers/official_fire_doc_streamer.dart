@@ -14,7 +14,7 @@ class FireDocStreamer extends StatefulWidget {
   final String collName;
   final String docName;
   final Widget Function(bool loading, Map<String, dynamic>? map) builder;
-  final Function(Map<String, dynamic>? oldMap, Map<String, dynamic>? newMap)? onChanged;
+  final void Function(Map<String, dynamic>? oldMap, Map<String, dynamic>? newMap)? onChanged;
   final Map<String, dynamic>? initialMap;
   // --------------------------------------------------------------------------
   /// TESTED : WORKS PERFECT
