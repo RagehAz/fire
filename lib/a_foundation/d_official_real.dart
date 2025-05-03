@@ -919,4 +919,54 @@ abstract class OfficialReal {
   }
   // -----------------------------------------------------------------------------
 
+  /// ONLINE USERS
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<bool> recordIsOnlineAndDeleteOnDisconnected({
+    required String? userID,
+    required bool isConnected,
+    String collName = 'online_users',
+  }) async {
+    bool _success = false;
+
+    if (isConnected == true && userID != null){
+
+      await tryAndCatch(
+        invoker: 'OfficialReal.recordIsOnline',
+        timeout: creationTimeout60,
+        onError: (String error) => _onRealError(
+          error: error,
+          path: collName,
+          invoker: 'OfficialReal.recordIsOnline',
+        ),
+        functions: () async {
+
+          await _getRefByPath(path: collName)?.set({userID: f_db.ServerValue.timestamp});
+
+          await _getRefByPath(path: '$collName/$userID')?.onDisconnect().remove();
+
+          _success = true;
+        },
+      );
+
+    }
+
+    return _success;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<Map<String, dynamic>> readOnlineUsers({
+    required bool isConnected,
+    String collName = 'online_users',
+  }) async {
+
+    final dynamic _map = await readPath(
+        isConnected: isConnected,
+        path: collName,
+    );
+
+    return Mapper.getMapFromIHLMOO(ihlmoo: _map) ?? {};
+  }
+  // --------------------------------------------------------------------------
 }
