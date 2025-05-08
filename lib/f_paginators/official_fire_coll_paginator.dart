@@ -255,7 +255,7 @@ class _OfficialFireCollPaginatorState extends State<OfficialFireCollPaginator> {
 
       final List<Map<String, dynamic>>? _nextMaps = await OfficialFire.readColl(
         queryModel: widget.paginationQuery,
-        startAfter: _paginatorController?.startAfter.value,
+        startAfter: _paginatorController?.startAfter.value is QueryDocumentSnapshot ? _paginatorController?.startAfter.value : null,
         addDocSnapshotToEachMap: true,
         onError: widget.onError,
       );

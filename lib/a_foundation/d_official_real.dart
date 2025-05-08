@@ -657,6 +657,52 @@ abstract class OfficialReal {
 
     return _success;
   }
+  // -----------------------------------------------------------------------------
+
+  /// PART
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<bool> updateDocFields({
+    required bool isConnected,
+    required String? path,
+    required Map<String, dynamic>? put,
+  }) async {
+    bool _success = false;
+
+    if (isConnected == true){
+
+      if (path != null && put != null){
+
+        final f_db.DatabaseReference? _ref = _getRefByPath(
+          path: path,
+        );
+
+        await tryAndCatch(
+            invoker: 'OfficialReal.updateDocFields',
+            timeout: creationTimeout60,
+            onError: (String error) => _onRealError(
+              error: error,
+              path: Pathing.fixPathFormatting(path)!,
+              invoker: 'OfficialReal.updateDocFields',
+            ),
+            functions: () async {
+
+              await _ref?.set(put);
+              _success = true;
+
+            }
+        );
+      }
+
+    }
+
+    return _success;
+  }
+  // -----------------------------------------------------------------------------
+
+  /// INCREMENT
+
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<bool> incrementDocFields({

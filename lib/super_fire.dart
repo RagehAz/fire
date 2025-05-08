@@ -36,6 +36,7 @@ import 'package:basics/helpers/strings/text_mod.dart';
 import 'package:basics/helpers/time/timers.dart';
 import 'package:basics/helpers/wire/wire.dart';
 import 'package:basics/mediator/models/media_models.dart';
+import 'package:fire/super_fire.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 /// OFFICIAL AUTH
@@ -51,7 +52,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:googleapis_auth/googleapis_auth.dart'; // as gapis;
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 /// OFFICIAL FIRE
-import 'package:firebase_core/firebase_core.dart';
+// import 'package:firebase_core/firebase_core.dart';
 import 'package:basics/exports/cloud_firestore.dart' as cloud;
 /// OFFICIAL REAL
 import 'dart:convert';
