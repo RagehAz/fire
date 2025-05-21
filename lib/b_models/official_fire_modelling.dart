@@ -443,67 +443,22 @@ abstract class OfficialModelling {
   // --------------------
   /// TESTED : WORKS PERFECT
   static f_s.SettableMetadata toOfficialSettableMetadata({
-    // required Uint8List? bytes,
-    required MediaMetaModel? meta,
+    required AvModel? avModel,
     Map<String, String>? extraData,
   }){
 
-    /// ASSIGNING NULL TO KEY DELETES PAIR AUTOMATICALLY.
-    final Map<String, String>? _metaDataMap = MediaMetaModel.generateSettableMap(
-        // bytes: bytes,
-        meta: meta
-    );
-
     return f_s.SettableMetadata(
-      customMetadata: _metaDataMap,
+      customMetadata: AvCipher.toStringStringMap(
+        avModel: avModel,
+        lowerCaseKeys: false,
+      ),
       // cacheControl: ,
       // contentDisposition: ,
       // contentEncoding: ,
       // contentLanguage: ,
-      contentType: FileMiming.getMimeByType(meta?.fileExt),
+      contentType: FileMiming.getMimeByType(avModel?.fileExt),
     );
 
-  }
-  // --------------------
-  /// NEVER USED
-  /*
-  /// TESTED : WORKS PERFECT
-  static StorageMetaModel decipherOfficialSettableMetaData({
-    required f_s.SettableMetadata settableMetadata,
-  }){
-    StorageMetaModel _output;
-
-    if (settableMetadata != null){
-
-      _output = _decipherMetaMap(
-          customMetadata: settableMetadata.customMetadata
-      );
-
-    }
-
-    return _output;
-  }
-   */
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static MediaMetaModel? decipherOfficialFullMetaData({
-    required f_s.FullMetadata? fullMetadata,
-  }){
-    MediaMetaModel? _output;
-
-    if (fullMetadata != null){
-
-      _output = MediaMetaModel.decipherMetaMap(
-          customMetadata: fullMetadata.customMetadata
-      );
-
-    }
-
-    // else {
-    //   _output = MediaMetaModel.emptyModel();
-    // }
-
-    return _output;
   }
   // -----------------------------------------------------------------------------
 
@@ -554,6 +509,26 @@ abstract class OfficialModelling {
     }
     blog('BLOGGING FULL META DATA ------------------------------- END');
 
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static void blogRef(f_s.Reference? ref){
+    blog('BLOGGING STORAGE IMAGE f_s.REFERENCE ------------------------------- START');
+    // --------------------
+    if (ref == null){
+      blog('f_s.Reference is null');
+    }
+    else {
+      blog('name : ${ref.name}');
+      blog('fullPath : ${ref.fullPath}');
+      blog('bucket : ${ref.bucket}');
+      blog('hashCode : ${ref.hashCode}');
+      blog('parent : ${ref.parent}');
+      blog('root : ${ref.root}');
+      blog('storage : ${ref.storage}');
+    }
+
+    blog('BLOGGING STORAGE IMAGE f_s.REFERENCE ------------------------------- END');
   }
   // -----------------------------------------------------------------------------
 }
