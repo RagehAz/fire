@@ -152,4 +152,5 @@ part 'f_paginators/official_real_coll_paginator.dart';
 // part 'c_helpers/pagination_controller/scroll_listeners.dart';
 
 part 'b_models/official_fire_modelling.dart';
+part 'g_builders/fire_storage_av_fetcher.dart';
 // -----------------------------------------------------------------------------

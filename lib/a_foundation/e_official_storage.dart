@@ -10,12 +10,14 @@ abstract class OfficialStorage {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<AvModel?> uploadAv({
+  static Future<AvModel?> composeAv({
     required AvModel? avModel,
   }) async {
     AvModel? _output;
 
     if (avModel != null && avModel.xFilePath != null){
+
+      await AvModel.assertIsUploadable(avModel);
 
       await tryAndCatch(
         invoker: 'OfficialStorage.uploadAv',
@@ -48,7 +50,6 @@ abstract class OfficialStorage {
                     _uploadTask.whenComplete(() async {
 
                       final String? _url = await OfficialStoragePathing.createURLByRef(ref: _ref);
-                      blog('receieved url ($_url)');
 
                       _output = await _toUpload.setOriginalURL(
                           originalURL: _url,
@@ -78,23 +79,200 @@ abstract class OfficialStorage {
 
     return _output;
   }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<List<AvModel>> composeAvs({
+    required List<AvModel> avs,
+  }) async {
+    final List<AvModel> _output = [];
+
+    await Lister.loop(
+      models: avs,
+      onLoop: (int index, AvModel? avModel) async {
+
+        final AvModel? _uploaded = await  composeAv(
+          avModel: avModel,
+        );
+
+        if (_uploaded != null){
+          _output.add(_uploaded);
+        }
+
+      },
+    );
+
+    return _output;
+  }
   // -----------------------------------------------------------------------------
 
-  /// READ DOC
+  /// STEAL INTERNET PIC
+
+  // --------------------
+  /*
+  /// TASK : TEST_ME_NOW
+  static Future<MediaModel?> stealInternetPic({
+    required String? url,
+    required List<String> ownersIDs,
+    String? uploadPath,
+  }) async {
+    MediaModel? _output;
+
+    if (url != null){
+
+      _output = await MediaLDBOps.readStolenURL(url: url);
+
+      _output ??= await MediaLDBOps.readMedia(path: uploadPath);
+
+      if (_output == null){
+
+        final String _path = uploadPath ?? StoragePath.downloads_url(url)!;
+
+        _output = await AvOps.createFromURL(
+          url: url,
+          ownersIDs: ownersIDs,
+          uploadPath: _path,
+          skipMetaData: false,
+        );
+
+        await composeMedia(_output);
+
+      }
+
+    }
+
+    return _output;
+  }
+   */
+  // -----------------------------------------------------------------------------
+
+  /// FETCH
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<AvModel?> readAv({
+  static Future<AvModel?> fetchAv({
     required String? uploadPath,
     required String bobDocName,
     required bool skipMeta,
   }) async {
     AvModel? _output;
 
-    if (TextCheck.isEmpty(uploadPath) == false){
+    if (OfficialStoragePathing.checkIsStoragePath(uploadPath) == true){
+
+      _output = await AvOps.readSingle(
+        docName: bobDocName,
+        uploadPath: uploadPath,
+        skipMeta: skipMeta,
+      );
+
+      if (_output == null){
+
+        await tryAndCatch(
+          invoker: 'OfficialStorage.readAv',
+          functions: () async {
+
+            final f_s.Reference? _ref = OfficialStoragePathing.getRefByPath(uploadPath);
+            // blog('got ref : $_ref');
+            /// 10'485'760 default max size
+
+            final Uint8List? _theBytes = await _ref?.getData();
+
+            if (skipMeta == true){
+              _output = await AvOps.createFromBytes(
+                bytes: _theBytes,
+                data: CreateSingleAVConstructor(
+                  bobDocName: bobDocName,
+                  uploadPath: uploadPath!,
+                  skipMeta: true,
+                ),
+              );
+            }
+
+            else {
+
+              final f_s.FullMetadata? _fullMeta = await _ref?.getMetadata();
+
+              final AvModel? _meta = AvCipher.fromStringStringMap(
+                uploadPath: uploadPath,
+                bobDocName: bobDocName,
+                map: _fullMeta?.customMetadata,
+              );
+
+              _output = await AvOps.createFromBytes(
+                bytes: _theBytes,
+                data: CreateSingleAVConstructor(
+                  uploadPath: uploadPath!,
+                  bobDocName: bobDocName,
+                  skipMeta: false,
+                  originalURL: await OfficialStoragePathing.createURLByPath(path: uploadPath),
+                  caption: _meta?.caption,
+                  durationMs: _meta?.durationMs,
+                  originalXFilePath: _meta?.originalXFilePath,
+                  origin: _meta?.origin,
+                  ownersIDs: _meta?.ownersIDs,
+                  width: _meta?.width,
+                  height: _meta?.height,
+                  fileExt: _meta?.fileExt,
+                ),
+              );
+
+            }
+
+          },
+          onError: StorageError.onException,
+        );
+
+      }
+
+    }
+
+    return _output;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<List<AvModel>> fetchAvs({
+    required List<String>? uploadPaths,
+    required bool skipMeta,
+    required String ldbDocName,
+  }) async {
+    final List<AvModel> _output = <AvModel>[];
+
+    await Lister.loopCombine(
+      models: uploadPaths,
+      onLoop: (int index, String? uploadPath) async {
+
+        return fetchAv(
+          uploadPath: uploadPath,
+          skipMeta: skipMeta,
+          bobDocName: ldbDocName,
+        ).then((AvModel? av){
+
+          if (av != null){
+            _output.add(av);
+          }
+
+        });
+      },
+    );
+
+    return _output;
+  }
+  // -----------------------------------------------------------------------------
+
+  /// REFETCH
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<AvModel?> refetchAv({
+    required String? uploadPath,
+    required String bobDocName,
+    required bool skipMeta,
+  }) async {
+    AvModel? _output;
+
+    if (OfficialStoragePathing.checkIsStoragePath(uploadPath) == true){
 
       await tryAndCatch(
-        invoker: 'OfficialStorage.readAv',
+        invoker: 'OfficialStorage.refetchAv',
         functions: () async {
 
           final f_s.Reference? _ref = OfficialStoragePathing.getRefByPath(uploadPath);
@@ -125,21 +303,21 @@ abstract class OfficialStorage {
             );
 
             _output = await AvOps.createFromBytes(
-                bytes: _theBytes,
-                data: CreateSingleAVConstructor(
-                  uploadPath: uploadPath!,
-                  bobDocName: bobDocName,
-                  skipMeta: false,
-                  originalURL: await OfficialStoragePathing.createURLByPath(path: uploadPath),
-                  caption: _meta?.caption,
-                  durationMs: _meta?.durationMs,
-                  originalXFilePath: _meta?.originalXFilePath,
-                  origin: _meta?.origin,
-                  ownersIDs: _meta?.ownersIDs,
-                  width: _meta?.width,
-                  height: _meta?.height,
-                  fileExt: _meta?.fileExt,
-                ),
+              bytes: _theBytes,
+              data: CreateSingleAVConstructor(
+                uploadPath: uploadPath!,
+                bobDocName: bobDocName,
+                skipMeta: false,
+                originalURL: await OfficialStoragePathing.createURLByPath(path: uploadPath),
+                caption: _meta?.caption,
+                durationMs: _meta?.durationMs,
+                originalXFilePath: _meta?.originalXFilePath,
+                origin: _meta?.origin,
+                ownersIDs: _meta?.ownersIDs,
+                width: _meta?.width,
+                height: _meta?.height,
+                fileExt: _meta?.fileExt,
+              ),
             );
 
           }
@@ -151,6 +329,95 @@ abstract class OfficialStorage {
     }
 
     return _output;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<List<AvModel>> refetchAvs({
+    required List<String> uploadPaths,
+    required bool skipMeta,
+    required String bobDocName,
+  }) async {
+    final List<AvModel> _output = <AvModel>[];
+
+    await Lister.loopCombine(
+      models: uploadPaths,
+      onLoop: (int index, String? uploadPath) async {
+
+        return refetchAv(
+          uploadPath: uploadPath,
+          skipMeta: skipMeta,
+          bobDocName: bobDocName,
+        ).then((AvModel? av){
+
+          if (av != null){
+            _output.add(av);
+          }
+
+        });
+      },
+    );
+
+    return _output;
+  }
+  // -----------------------------------------------------------------------------
+
+  /// DOWNLOAD
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<void> downloadMedia({
+    required String? uploadPath,
+    required String ldbDocName,
+    required bool skipMeta,
+  }) async {
+
+    if (TextCheck.isEmpty(uploadPath) == false){
+
+      final bool _existsInLDB = await AvOps.checkExists(
+        uploadPath: uploadPath,
+        docName: ldbDocName,
+      );
+
+      if (_existsInLDB == false){
+
+        // blog('downloadPic : Downloading pic : $path');
+
+        // final AvModel? _picModel =
+        await refetchAv(
+          uploadPath: uploadPath,
+          skipMeta: skipMeta,
+          bobDocName: ldbDocName,
+        );
+
+        // blog('downloadPic : Downloaded pic : $path');
+
+      }
+      // else {
+      //   blog('downloadPic : ---> already downloaded : $path');
+      // }
+
+    }
+
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<void> downloadMedias({
+    required List<String> paths,
+    required String ldbDocName,
+    required bool skipMeta,
+  }) async {
+
+    await Lister.loopCombine(
+      models: paths,
+      onLoop: (int index, String? path) async {
+        return downloadMedia(
+          uploadPath: path,
+          ldbDocName: ldbDocName,
+          skipMeta: skipMeta,
+        );
+      },
+    );
+
   }
   // -----------------------------------------------------------------------------
 
@@ -296,15 +563,15 @@ abstract class OfficialStorage {
     if (
         _canDelete == true
         &&
-        ObjectCheck.objectIsFireStoragePicPath(oldPath) == true
+        OfficialStoragePathing.checkIsStoragePath(oldPath) == true
         &&
-        ObjectCheck.objectIsFireStoragePicPath(newPath) == true
+        OfficialStoragePathing.checkIsStoragePath(newPath) == true
         &&
         currentUserID != null
     ){
 
       /// READ OLD PIC
-      final AvModel? _old = await readAv(
+      final AvModel? _old = await fetchAv(
         uploadPath: oldPath,
         bobDocName: bobDocName,
         skipMeta: false,
@@ -319,7 +586,7 @@ abstract class OfficialStorage {
 
       if (_new != null){
 
-        _new = await uploadAv(avModel: _new);
+        _new = await composeAv(avModel: _new);
 
         /// FAILED TO CREATE NEW
         if (_new == null){
@@ -328,7 +595,7 @@ abstract class OfficialStorage {
 
         /// SUCCESS TO CREATE NEW
         else {
-          _output = await deleteAv(
+          _output = await wipeAv(
             path: oldPath!,
             currentUserID: currentUserID,
             bobDocName: bobDocName,
@@ -364,7 +631,7 @@ abstract class OfficialStorage {
 
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static Future<bool> completeMeta({
     required String? uploadPath,
     required String? currentUserID,
@@ -382,10 +649,10 @@ abstract class OfficialStorage {
     if (
         _canEdit == true
         &&
-        ObjectCheck.objectIsFireStoragePicPath(uploadPath) == true
+        OfficialStoragePathing.checkIsStoragePath(uploadPath) == true
     ){
 
-      AvModel? _avModel = await readAv(
+      AvModel? _avModel = await fetchAv(
         uploadPath: uploadPath,
         bobDocName: bobDocName,
         skipMeta: false,
@@ -410,12 +677,64 @@ abstract class OfficialStorage {
   }
   // -----------------------------------------------------------------------------
 
+  /// RENOVATE
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<AvModel?> renovateAv({
+    required AvModel? newMedia,
+    /// USE THIS IN CASE YOU WANT TO WIPE THE OLD PATH BEFORE INSERTING A NEW WITH DIFFERENT PATH
+    required AvModel? oldMedia,
+  }) async {
+    AvModel? _output;
+
+    // blog('1 - renovatePic : picModel : $picModel');
+
+    if (newMedia != null){
+
+      final bool _areIdentical = AvModel.checkModelsAreIdentical(
+        model1: oldMedia,
+        model2: newMedia,
+      );
+
+      // blog('2 - renovate.Pic : _areIdentical : $_areIdentical');
+
+      if (_areIdentical == false){
+
+        _output = await composeAv(
+          avModel: newMedia,
+        );
+
+      }
+
+    }
+
+    // blog('3 - .done');
+    return _output;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<void> renovateAvs({
+    required List<AvModel> medias,
+    required String ldbDocName,
+  }) async {
+    await Lister.loopCombine(
+      models: medias,
+      onLoop: (int index, AvModel? avModel) async {
+        return composeAv(
+          avModel: avModel,
+        );
+      },
+    );
+  }
+  // -----------------------------------------------------------------------------
+
   /// DELETE
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<bool> deleteAv({
-    required String path,
+  static Future<bool> wipeAv({
+    required String? path,
     required String bobDocName,
     required String currentUserID,
   }) async {
@@ -454,30 +773,21 @@ abstract class OfficialStorage {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<void> deleteAvs({
+  static Future<void> wipeAvs({
     required List<String> paths,
     required String bobDocName,
     required String currentUserID,
   }) async {
-
-    if (Lister.checkCanLoop(paths) == true){
-
-      await Future.wait(<Future>[
-
-        ...List.generate(paths.length, (index){
-
-          return deleteAv(
-            path: paths[index],
-            bobDocName: bobDocName,
-            currentUserID: currentUserID,
-          );
-
-        }),
-
-      ]);
-
-    }
-
+    await Lister.loopCombine(
+      models: paths,
+      onLoop: (int index, String? path) async {
+        return wipeAv(
+          path: path,
+          bobDocName: bobDocName,
+          currentUserID: currentUserID,
+        );
+      },
+    );
   }
   // -----------------------------------------------------------------------------
 
@@ -514,6 +824,20 @@ abstract class OfficialStorage {
 /// => GREAT
 abstract class OfficialStoragePathing {
   // -----------------------------------------------------------------------------
+  static bool checkIsStoragePath(dynamic object){
+    bool _isPicPath = false;
+
+    if (object != null && object is String){
+
+      final String _path = object;
+
+      _isPicPath = TextCheck.stringStartsExactlyWith(text: _path, startsWith: 'storage/');
+
+    }
+
+    return _isPicPath;
+  }
+  // -----------------------------------------------------------------------------
 
   /// f_s.REFERENCES
 
@@ -521,7 +845,7 @@ abstract class OfficialStoragePathing {
   /// TESTED: WORKS PERFECT
   static f_s.Reference? getRefByPath(String? path){
 
-    if (ObjectCheck.objectIsFireStoragePicPath(path) == true){
+    if (checkIsStoragePath(path) == true){
 
       final String? _storagePath = TextMod.removeNumberOfCharactersFromBeginningOfAString(
         string: path,
