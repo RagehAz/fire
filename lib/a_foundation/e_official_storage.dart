@@ -6,7 +6,7 @@ abstract class OfficialStorage {
   /// Note : use picName without file extension <---------------
   // -----------------------------------------------------------------------------
 
-  /// CREATE DOC
+  /// COMPOSE
 
   // --------------------
   /// TESTED : WORKS PERFECT
@@ -421,7 +421,7 @@ abstract class OfficialStorage {
   }
   // -----------------------------------------------------------------------------
 
-  /// READ META DATA
+  /// READ META
 
   // --------------------
   /// TESTED : WORKS PERFECT
@@ -541,7 +541,7 @@ abstract class OfficialStorage {
   }
   // -----------------------------------------------------------------------------
 
-  /// EDIT
+  /// EDITS
 
   // --------------------
   /// TESTED : WORKS PERFECT
