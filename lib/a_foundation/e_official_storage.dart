@@ -156,7 +156,7 @@ abstract class OfficialStorage {
   }) async {
     AvModel? _output;
 
-    if (OfficialStoragePathing.checkIsStoragePath(uploadPath) == true){
+    if (AvPathing.checkIsUploadPath(uploadPath) == true){
 
       _output = await AvOps.readSingle(
         docName: bobDocName,
@@ -269,7 +269,7 @@ abstract class OfficialStorage {
   }) async {
     AvModel? _output;
 
-    if (OfficialStoragePathing.checkIsStoragePath(uploadPath) == true){
+    if (AvPathing.checkIsUploadPath(uploadPath) == true){
 
       await tryAndCatch(
         invoker: 'OfficialStorage.refetchAv',
@@ -563,9 +563,9 @@ abstract class OfficialStorage {
     if (
         _canDelete == true
         &&
-        OfficialStoragePathing.checkIsStoragePath(oldPath) == true
+        AvPathing.checkIsUploadPath(oldPath) == true
         &&
-        OfficialStoragePathing.checkIsStoragePath(newPath) == true
+        AvPathing.checkIsUploadPath(newPath) == true
         &&
         currentUserID != null
     ){
@@ -649,7 +649,7 @@ abstract class OfficialStorage {
     if (
         _canEdit == true
         &&
-        OfficialStoragePathing.checkIsStoragePath(uploadPath) == true
+        AvPathing.checkIsUploadPath(uploadPath) == true
     ){
 
       AvModel? _avModel = await fetchAv(
@@ -824,41 +824,16 @@ abstract class OfficialStorage {
 /// => GREAT
 abstract class OfficialStoragePathing {
   // -----------------------------------------------------------------------------
-  static bool checkIsStoragePath(dynamic object){
-    bool _isPicPath = false;
-
-    if (object != null && object is String){
-
-      final String _path = object;
-
-      _isPicPath = TextCheck.stringStartsExactlyWith(text: _path, startsWith: 'storage/');
-
-    }
-
-    return _isPicPath;
-  }
-  // -----------------------------------------------------------------------------
 
   /// f_s.REFERENCES
 
   // --------------------
   /// TESTED: WORKS PERFECT
   static f_s.Reference? getRefByPath(String? path){
-
-    if (checkIsStoragePath(path) == true){
-
-      final String? _storagePath = TextMod.removeNumberOfCharactersFromBeginningOfAString(
-        string: path,
-        numberOfCharacters: 'storage/'.length,
-      );
-
-      return OfficialFirebase.getStorage()?.ref(_storagePath);
-    }
-
-    else {
-      return null;
-    }
-
+    final String? _storagePath = AvPathing.createAmazonPath(
+      path: path,
+    );
+    return OfficialFirebase.getStorage()?.ref(_storagePath);
   }
   // --------------------
   /// TESTED: WORKS PERFECT
