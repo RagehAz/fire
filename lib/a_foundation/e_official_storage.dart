@@ -105,46 +105,6 @@ abstract class OfficialStorage {
   }
   // -----------------------------------------------------------------------------
 
-  /// STEAL INTERNET PIC
-
-  // --------------------
-  /*
-  /// TASK : TEST_ME_NOW
-  static Future<MediaModel?> stealInternetPic({
-    required String? url,
-    required List<String> ownersIDs,
-    String? uploadPath,
-  }) async {
-    MediaModel? _output;
-
-    if (url != null){
-
-      _output = await MediaLDBOps.readStolenURL(url: url);
-
-      _output ??= await MediaLDBOps.readMedia(path: uploadPath);
-
-      if (_output == null){
-
-        final String _path = uploadPath ?? StoragePath.downloads_url(url)!;
-
-        _output = await AvOps.createFromURL(
-          url: url,
-          ownersIDs: ownersIDs,
-          uploadPath: _path,
-          skipMetaData: false,
-        );
-
-        await composeMedia(_output);
-
-      }
-
-    }
-
-    return _output;
-  }
-   */
-  // -----------------------------------------------------------------------------
-
   /// FETCH
 
   // --------------------
@@ -365,7 +325,7 @@ abstract class OfficialStorage {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<void> downloadMedia({
+  static Future<void> downloadAv({
     required String? uploadPath,
     required String ldbDocName,
     required bool skipMeta,
@@ -401,7 +361,7 @@ abstract class OfficialStorage {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<void> downloadMedias({
+  static Future<void> downloadAvs({
     required List<String> paths,
     required String ldbDocName,
     required bool skipMeta,
@@ -410,7 +370,7 @@ abstract class OfficialStorage {
     await Lister.loopCombine(
       models: paths,
       onLoop: (int index, String? path) async {
-        return downloadMedia(
+        return downloadAv(
           uploadPath: path,
           ldbDocName: ldbDocName,
           skipMeta: skipMeta,
@@ -682,19 +642,19 @@ abstract class OfficialStorage {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<AvModel?> renovateAv({
-    required AvModel? newMedia,
+    required AvModel? newAv,
     /// USE THIS IN CASE YOU WANT TO WIPE THE OLD PATH BEFORE INSERTING A NEW WITH DIFFERENT PATH
-    required AvModel? oldMedia,
+    required AvModel? oldAv,
   }) async {
     AvModel? _output;
 
     // blog('1 - renovatePic : picModel : $picModel');
 
-    if (newMedia != null){
+    if (newAv != null){
 
       final bool _areIdentical = AvModel.checkModelsAreIdentical(
-        model1: oldMedia,
-        model2: newMedia,
+        model1: oldAv,
+        model2: newAv,
       );
 
       // blog('2 - renovate.Pic : _areIdentical : $_areIdentical');
@@ -702,7 +662,7 @@ abstract class OfficialStorage {
       if (_areIdentical == false){
 
         _output = await composeAv(
-          avModel: newMedia,
+          avModel: newAv,
         );
 
       }
@@ -715,11 +675,11 @@ abstract class OfficialStorage {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> renovateAvs({
-    required List<AvModel> medias,
+    required List<AvModel> avModels,
     required String ldbDocName,
   }) async {
     await Lister.loopCombine(
-      models: medias,
+      models: avModels,
       onLoop: (int index, AvModel? avModel) async {
         return composeAv(
           avModel: avModel,
