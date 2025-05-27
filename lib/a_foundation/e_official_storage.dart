@@ -550,7 +550,11 @@ abstract class OfficialStorage {
 
         /// FAILED TO CREATE NEW
         if (_new == null){
-          await AvOps.deleteSingle(docName: bobDocName, uploadPath: newPath);
+          await AvOps.deleteSingle(
+            docName: bobDocName,
+            uploadPath: newPath,
+            invoker: 'OfficialStorage.move',
+          );
         }
 
         /// SUCCESS TO CREATE NEW
@@ -715,7 +719,11 @@ abstract class OfficialStorage {
           functions: () async {
             final f_s.Reference? _picRef = OfficialStoragePathing.getRefByPath(path);
             await _picRef?.delete();
-            _output = await AvOps.deleteSingle(docName: bobDocName, uploadPath: path);
+            _output = await AvOps.deleteSingle(
+              docName: bobDocName,
+              uploadPath: path,
+              invoker: 'OfficialStorage.wipeAv',
+            );
             // blog('deletePic : DELETED STORAGE FILE IN PATH: $path');
           },
           onError: StorageError.onException,
