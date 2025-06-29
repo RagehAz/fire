@@ -44,23 +44,28 @@ abstract class OfficialFire{
     String? subDoc,
   }) {
 
-    /// GET FIREBASE CLOUD FIRESTORE DOCUMENT REFERENCE
-
-    final bool _isSubDoc = subColl != null;
-
-    /// IS DOC REF
-    if (_isSubDoc == false){
-      /// return OfficialFirebase.getFire().doc('$coll/$doc');
-      return _getCollRef(coll: coll)?.doc(doc);
+    if (TextCheck.isEmpty(coll) == true){
+      return null;
     }
-
-    /// IS SUB DOC REF
     else {
-      /// return OfficialFirebase.getFire().doc('$coll/$doc/$subColl/$subDoc');
-      return _getCollRef(coll: coll)
-          ?.doc(doc)
-          .collection(subColl!)
-          .doc(subDoc);
+      /// GET FIREBASE CLOUD FIRESTORE DOCUMENT REFERENCE
+
+      final bool _isSubDoc = subColl != null;
+
+      /// IS DOC REF
+      if (_isSubDoc == false){
+        /// return OfficialFirebase.getFire().doc('$coll/$doc');
+        return _getCollRef(coll: coll)?.doc(doc);
+      }
+
+      /// IS SUB DOC REF
+      else {
+        /// return OfficialFirebase.getFire().doc('$coll/$doc/$subColl/$subDoc');
+        return _getCollRef(coll: coll)
+            ?.doc(doc)
+            .collection(subColl!)
+            .doc(subDoc);
+      }
     }
 
   }
