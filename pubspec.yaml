@@ -1,6 +1,6 @@
 name: fire
 description: Firebase firestore API.
-version: 7.1.0
+version: 7.2.0
 publish_to: "none"
 homepage: https://github.com/RagehAz/fire.git
 # --------------------------------------------------------------------------------
