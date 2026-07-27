@@ -142,18 +142,19 @@ abstract class OfficialAuthBlog {
       blog('blogLoginResult : the Facebook login result is null');
     }
     else {
+      final _accessToken = loginResult.accessToken;
+      /// LIMITED LOGIN (iOS App Tracking Transparency) TOKENS DON'T CARRY THESE FIELDS
+      final ClassicToken? _classicToken = _accessToken is ClassicToken ? _accessToken : null;
+
       blog('blogLoginResult : the Facebook login result is :- ');
       blog('loginResult.status.name : ${loginResult.status.name}');
       blog('loginResult.status.index : ${loginResult.status.index}');
-      blog('loginResult.accessToken.expires : ${loginResult.accessToken?.expires}');
-      blog('loginResult.accessToken.lastRefresh : ${loginResult.accessToken?.lastRefresh}');
-      blog('loginResult.accessToken.userId : ${loginResult.accessToken?.userId}');
-      blog('loginResult.accessToken.token : ${loginResult.accessToken?.token}');
-      blog('loginResult.accessToken.applicationId : ${loginResult.accessToken?.applicationId}');
-      blog('loginResult.accessToken.graphDomain : ${loginResult.accessToken?.graphDomain}');
-      blog('loginResult.accessToken.declinedPermissions : ${loginResult.accessToken?.declinedPermissions}');
-      blog('loginResult.accessToken.grantedPermissions : ${loginResult.accessToken?.grantedPermissions}');
-      blog('loginResult.accessToken.isExpired : ${loginResult.accessToken?.isExpired}');
+      blog('loginResult.accessToken.expires : ${_classicToken?.expires}');
+      blog('loginResult.accessToken.userId : ${_classicToken?.userId}');
+      blog('loginResult.accessToken.token : ${_accessToken?.tokenString}');
+      blog('loginResult.accessToken.applicationId : ${_classicToken?.applicationId}');
+      blog('loginResult.accessToken.declinedPermissions : ${_classicToken?.declinedPermissions}');
+      blog('loginResult.accessToken.grantedPermissions : ${_classicToken?.grantedPermissions}');
       blog('loginResult.message : ${loginResult.message}');
     }
 

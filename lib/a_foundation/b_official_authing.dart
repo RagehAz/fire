@@ -660,11 +660,11 @@ class OfficialFacebookAuthing {
         if (
             _loginResult != null &&
             _loginResult.accessToken != null &&
-            _loginResult.accessToken?.token != null
+            _loginResult.accessToken?.tokenString != null
         ) {
 
           final f_a.OAuthCredential? _facebookAuthCredential =
-          f_a.FacebookAuthProvider.credential(_loginResult.accessToken!.token);
+          f_a.FacebookAuthProvider.credential(_loginResult.accessToken!.tokenString);
 
           if (_facebookAuthCredential != null){
             final f_a.UserCredential? _userCredential =
@@ -692,18 +692,19 @@ class OfficialFacebookAuthing {
     required LoginResult? loginResult,
     required f_a.OAuthCredential? facebookAuthCredential,
   }) {
+    final _accessToken = loginResult?.accessToken;
+    /// LIMITED LOGIN (iOS App Tracking Transparency) TOKENS DON'T CARRY THESE FIELDS
+    final ClassicToken? _classicToken = _accessToken is ClassicToken ? _accessToken : null;
+
     final Map<String, dynamic> _map = {
       'loginResult.status.name': loginResult?.status.name,
       'loginResult.status.index': loginResult?.status.index,
-      'loginResult.accessToken.expires': Timers.cipherTime(time: loginResult?.accessToken?.expires, toJSON: false),
-      'loginResult.accessToken.lastRefresh': Timers.cipherTime(time: loginResult?.accessToken?.lastRefresh, toJSON: true),
-      'loginResult.accessToken.userId': loginResult?.accessToken?.userId,
-      'loginResult.accessToken.token': loginResult?.accessToken?.token,
-      'loginResult.accessToken.applicationId': loginResult?.accessToken?.applicationId,
-      'loginResult.accessToken.graphDomain': loginResult?.accessToken?.graphDomain,
-      'loginResult.accessToken.declinedPermissions': loginResult?.accessToken?.declinedPermissions,
-      'loginResult.accessToken.grantedPermissions': loginResult?.accessToken?.grantedPermissions,
-      'loginResult.accessToken.isExpired': loginResult?.accessToken?.isExpired,
+      'loginResult.accessToken.expires': Timers.cipherTime(time: _classicToken?.expires, toJSON: false),
+      'loginResult.accessToken.userId': _classicToken?.userId,
+      'loginResult.accessToken.token': _accessToken?.tokenString,
+      'loginResult.accessToken.applicationId': _classicToken?.applicationId,
+      'loginResult.accessToken.declinedPermissions': _classicToken?.declinedPermissions,
+      'loginResult.accessToken.grantedPermissions': _classicToken?.grantedPermissions,
       'loginResult.message': loginResult?.message,
       'facebookAuthCredential.idToken': facebookAuthCredential?.idToken,
       'facebookAuthCredential.rawNonce': facebookAuthCredential?.rawNonce,

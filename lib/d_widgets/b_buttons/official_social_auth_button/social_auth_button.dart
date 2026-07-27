@@ -152,11 +152,6 @@ class SocialAuthButton extends StatelessWidget {
     //   }
     // }
 
-    /// FETCHING PROVIDERS FOR EMAIL
-    else if (newState is fui.FetchingProvidersForEmail){
-      blog('SocialAuthButton : is FetchingProvidersForEmail');
-    }
-
     /// MFA REQUIRED
     else if (newState is fui.MFARequired){
       blog('SocialAuthButton : is MFARequired');
