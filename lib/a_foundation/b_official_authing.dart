@@ -189,11 +189,7 @@ abstract class OfficialAuthing {
 }
 
 /// => UPDATE_EMAIL_TASK
-class OfficialEmailAuthing {
-  // -----------------------------------------------------------------------------
-
-  const OfficialEmailAuthing();
-
+abstract class OfficialEmailAuthing {
   // -----------------------------------------------------------------------------
 
   /// SIGN IN
