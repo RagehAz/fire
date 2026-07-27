@@ -16,7 +16,7 @@ class OfficialFireCollStreamer extends StatefulWidget {
   /// TESTED : WORKS PERFECT
   static StreamSubscription? initializeStreamListener({
     required Stream<List<Map<String, dynamic>>>? stream,
-    required bool mounted,
+    required bool Function() mounted,
     required ValueNotifier<List<Map<String, dynamic>>> oldMaps,
     required Function(List<Map<String, dynamic>> oldMap, List<Map<String, dynamic>> newMap)? onChanged,
   }){
@@ -55,7 +55,7 @@ class OfficialFireCollStreamer extends StatefulWidget {
     required List<Map<String, dynamic>> newMaps,
     required ValueNotifier<List<Map<String, dynamic>>> oldMaps,
     required Function(List<Map<String, dynamic>> oldMap, List<Map<String, dynamic>> newMap)? onChanged,
-    required bool mounted,
+    required bool Function() mounted,
   }) {
 
     // Mapper.blogMaps(oldMaps.value,invoker: 'old');
@@ -67,10 +67,11 @@ class OfficialFireCollStreamer extends StatefulWidget {
     );
 
     if (_mapsAreIdentical == false){
-      if (mounted == true){
+      final bool _mounted = mounted();
+      if (_mounted == true){
         onChanged?.call(oldMaps.value, newMaps);
 
-        setNotifier(notifier: oldMaps, mounted: mounted, value: newMaps);
+        setNotifier(notifier: oldMaps, mounted: _mounted, value: newMaps);
       }
     }
 
@@ -97,7 +98,7 @@ class _OfficialFireCollStreamerState extends State<OfficialFireCollStreamer> {
 
     _sub = OfficialFireCollStreamer.initializeStreamListener(
       stream: _stream,
-      mounted: mounted,
+      mounted: () => mounted,
       oldMaps: _oldMaps,
       onChanged: widget.onChanged,
     );
@@ -106,8 +107,8 @@ class _OfficialFireCollStreamerState extends State<OfficialFireCollStreamer> {
   // --------------------
   @override
   void dispose() {
-    _oldMaps.dispose();
     _sub?.cancel();
+    _oldMaps.dispose();
     super.dispose();
   }
   // -----------------------------------------------------------------------------

@@ -259,13 +259,13 @@ abstract class OfficialFire{
     if (Lister.checkCanLoop(ids) == true){
 
       /// READING SUB DOCS
-      if (subColl != null){
+      if (subColl != null && doc != null){
 
         await Future.wait(<Future>[
           ...List.generate(ids!.length, (index){
             return readDoc(
               coll: coll,
-              doc: doc!,
+              doc: doc,
               subColl: subColl,
               subDoc: ids[index],
             ).then((Map<String, dynamic>? map){

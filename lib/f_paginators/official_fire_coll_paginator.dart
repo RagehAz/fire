@@ -137,6 +137,10 @@ class _OfficialFireCollPaginatorState extends State<OfficialFireCollPaginator> {
   @override
   void dispose() {
 
+    if (_streamSub != null){
+      _streamSub?.cancel();
+    }
+
     _paginatorController?.scrollController.removeListener(_scrollListener);
 
     _streamOldMaps?.dispose();
@@ -148,10 +152,6 @@ class _OfficialFireCollPaginatorState extends State<OfficialFireCollPaginator> {
     if (widget.paginationController == null){
       _paginatorController?.dispose();
       _paginatorController = null;
-    }
-
-    if (_streamSub != null){
-      _streamSub?.cancel();
     }
 
     super.dispose();
@@ -186,7 +186,7 @@ class _OfficialFireCollPaginatorState extends State<OfficialFireCollPaginator> {
       if (_streamOldMaps != null){
         _streamSub = OfficialFireCollStreamer.initializeStreamListener(
           stream: _stream,
-          mounted: mounted,
+          mounted: () => mounted,
           oldMaps: _streamOldMaps!,
           onChanged: (List<Map<String, dynamic>> oldMaps, List<Map<String, dynamic>> newMaps){
 

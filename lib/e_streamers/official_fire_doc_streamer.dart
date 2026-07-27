@@ -20,7 +20,7 @@ class FireDocStreamer extends StatefulWidget {
   /// TESTED : WORKS PERFECT
   static StreamSubscription? initializeStreamListener({
     required Stream<Map<String, dynamic>?>? stream,
-    required bool mounted,
+    required bool Function() mounted,
     required ValueNotifier<Map<String, dynamic>?> oldMap,
     required Function(Map<String, dynamic>? oldMap, Map<String, dynamic>? newMap)? onChanged,
   }) {
@@ -60,7 +60,7 @@ class FireDocStreamer extends StatefulWidget {
     required Map<String, dynamic>? newMap,
     required ValueNotifier<Map<String, dynamic>?> oldMap,
     required Function(Map<String, dynamic>? oldMap, Map<String, dynamic>? newMap)? onChanged,
-    required bool mounted,
+    required bool Function() mounted,
   }) {
 
     // blog('xxx - onStreamDataChanged - snapshot : $snapshot');
@@ -73,9 +73,10 @@ class FireDocStreamer extends StatefulWidget {
     // blog('FireDocStreamer - onStreamDataChanged - _oldMap == _newMap : $_mapsAreTheSame');
 
     if (_mapsAreTheSame == false){
-      if (mounted == true){
+      final bool _mounted = mounted();
+      if (_mounted == true){
         onChanged?.call(oldMap.value, newMap);
-        setNotifier(notifier: oldMap, mounted: mounted, value: newMap);
+        setNotifier(notifier: oldMap, mounted: _mounted, value: newMap);
       }
     }
 
@@ -104,7 +105,7 @@ class _FireDocStreamerState extends State<FireDocStreamer> {
     _sub = FireDocStreamer.initializeStreamListener(
       stream: _stream,
       oldMap: _oldMap,
-      mounted: mounted,
+      mounted: () => mounted,
       onChanged: widget.onChanged,
     );
 
@@ -112,8 +113,8 @@ class _FireDocStreamerState extends State<FireDocStreamer> {
   // --------------------
   @override
   void dispose() {
-      _oldMap.dispose();
       _sub?.cancel();
+      _oldMap.dispose();
       super.dispose();
   }
   // -----------------------------------------------------------------------------
