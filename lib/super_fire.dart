@@ -83,6 +83,7 @@ export 'package:firebase_storage/firebase_storage.dart';
 part 'a_foundation/a_official_firebase_initializer.dart';
 part 'a_foundation/b_official_authing.dart';
 part 'a_foundation/c_official_fire.dart';
+part 'a_foundation/f_shared_fire_stream_cache.dart';
 part 'a_foundation/d_official_real.dart';
 part 'a_foundation/d_real_http.dart';
 part 'a_foundation/e_official_storage.dart';

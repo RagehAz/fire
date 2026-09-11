@@ -441,18 +441,29 @@ abstract class OfficialFire{
     required FireQueryModel queryModel,
   }) {
 
-    final cloud.Query<Map<String, dynamic>>? _query = _createCollQuery(
-      collRef: _getCollRef(
-        coll: queryModel.coll,
-        doc: queryModel.doc,
-        subColl: queryModel.subColl,
-      ),
-      orderBy: queryModel.orderBy,
-      limit: queryModel.limit,
-      finders: queryModel.finders,
-    );
+    /// shared/de-duped across every caller asking for this exact query
+    /// signature -- see f_shared_fire_stream_cache.dart. The real
+    /// `.snapshots()` listener (built by `sourceBuilder`) is only ever
+    /// opened once per signature, lazily, on first subscriber.
+    return _SharedFireStreamCache.streamColl(
+      queryModel: queryModel,
+      sourceBuilder: () {
 
-    return _query?.snapshots().map(_OfficialFireMapper.mapSnapshots);
+        final cloud.Query<Map<String, dynamic>>? _query = _createCollQuery(
+          collRef: _getCollRef(
+            coll: queryModel.coll,
+            doc: queryModel.doc,
+            subColl: queryModel.subColl,
+          ),
+          orderBy: queryModel.orderBy,
+          limit: queryModel.limit,
+          finders: queryModel.finders,
+        );
+
+        return _query?.snapshots().map(_OfficialFireMapper.mapSnapshots);
+
+      },
+    );
   }
   // --------------------
   /// TASK : TEST ME
@@ -463,21 +474,26 @@ abstract class OfficialFire{
     String? subDoc,
   }) {
 
-    final cloud.DocumentReference<Object>? _docRef = _getDocRef(
+    /// shared/de-duped across every caller asking for this exact doc --
+    /// see f_shared_fire_stream_cache.dart.
+    return _SharedFireStreamCache.streamDoc(
       coll: coll,
       doc: doc,
       subColl: subColl,
       subDoc: subDoc,
+      sourceBuilder: () {
+
+        final cloud.DocumentReference<Object>? _docRef = _getDocRef(
+          coll: coll,
+          doc: doc,
+          subColl: subColl,
+          subDoc: subDoc,
+        );
+
+        return _docRef?.snapshots().map(_OfficialFireMapper.mapSnapshot);
+
+      },
     );
-
-    final Stream<cloud.DocumentSnapshot<Object>>? _stream = _docRef?.snapshots();
-
-    if (_stream == null){
-      return null;
-    }
-    else {
-      return _stream.map(_OfficialFireMapper.mapSnapshot);
-    }
 
   }
   // -----------------------------------------------------------------------------
